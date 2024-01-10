@@ -8,7 +8,7 @@ public class PlayerMovement : NetworkBehaviour
     void Update()
     {
         if (!IsOwner) return;
-        
+
         Vector3 movement = new();
         if (Input.GetKey(KeyCode.W))
         {
@@ -26,6 +26,6 @@ public class PlayerMovement : NetworkBehaviour
         {
             movement.x -= 1;
         }
-        transform.position = transform.position + movement * 0.1f;
+        transform.position = transform.position + Time.deltaTime * movement;
     }
 }
