@@ -5,17 +5,11 @@ using UnityEngine;
 
 public class ArmMovement : NetworkBehaviour
 {
-    [SerializeField] private GameObject leftArm;
-    [SerializeField] private GameObject rightArm;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private GameObject leftHand;
+    [SerializeField] private GameObject rightHand;
 
-    // Update is called once per frame
     void Update()
     {
-        
+        leftHand.GetComponent<ConfigurableJoint>().targetPosition += new Vector3(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"), 0) / 10;
     }
 }
