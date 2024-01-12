@@ -1163,17 +1163,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ship
       objectReference: {fileID: 0}
+    - target: {fileID: 3685406318774649779, guid: 8e36f7eaec65d4798af39eee0ee4e521, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8058538580365905414, guid: 8e36f7eaec65d4798af39eee0ee4e521, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8058538580365905414, guid: 8e36f7eaec65d4798af39eee0ee4e521, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -11.48
       objectReference: {fileID: 0}
     - target: {fileID: 8058538580365905414, guid: 8e36f7eaec65d4798af39eee0ee4e521, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -2.92
       objectReference: {fileID: 0}
     - target: {fileID: 8058538580365905414, guid: 8e36f7eaec65d4798af39eee0ee4e521, type: 3}
       propertyPath: m_LocalRotation.w

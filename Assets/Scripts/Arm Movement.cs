@@ -7,26 +7,30 @@ public class ArmMovement : NetworkBehaviour
 {
     [SerializeField] private GameObject leftHand;
     [SerializeField] private GameObject rightHand;
-    private GameObject movingHand;
+    private HandController movingHand;
 
     private void Awake() {
-        movingHand = leftHand;
+        movingHand = leftHand.GetComponent<HandController>();
     }
 
     void Update()
     {
+        // sellect hand
         if (Input.GetKey(KeyCode.A))
-            movingHand = leftHand;
+            movingHand = leftHand.GetComponent<HandController>();
         if (Input.GetKey(KeyCode.D))
-            movingHand = rightHand;
-    
-        var newHandPos = movingHand.GetComponent<ConfigurableJoint>().targetPosition + new Vector3(
+            movingHand = rightHand.GetComponent<HandController>();
+
+        // move hand
+        var newHandPos = movingHand.GetPostion() + new Vector3(
             Input.GetAxis("Mouse X"),
             0,
             Input.GetAxis("Mouse Y")
             ) / 5;
-        if (newHandPos.magnitude > 1)
-            newHandPos = newHandPos.normalized * 1f;
-        movingHand.GetComponent<ConfigurableJoint>().targetPosition = newHandPos;
+        movingHand.SetPostion(newHandPos);
+
+        // grab with hand
+        if (Input.GetKeyDown(KeyCode.Space))
+            movingHand.GetComponent<HandController>().ToggleGrab();
     }   
 }
