@@ -16,9 +16,9 @@ public class ArmMovement : NetworkBehaviour
     void Update()
     {
         // sellect hand
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.Mouse0))
             movingHand = leftHand.GetComponent<HandController>();
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.Mouse1))
             movingHand = rightHand.GetComponent<HandController>();
 
         // move hand
