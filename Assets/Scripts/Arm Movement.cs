@@ -22,11 +22,12 @@ public class ArmMovement : NetworkBehaviour
             movingHand = rightHand.GetComponent<HandController>();
 
         // move hand
-        var newHandPos = movingHand.GetPostion() + new Vector3(
+        var newHandPos = movingHand.GetDesiredPostion() + 4 * Time.deltaTime * new Vector3(
             Input.GetAxis("Mouse X"),
-            0,
-            Input.GetAxis("Mouse Y")
-            ) / 5;
+            Input.GetAxis("Mouse Y"),
+            0
+            );
+        newHandPos.z = movingHand.GetComponent<HandController>().desiredZ;
         movingHand.SetPostion(newHandPos);
 
         // grab with hand
