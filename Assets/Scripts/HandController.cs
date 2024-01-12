@@ -93,17 +93,17 @@ public class HandController : MonoBehaviour
                 closestColliderDistance = dis;
             }
         }
-        // if (closestCollider != null)
-        // {
-        //     Debug.Log("grabbed");
-        //     tryGrab = false;
-        //     fixedJoint = gameObject.AddComponent<FixedJoint>();
-        //     fixedJoint.connectedBody = closestCollider.gameObject.GetComponent<Rigidbody>();
-        // }
-        // else
+        if (closestCollider != null)
+        {
+            Debug.Log("grabbed");
+            tryGrab = false;
+            fixedJoint = closestCollider.gameObject.AddComponent<FixedJoint>();
+            fixedJoint.connectedArticulationBody = gameObject.GetComponent<ArticulationBody>();
+        }
+        else
         {
             Vector3 before = desiredPos;
-            desiredZ = desiredPos.z + 0.1f * Time.deltaTime;
+            desiredZ = desiredPos.z + 0.4f * Time.deltaTime;
             SetPostion(before + new Vector3(0, 0, 0.4f * Time.deltaTime));
             if ((before - desiredPos).magnitude < 0.005)
             {
