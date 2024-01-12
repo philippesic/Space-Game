@@ -5,8 +5,9 @@ using Unity.Collections;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using Unity.Netcode;
 
-public class HandController : MonoBehaviour
+public class HandController : NetworkBehaviour
 {
     [SerializeField] private ArticulationBody upper;
     [SerializeField] private ArticulationBody lower;
@@ -16,10 +17,9 @@ public class HandController : MonoBehaviour
 
     private FixedJoint fixedJoint;
     public float desiredZ = 1f;
-    private Vector3 desiredPos = new(0, 0, 0);
-    
+    private NetworkVariable<Vector3> desiredPos = new(new(0, 0, 0));
     private bool tryGrab = false;
-    
+
     private void Awake()
     {
         SetPostion(new(0, 0, desiredZ));
@@ -27,16 +27,19 @@ public class HandController : MonoBehaviour
 
     void Update()
     {
-        if (tryGrab) TryGrab();
+        if (IsServer)
+        {
+            if (tryGrab) TryGrab();
+            UpdateJoints();
+        }
     }
 
     public void SetPostion(Vector3 pos)
     {
         if (pos.magnitude > maxHandMovement)
-            desiredPos = pos.normalized * maxHandMovement;
+            desiredPos.Value = pos.normalized * maxHandMovement;
         else
-            desiredPos = pos;
-        UpdateJoints();
+            desiredPos.Value = pos;
     }
 
     public Vector3 GetPostion()
@@ -46,12 +49,12 @@ public class HandController : MonoBehaviour
 
     public Vector3 GetDesiredPostion()
     {
-        return desiredPos;
+        return desiredPos.Value;
     }
 
     private void UpdateJoints()
     {
-        Vector3 rotations = DoIK(desiredPos, 1f, 1f);
+        Vector3 rotations = DoIK(GetDesiredPostion(), 1f, 1f);
         upper.SetDriveTarget(ArticulationDriveAxis.Y, rotations.x);
         upper.SetDriveTarget(ArticulationDriveAxis.X, rotations.y);
         lower.SetDriveTarget(ArticulationDriveAxis.Z, rotations.z);
@@ -73,7 +76,6 @@ public class HandController : MonoBehaviour
 
     private void TryGrab()
     {
-        Debug.Log("grabbing");
         Collider[] colliders = Physics.OverlapSphere(transform.position, 0.3f);
         Collider closestCollider = null;
         float closestColliderDistance = 100;
@@ -102,13 +104,13 @@ public class HandController : MonoBehaviour
         }
         else
         {
-            Vector3 before = desiredPos;
-            desiredZ = desiredPos.z + 0.4f * Time.deltaTime;
+            Vector3 before = GetDesiredPostion();
+            desiredZ = before.z + 0.4f * Time.deltaTime;
             SetPostion(before + new Vector3(0, 0, 0.4f * Time.deltaTime));
-            if ((before - desiredPos).magnitude < 0.005)
+            if ((before - GetDesiredPostion()).magnitude < 0.005)
             {
                 tryGrab = false;
-                var pos = desiredPos;
+                var pos = GetDesiredPostion();
                 pos.z = 1;
                 desiredZ = 1;
                 SetPostion(pos);
@@ -125,7 +127,7 @@ public class HandController : MonoBehaviour
         else
         {
             tryGrab = false;
-            var pos = desiredPos;
+            var pos = GetDesiredPostion();
             desiredZ = 1;
             pos.z = 1;
             SetPostion(pos);
