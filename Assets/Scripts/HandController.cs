@@ -54,7 +54,7 @@ public class HandController : NetworkBehaviour
 
     private void UpdateJoints()
     {
-        Vector3 rotations = DoIK(GetDesiredPostion(), 1f, 1f);
+        Vector3 rotations = DoIK(GetDesiredPostion(), 2f, 1f);
         upper.SetDriveTarget(ArticulationDriveAxis.Y, rotations.x);
         upper.SetDriveTarget(ArticulationDriveAxis.X, rotations.y);
         lower.SetDriveTarget(ArticulationDriveAxis.Z, rotations.z);
