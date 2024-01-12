@@ -6,6 +6,9 @@ public class PlayerCam : MonoBehaviour
 {
     float xRotation;
     float yRotation;
+    float zRotation;
+
+    private GameObject player;
 
     [Header("Sensitivity")]
     public float sensX;
@@ -13,20 +16,39 @@ public class PlayerCam : MonoBehaviour
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
 
-    // void Update()
-    // {
-    //     float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensX;
-    //     float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensY;
+    void Update()
+    {
 
-    //     yRotation += mouseX;
-    //     xRotation -= mouseY;
+        player.transform.rotation = Quaternion.Euler(xRotation, yRotation, zRotation);
 
-    //     xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-    //     transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
-    // }
+        if (Input.GetKey(KeyCode.Q))
+        {
+            zRotation += 1f;
+        }
+        else if (Input.GetKey(KeyCode.E))
+        {
+            zRotation -= 1f;
+        }
+        if (Input.GetKey(KeyCode.W))
+        {
+            xRotation -= 1f;
+        }
+        else if (Input.GetKey(KeyCode.S))
+        {
+            xRotation += 1f;
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            yRotation -= 1f;
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {
+            yRotation += 1f;
+        }
+
+    }
 }
