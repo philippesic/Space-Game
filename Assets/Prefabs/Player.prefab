@@ -96,9 +96,9 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 0.01
-  m_ParentAnchorPosition: {x: 5, y: 11.000004, z: 6.000003}
+  m_ParentAnchorPosition: {x: -5, y: 11.000004, z: -6.0000014}
   m_ParentAnchorRotation: {x: 0, y: 0.7071068, z: 0, w: -0.7071068}
-  m_AnchorPosition: {x: 5, y: 11, z: 6}
+  m_AnchorPosition: {x: -5, y: 11, z: -6}
   m_AnchorRotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
   m_MatchAnchors: 1
   m_ArticulationJointType: 3
@@ -129,15 +129,15 @@ ArticulationBody:
   m_ZDrive:
     lowerLimit: 0
     upperLimit: 0
-    stiffness: 0
+    stiffness: 100
     damping: 0
-    forceLimit: 50
+    forceLimit: 200
     target: 0
     targetVelocity: 0
-    driveType: 2
+    driveType: 0
   m_LinearDamping: 0
   m_AngularDamping: 0
-  m_JointFriction: 0.05
+  m_JointFriction: 0.1
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -169,9 +169,9 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 532591105809680800, guid: dcfa271311b4c4aff9c53ad986b818a8, type: 3}
 --- !u!1 &362538361706137005
@@ -204,7 +204,7 @@ Transform:
   m_GameObject: {fileID: 362538361706137005}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5, y: -17.5, z: -6}
+  m_LocalPosition: {x: -5, y: -17.5, z: 6}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -226,7 +226,8 @@ MonoBehaviour:
   lower: {fileID: 9148281932107309428}
   hand: {fileID: 8291673506198920618}
   body: {fileID: 2386255832087394861}
-  maxHandMovement: 1.99
+  l1: 0.8
+  l2: 0.6
   desiredZ: 1
 --- !u!33 &1281574158082284332
 MeshFilter:
@@ -287,13 +288,13 @@ ArticulationBody:
   m_GameObject: {fileID: 362538361706137005}
   m_Enabled: 1
   serializedVersion: 5
-  m_Mass: 0.01
-  m_ParentAnchorPosition: {x: -5, y: 17.500004, z: 6.000003}
+  m_Mass: 0.0000001
+  m_ParentAnchorPosition: {x: 5, y: 17.500004, z: -6.000003}
   m_ParentAnchorRotation: {x: 0, y: 0, z: 0, w: 1.0000001}
-  m_AnchorPosition: {x: -5, y: 17.5, z: 6}
+  m_AnchorPosition: {x: 5, y: 17.5, z: -6}
   m_AnchorRotation: {x: 0, y: 0, z: 0, w: 1}
   m_MatchAnchors: 1
-  m_ArticulationJointType: 3
+  m_ArticulationJointType: 0
   m_LinearX: 2
   m_LinearY: 0
   m_LinearZ: 0
@@ -303,33 +304,33 @@ ArticulationBody:
   m_XDrive:
     lowerLimit: 0
     upperLimit: 0
-    stiffness: 0
+    stiffness: 100
     damping: 0
-    forceLimit: 40
+    forceLimit: 400
     target: 0
     targetVelocity: 0
-    driveType: 2
+    driveType: 0
   m_YDrive:
     lowerLimit: 0
     upperLimit: 0
-    stiffness: 0
+    stiffness: 100
     damping: 0
-    forceLimit: 40
+    forceLimit: 400
     target: 0
     targetVelocity: 0
-    driveType: 2
+    driveType: 0
   m_ZDrive:
     lowerLimit: 0
     upperLimit: 0
-    stiffness: 0
+    stiffness: 100
     damping: 0
-    forceLimit: 40
+    forceLimit: 400
     target: 0
     targetVelocity: 0
-    driveType: 2
+    driveType: 0
   m_LinearDamping: 0
   m_AngularDamping: 0
-  m_JointFriction: 0.05
+  m_JointFriction: 0.1
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -363,7 +364,7 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 532591105809680800, guid: 2142f5cc2e97340ffb2192b07523a812, type: 3}
 --- !u!1 &1042458629521401535
@@ -462,27 +463,27 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 0.01
-  m_ParentAnchorPosition: {x: 5, y: 2.500001, z: 6.0000014}
+  m_ParentAnchorPosition: {x: -5, y: 2.500001, z: -6.0000014}
   m_ParentAnchorRotation: {x: 0, y: 0, z: 0, w: 1.0000001}
-  m_AnchorPosition: {x: 5, y: 2.5, z: 6}
+  m_AnchorPosition: {x: -5, y: 2.5, z: -6}
   m_AnchorRotation: {x: 0, y: 0, z: 0, w: 1}
   m_MatchAnchors: 1
   m_ArticulationJointType: 3
   m_LinearX: 2
   m_LinearY: 2
   m_LinearZ: 2
-  m_SwingY: 2
-  m_SwingZ: 0
+  m_SwingY: 0
+  m_SwingZ: 2
   m_Twist: 2
   m_XDrive:
     lowerLimit: 0
     upperLimit: 0
-    stiffness: 0
+    stiffness: 100000000
     damping: 0
-    forceLimit: 100
+    forceLimit: 1000
     target: 0
     targetVelocity: 0
-    driveType: 2
+    driveType: 0
   m_YDrive:
     lowerLimit: 0
     upperLimit: 0
@@ -495,15 +496,15 @@ ArticulationBody:
   m_ZDrive:
     lowerLimit: 0
     upperLimit: 0
-    stiffness: 0
+    stiffness: 100000000
     damping: 0
-    forceLimit: 100
+    forceLimit: 1000
     target: 0
     targetVelocity: 0
-    driveType: 2
+    driveType: 0
   m_LinearDamping: 0
   m_AngularDamping: 0
-  m_JointFriction: 0.05
+  m_JointFriction: 0.1
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -535,9 +536,9 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 532591105809680800, guid: 2bcf3b8d4db8c424c8a9f804e3be693b, type: 3}
 --- !u!1 &2081964538766299057
@@ -636,9 +637,9 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 0.01
-  m_ParentAnchorPosition: {x: -5, y: 11.000004, z: 6.000003}
+  m_ParentAnchorPosition: {x: 5, y: 11.000004, z: -6.0000014}
   m_ParentAnchorRotation: {x: 0, y: 0.7071068, z: 0, w: -0.7071068}
-  m_AnchorPosition: {x: -5, y: 11, z: 6}
+  m_AnchorPosition: {x: 5, y: 11, z: -6}
   m_AnchorRotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
   m_MatchAnchors: 1
   m_ArticulationJointType: 3
@@ -669,15 +670,15 @@ ArticulationBody:
   m_ZDrive:
     lowerLimit: 0
     upperLimit: 0
-    stiffness: 0
+    stiffness: 10000
     damping: 0
-    forceLimit: 50
+    forceLimit: 200
     target: 0
     targetVelocity: 0
-    driveType: 2
+    driveType: 0
   m_LinearDamping: 0
   m_AngularDamping: 0
-  m_JointFriction: 0.05
+  m_JointFriction: 0.1
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -709,9 +710,9 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 532591105809680800, guid: 14af986af1bfb4e07a51938d064f980b, type: 3}
 --- !u!1 &2386255832087394861
@@ -728,8 +729,8 @@ GameObject:
   - component: {fileID: 8674278636387902776}
   - component: {fileID: 221915894500193171}
   - component: {fileID: 8967048223568699530}
-  - component: {fileID: 3536129631665133680}
   - component: {fileID: 6481569227648781083}
+  - component: {fileID: 6692350442964887799}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -745,8 +746,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2386255832087394861}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.0012186724, y: 0.0000063478947, z: 0.0022072443}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -754,7 +755,7 @@ Transform:
   - {fileID: 6034828923055413825}
   - {fileID: 1965638797717698537}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!114 &2902331854523905222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -890,7 +891,7 @@ ArticulationBody:
     targetVelocity: 0
     driveType: 0
   m_LinearDamping: 0
-  m_AngularDamping: 1.5
+  m_AngularDamping: 10
   m_JointFriction: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -906,8 +907,22 @@ ArticulationBody:
   m_Immovable: 0
   m_UseGravity: 0
   m_CollisionDetectionMode: 1
---- !u!136 &3536129631665133680
-CapsuleCollider:
+--- !u!114 &6481569227648781083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2386255832087394861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2478986452334f5bbdb08d4905449ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 8967048223568699530}
+  torque: 1
+--- !u!64 &6692350442964887799
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -924,25 +939,10 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6481569227648781083
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2386255832087394861}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2478986452334f5bbdb08d4905449ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 8967048223568699530}
-  torque: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 532591105809680800, guid: 09c45064074f94de6bb844e96e67b82b, type: 3}
 --- !u!1 &4896220594883994708
 GameObject:
   m_ObjectHideFlags: 0
@@ -971,7 +971,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4896220594883994708}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
@@ -1039,27 +1039,27 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 0.01
-  m_ParentAnchorPosition: {x: -5, y: 2.500001, z: 6.0000014}
+  m_ParentAnchorPosition: {x: 5, y: 2.500001, z: -6.0000014}
   m_ParentAnchorRotation: {x: 0, y: 0, z: 0, w: 1.0000001}
-  m_AnchorPosition: {x: -5, y: 2.5, z: 6}
+  m_AnchorPosition: {x: 5, y: 2.5, z: -6}
   m_AnchorRotation: {x: 0, y: 0, z: 0, w: 1}
   m_MatchAnchors: 1
   m_ArticulationJointType: 3
   m_LinearX: 2
   m_LinearY: 2
   m_LinearZ: 2
-  m_SwingY: 2
-  m_SwingZ: 0
+  m_SwingY: 0
+  m_SwingZ: 2
   m_Twist: 2
   m_XDrive:
     lowerLimit: 0
     upperLimit: 0
-    stiffness: 1e+25
+    stiffness: 100000000
     damping: 0
-    forceLimit: 100
+    forceLimit: 1000
     target: 0
     targetVelocity: 0
-    driveType: 2
+    driveType: 0
   m_YDrive:
     lowerLimit: 0
     upperLimit: 0
@@ -1072,15 +1072,15 @@ ArticulationBody:
   m_ZDrive:
     lowerLimit: 0
     upperLimit: 0
-    stiffness: 0
+    stiffness: 100000000
     damping: 0
-    forceLimit: 100
+    forceLimit: 1000
     target: 0
     targetVelocity: 0
-    driveType: 2
+    driveType: 0
   m_LinearDamping: 0
   m_AngularDamping: 0
-  m_JointFriction: 0.05
+  m_JointFriction: 0.1
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -1112,9 +1112,9 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 532591105809680800, guid: d4e3c569057794ddea7521f63a6cca9a, type: 3}
 --- !u!1 &5797724701713612716
@@ -1147,7 +1147,7 @@ Transform:
   m_GameObject: {fileID: 5797724701713612716}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.1, y: -17.5, z: -6}
+  m_LocalPosition: {x: 5, y: -17.5, z: 6}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1169,7 +1169,8 @@ MonoBehaviour:
   lower: {fileID: 8413415514674138561}
   hand: {fileID: 4433054936938362078}
   body: {fileID: 2386255832087394861}
-  maxHandMovement: 1.99
+  l1: 0.8
+  l2: 0.6
   desiredZ: 1
 --- !u!33 &1261475482769987218
 MeshFilter:
@@ -1230,13 +1231,13 @@ ArticulationBody:
   m_GameObject: {fileID: 5797724701713612716}
   m_Enabled: 1
   serializedVersion: 5
-  m_Mass: 0.01
-  m_ParentAnchorPosition: {x: 4.9, y: 17.500004, z: 6.000003}
+  m_Mass: 0.0000001
+  m_ParentAnchorPosition: {x: -5, y: 17.500004, z: -6.000003}
   m_ParentAnchorRotation: {x: 0, y: 0, z: 0, w: 1.0000001}
-  m_AnchorPosition: {x: 5, y: 17.5, z: 6}
+  m_AnchorPosition: {x: -5, y: 17.5, z: -6}
   m_AnchorRotation: {x: 0, y: 0, z: 0, w: 1}
   m_MatchAnchors: 1
-  m_ArticulationJointType: 3
+  m_ArticulationJointType: 0
   m_LinearX: 2
   m_LinearY: 0
   m_LinearZ: 0
@@ -1246,33 +1247,33 @@ ArticulationBody:
   m_XDrive:
     lowerLimit: 0
     upperLimit: 0
-    stiffness: 0
+    stiffness: 100
     damping: 0
-    forceLimit: 40
+    forceLimit: 400
     target: 0
     targetVelocity: 0
-    driveType: 2
+    driveType: 0
   m_YDrive:
     lowerLimit: 0
     upperLimit: 0
-    stiffness: 0
+    stiffness: 100
     damping: 0
-    forceLimit: 40
+    forceLimit: 400
     target: 0
     targetVelocity: 0
-    driveType: 2
+    driveType: 0
   m_ZDrive:
     lowerLimit: 0
     upperLimit: 0
-    stiffness: 0
+    stiffness: 100
     damping: 0
-    forceLimit: 40
+    forceLimit: 400
     target: 0
     targetVelocity: 0
-    driveType: 2
+    driveType: 0
   m_LinearDamping: 0
   m_AngularDamping: 0
-  m_JointFriction: 0.05
+  m_JointFriction: 0.1
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -1306,7 +1307,7 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 532591105809680800, guid: 551b95ad35e024c6bb701689139245b7, type: 3}
 --- !u!1 &7861612171549221594
@@ -1336,7 +1337,7 @@ Transform:
   m_GameObject: {fileID: 7861612171549221594}
   serializedVersion: 2
   m_LocalRotation: {x: -0.70710707, y: -1.1641534e-10, z: 6.6165746e-11, w: 0.7071066}
-  m_LocalPosition: {x: 0, y: 3, z: 9}
+  m_LocalPosition: {x: 0, y: 3, z: -8.41}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

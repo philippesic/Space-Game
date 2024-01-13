@@ -13,16 +13,15 @@ public class HandController : NetworkBehaviour
     [SerializeField] private ArticulationBody lower;
     [SerializeField] private ArticulationBody hand;
     [SerializeField] GameObject body;
-    [SerializeField] private float maxHandMovement = 1;
-
+    [SerializeField] private float l1 = 0.8f;
+    [SerializeField] private float l2 = 0.6f;
     private FixedJoint fixedJoint;
     public float desiredZ = 1f;
-    private NetworkVariable<Vector3> desiredPos = new(new(0, 0, 0));
+    private NetworkVariable<Vector3> desiredPos = new(new(0, -0.3f, 0));
     private bool tryGrab = false;
 
     private void Awake()
     {
-        SetPostion(new(0, 0, desiredZ));
     }
 
     void Update()
@@ -36,8 +35,10 @@ public class HandController : NetworkBehaviour
 
     public void SetPostion(Vector3 pos)
     {
-        if (pos.magnitude > maxHandMovement)
-            desiredPos.Value = pos.normalized * maxHandMovement;
+        if (pos.z < 0.5f)
+            pos.z = 0.5f;
+        if (pos.magnitude > l1 + l2 - 0.01f)
+            desiredPos.Value = pos.normalized * (l1 + l2 - 0.01f);
         else
             desiredPos.Value = pos;
     }
@@ -54,8 +55,8 @@ public class HandController : NetworkBehaviour
 
     private void UpdateJoints()
     {
-        Vector3 rotations = DoIK(GetDesiredPostion(), 2f, 1f);
-        upper.SetDriveTarget(ArticulationDriveAxis.Y, rotations.x);
+        Vector3 rotations = DoIK(GetDesiredPostion(), l1, l2);
+        upper.SetDriveTarget(ArticulationDriveAxis.Z, -rotations.x);
         upper.SetDriveTarget(ArticulationDriveAxis.X, rotations.y);
         lower.SetDriveTarget(ArticulationDriveAxis.Z, rotations.z);
     }

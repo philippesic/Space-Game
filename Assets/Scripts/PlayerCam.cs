@@ -21,11 +21,11 @@ public class PlayerCam : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.Q))
         {
             ApplyTorque(Vector3.up);
         }
-        else if (Input.GetKey(KeyCode.A))
+        else if (Input.GetKey(KeyCode.E))
         {
             ApplyTorque(Vector3.down);
         }
@@ -37,11 +37,11 @@ public class PlayerCam : MonoBehaviour
         {
             ApplyTorque(Vector3.left);
         }
-        if (Input.GetKey(KeyCode.Q))
+        if (Input.GetKey(KeyCode.A))
         {
             ApplyTorque(Vector3.forward);
         }
-        else if (Input.GetKey(KeyCode.E))
+        else if (Input.GetKey(KeyCode.D))
         {
             ApplyTorque(Vector3.back);
         }

@@ -28,12 +28,12 @@ public class ArmMovement : NetworkBehaviour
             if (movingHand != null)
             {
                 // move hand
-                var newHandPos = movingHand.GetDesiredPostion() + 4 * Time.deltaTime * new Vector3(
+                var newHandPos = movingHand.GetDesiredPostion() + 10 * Time.deltaTime * new Vector3(
                     Input.GetAxis("Mouse X"),
-                    Input.GetAxis("Mouse Y"),
-                    0
+                    0,
+                    Input.GetAxis("Mouse Y")
                     );
-                newHandPos.z = movingHand.GetComponent<HandController>().desiredZ;
+                //newHandPos.z = movingHand.GetComponent<HandController>().desiredZ;
                 movingHand.SetPostion(newHandPos);
 
                 // grab with hand
