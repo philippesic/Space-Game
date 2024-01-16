@@ -19,6 +19,7 @@ public class HandController : NetworkBehaviour
     private ConfigurableJoint fixedJoint;
     private NetworkVariable<Vector3> desiredPos = new(new(0, -0.3f, 0));
     private bool tryGrab = false;
+    public GameObject heldTool;
 
     void Update()
     {
@@ -112,6 +113,7 @@ public class HandController : NetworkBehaviour
                 fixedJoint.angularXMotion = ConfigurableJointMotion.Locked;
                 fixedJoint.angularYMotion = ConfigurableJointMotion.Locked;
                 fixedJoint.angularZMotion = ConfigurableJointMotion.Locked;
+                heldTool = closestCollider.gameObject;
             }
         }
         else
@@ -130,6 +132,12 @@ public class HandController : NetworkBehaviour
         {
             tryGrab = false;
             Destroy(fixedJoint);
+            if (heldTool != null)
+            {
+                heldTool.GetComponent<Tool>().isHeld = false;
+                heldTool = null;
+            }
+
         }
     }
 }
