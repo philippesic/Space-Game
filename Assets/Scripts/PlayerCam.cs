@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using Unity.Mathematics;
+using Unity.Netcode;
 using UnityEngine;
 
 public class PlayerCam : MonoBehaviour
@@ -60,7 +60,7 @@ public class PlayerCam : MonoBehaviour
             }
             Quaternion rotationDifference = desiredRotation * Quaternion.Inverse(player.rotation);
             rotationDifference.ToAngleAxis(out float angle, out Vector3 axis);
-            player.AddTorque(axis * angle * torque);
+            player.AddTorque(axis * angle * torque / 2);
         }
     }
 
