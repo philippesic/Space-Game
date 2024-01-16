@@ -42,37 +42,31 @@ public class PlayerCam : MonoBehaviour
         {
             ApplyTorque(Vector3.back);
         }
-        StartCoroutine(UpdateRotation());
-
+        if (!(Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)))
+        {
+            if (
+                Input.GetKeyUp(KeyCode.Q) ||
+                Input.GetKeyUp(KeyCode.E) ||
+                Input.GetKeyUp(KeyCode.S) ||
+                Input.GetKeyUp(KeyCode.W) ||
+                Input.GetKeyUp(KeyCode.A) ||
+                Input.GetKeyUp(KeyCode.D)
+                )
+            {
+                desiredRotation.x = player.rotation.x;
+                desiredRotation.y = player.rotation.y;
+                desiredRotation.z = player.rotation.z;
+                desiredRotation.w = player.rotation.w;
+            }
+            Quaternion rotationDifference = desiredRotation * Quaternion.Inverse(player.rotation);
+            rotationDifference.ToAngleAxis(out float angle, out Vector3 axis);
+            player.AddTorque(axis * angle * torque * 10);
+        }
     }
 
     void ApplyTorque(Vector3 axis)
     {
         player.AddRelativeTorque(axis * torque);
-    }
-    public IEnumerator UpdateRotation()
-    {
-        if (Input.anyKey && !Input.GetKey(KeyCode.Mouse0) && !Input.GetKey(KeyCode.Mouse1))
-        {
-            desiredRotation.x = player.rotation.x;
-            desiredRotation.y = player.rotation.y;
-            desiredRotation.z = player.rotation.z;
-            desiredRotation.w = player.rotation.w;
-        }
-        if (!Input.anyKey)
-        {
-
-            Quaternion rotationDifference = desiredRotation * Quaternion.Inverse(player.rotation);
-
-
-            Vector3 axis;
-            float angle;
-            rotationDifference.ToAngleAxis(out angle, out axis);
-
-
-            player.AddTorque(axis * angle * torque);
-            yield return new WaitForSeconds(0.1f);
-        }
     }
 }
 
