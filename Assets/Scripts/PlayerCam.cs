@@ -5,18 +5,13 @@ using UnityEngine;
 public class PlayerCam : MonoBehaviour
 {
 
-    public ArticulationBody player;
+    public Rigidbody player;
     Quaternion playerRotation;
     Quaternion currentRotation;
 
     [Header("Sensitivity")]
     public float torque;
 
-    void Start()
-    {
-
-
-    }
 
     void Update()
     {
@@ -49,12 +44,12 @@ public class PlayerCam : MonoBehaviour
     }
     void ApplyTorque(Vector3 axis)
     {
-        ArticulationDrive drive = player.xDrive;
+        // ArticulationDrive drive = player.xDrive;
 
-        drive.target = Mathf.Sign(axis.x) * torque;
-        drive.forceLimit = torque;
+        // drive.target = Mathf.Sign(axis.x) * torque;
+        // drive.forceLimit = torque;
 
-        player.xDrive = drive;
+        // player.xDrive = drive;
 
         player.AddRelativeTorque(axis * torque);
     }

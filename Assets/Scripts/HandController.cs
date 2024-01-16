@@ -9,20 +9,16 @@ using Unity.Netcode;
 
 public class HandController : NetworkBehaviour
 {
-    [SerializeField] private ArticulationBody upper;
-    [SerializeField] private ArticulationBody lower;
-    [SerializeField] private ArticulationBody hand;
+    [SerializeField] private ConfigurableJoint upper;
+    [SerializeField] private ConfigurableJoint lower;
+    [SerializeField] private ConfigurableJoint hand;
+    [SerializeField] private Transform handTransform;
     [SerializeField] GameObject body;
     [SerializeField] private float l1 = 0.8f;
     [SerializeField] private float l2 = 0.6f;
-    private FixedJoint fixedJoint;
-    public float desiredZ = 1f;
+    private ConfigurableJoint fixedJoint;
     private NetworkVariable<Vector3> desiredPos = new(new(0, -0.3f, 0));
     private bool tryGrab = false;
-
-    private void Awake()
-    {
-    }
 
     void Update()
     {
@@ -35,8 +31,8 @@ public class HandController : NetworkBehaviour
 
     public void SetPostion(Vector3 pos)
     {
-        if (pos.z < 0.5f)
-            pos.z = 0.5f;
+        if (pos.z < 0.3f)
+            pos.z = 0.3f;
         if (pos.magnitude > l1 + l2 - 0.01f)
             desiredPos.Value = pos.normalized * (l1 + l2 - 0.01f);
         else
@@ -56,28 +52,33 @@ public class HandController : NetworkBehaviour
     private void UpdateJoints()
     {
         Vector3 rotations = DoIK(GetDesiredPostion(), l1, l2);
-        upper.SetDriveTarget(ArticulationDriveAxis.Z, -rotations.x);
-        upper.SetDriveTarget(ArticulationDriveAxis.X, rotations.y);
-        lower.SetDriveTarget(ArticulationDriveAxis.Z, rotations.z);
+        upper.targetRotation = quaternion.EulerZYX(-rotations.y, 0, rotations.x);
+        lower.targetRotation = quaternion.EulerXYZ(rotations.z, 0, 0);
     }
 
     private Vector3 DoIK(Vector3 position, float L1, float L2)
     {
         return new()
         {
-            x = (float)(180 / Math.PI * Math.Atan2(position.x, position.z)),
-            y = (float)(180 / Math.PI *
+            x = (float)Math.Atan2(position.x, position.z),
+            y = (float)
             (
                 math.acos((Math.Pow(L1, 2) + Math.Pow(position.magnitude, 2) - Math.Pow(L2, 2)) / (2 * L1 * position.magnitude))
                 + Math.Atan2(-position.y, Math.Sqrt(Math.Pow(position.x, 2) + Math.Pow(position.z, 2)))
-            )),
-            z = 180 - (float)(180 / Math.PI * math.acos((Math.Pow(L1, 2) + Math.Pow(L2, 2) - Math.Pow(position.magnitude, 2)) / (2 * L1 * L2)))
+            ),
+            z =  (float) (Math.PI - math.acos((Math.Pow(L1, 2) + Math.Pow(L2, 2) - Math.Pow(position.magnitude, 2)) / (2 * L1 * L2)))
         };
+    }
+
+
+    public Vector3 GetHandPos()
+    {
+        return handTransform.position;
     }
 
     private void TryGrab()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, 0.3f);
+        Collider[] colliders = Physics.OverlapSphere(GetHandPos(), 0.2f);
         Collider closestCollider = null;
         float closestColliderDistance = 100;
         foreach (Collider collider in colliders)
@@ -89,7 +90,7 @@ public class HandController : NetworkBehaviour
                 hand.gameObject == collider.gameObject
                 ) continue;
             if (collider.gameObject.GetComponent<Rigidbody>() == null) continue;
-            float dis = (collider.ClosestPoint(transform.position) - transform.position).magnitude;
+            float dis = (collider.ClosestPoint(GetHandPos()) - GetHandPos()).magnitude;
             if (dis < closestColliderDistance)
             {
                 closestCollider = collider;
@@ -98,24 +99,18 @@ public class HandController : NetworkBehaviour
         }
         if (closestCollider != null)
         {
-            Debug.Log("grabbed");
             tryGrab = false;
-            fixedJoint = closestCollider.gameObject.AddComponent<FixedJoint>();
-            fixedJoint.connectedArticulationBody = gameObject.GetComponent<ArticulationBody>();
+            fixedJoint = hand.AddComponent<ConfigurableJoint>();
+            fixedJoint.anchor = handTransform.localPosition;
+            fixedJoint.xMotion = ConfigurableJointMotion.Locked;
+            fixedJoint.yMotion = ConfigurableJointMotion.Locked;
+            fixedJoint.zMotion = ConfigurableJointMotion.Locked;
+            fixedJoint.projectionMode = JointProjectionMode.PositionAndRotation;
+            fixedJoint.connectedBody = closestCollider.gameObject.GetComponent<Rigidbody>();
         }
         else
         {
-            Vector3 before = GetDesiredPostion();
-            desiredZ = before.z + 0.4f * Time.deltaTime;
-            SetPostion(before + new Vector3(0, 0, 0.4f * Time.deltaTime));
-            if ((before - GetDesiredPostion()).magnitude < 0.005)
-            {
-                tryGrab = false;
-                var pos = GetDesiredPostion();
-                pos.z = 1;
-                desiredZ = 1;
-                SetPostion(pos);
-            }
+            tryGrab = false;
         }
     }
 
@@ -128,10 +123,6 @@ public class HandController : NetworkBehaviour
         else
         {
             tryGrab = false;
-            var pos = GetDesiredPostion();
-            desiredZ = 1;
-            pos.z = 1;
-            SetPostion(pos);
             Destroy(fixedJoint);
         }
     }
