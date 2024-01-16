@@ -27,7 +27,7 @@ public class ArmMovement : NetworkBehaviour
         var newHandPos = handController.GetDesiredPostion() + 10 * Time.deltaTime * new Vector3(
             Input.GetAxis("Mouse X"),
             Input.GetAxis("Mouse Y"),
-            Input.GetAxis("Mouse ScrollWheel") * 15
+            Input.GetAxis("Mouse ScrollWheel") * 15 + (Input.GetKey(KeyCode.UpArrow) ? 0.4f : 0) + (Input.GetKey(KeyCode.DownArrow) ? -0.4f : 0)
             );
         handController.SetPostion(newHandPos);
 
