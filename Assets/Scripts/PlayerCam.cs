@@ -15,7 +15,7 @@ public class PlayerCam : MonoBehaviour
     public float torque;
 
 
-    public void FixedUpdate()
+    public void Update()
     {
         currentRotation = Quaternion.Euler(player.rotation.eulerAngles);
         if (Input.GetKey(KeyCode.Q))
@@ -60,7 +60,7 @@ public class PlayerCam : MonoBehaviour
             }
             Quaternion rotationDifference = desiredRotation * Quaternion.Inverse(player.rotation);
             rotationDifference.ToAngleAxis(out float angle, out Vector3 axis);
-            player.AddTorque(axis * angle * torque * 10);
+            player.AddTorque(axis * angle * torque * 2);
         }
     }
 
