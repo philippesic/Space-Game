@@ -66,7 +66,7 @@ public class HandController : NetworkBehaviour
                 math.acos((Math.Pow(L1, 2) + Math.Pow(position.magnitude, 2) - Math.Pow(L2, 2)) / (2 * L1 * position.magnitude))
                 + Math.Atan2(-position.y, Math.Sqrt(Math.Pow(position.x, 2) + Math.Pow(position.z, 2)))
             ),
-            z =  (float) (Math.PI - math.acos((Math.Pow(L1, 2) + Math.Pow(L2, 2) - Math.Pow(position.magnitude, 2)) / (2 * L1 * L2)))
+            z = (float)(Math.PI - math.acos((Math.Pow(L1, 2) + Math.Pow(L2, 2) - Math.Pow(position.magnitude, 2)) / (2 * L1 * L2)))
         };
     }
 
@@ -107,6 +107,12 @@ public class HandController : NetworkBehaviour
             fixedJoint.zMotion = ConfigurableJointMotion.Locked;
             fixedJoint.projectionMode = JointProjectionMode.PositionAndRotation;
             fixedJoint.connectedBody = closestCollider.gameObject.GetComponent<Rigidbody>();
+            if (closestCollider.CompareTag("Tool"))
+            {
+                fixedJoint.angularXMotion = ConfigurableJointMotion.Locked;
+                fixedJoint.angularYMotion = ConfigurableJointMotion.Locked;
+                fixedJoint.angularZMotion = ConfigurableJointMotion.Locked;
+            }
         }
         else
         {
