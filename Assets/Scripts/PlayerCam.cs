@@ -1,21 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class PlayerCam : MonoBehaviour
 {
 
     public Rigidbody player;
-    Quaternion playerRotation;
+    Quaternion desiredRotation;
     Quaternion currentRotation;
 
     [Header("Sensitivity")]
     public float torque;
 
 
-    void Update()
+    public void FixedUpdate()
     {
-
+        currentRotation = Quaternion.Euler(player.rotation.eulerAngles);
         if (Input.GetKey(KeyCode.Q))
         {
             ApplyTorque(Vector3.up);
@@ -40,17 +42,37 @@ public class PlayerCam : MonoBehaviour
         {
             ApplyTorque(Vector3.back);
         }
+        StartCoroutine(UpdateRotation());
 
     }
+
     void ApplyTorque(Vector3 axis)
     {
-        // ArticulationDrive drive = player.xDrive;
-
-        // drive.target = Mathf.Sign(axis.x) * torque;
-        // drive.forceLimit = torque;
-
-        // player.xDrive = drive;
-
         player.AddRelativeTorque(axis * torque);
     }
+    public IEnumerator UpdateRotation()
+    {
+        if (Input.anyKey && !Input.GetKey(KeyCode.Mouse0) && !Input.GetKey(KeyCode.Mouse1))
+        {
+            desiredRotation.x = player.rotation.x;
+            desiredRotation.y = player.rotation.y;
+            desiredRotation.z = player.rotation.z;
+            desiredRotation.w = player.rotation.w;
+        }
+        if (!Input.anyKey)
+        {
+
+            Quaternion rotationDifference = desiredRotation * Quaternion.Inverse(player.rotation);
+
+
+            Vector3 axis;
+            float angle;
+            rotationDifference.ToAngleAxis(out angle, out axis);
+
+
+            player.AddTorque(axis * angle * torque);
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
 }
+

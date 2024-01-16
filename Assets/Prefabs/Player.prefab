@@ -1197,7 +1197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 8409355098047720544}
-  torque: 1100
+  torque: 2000
 --- !u!64 &6701548963360049101
 MeshCollider:
   m_ObjectHideFlags: 0
