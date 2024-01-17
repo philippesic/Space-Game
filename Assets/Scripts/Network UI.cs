@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,7 @@ public class NetworkUI : MonoBehaviour
 
     private void Awake() {
         host.onClick.AddListener(() => {
+            //NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.Address = IPManager.GetLocalIPAddress();
             NetworkManager.Singleton.StartHost();
             Destroy(gameObject);
         });
