@@ -30,7 +30,7 @@ public class PlayerCam : NetworkBehaviour
         {
             Quaternion rotationDifference = desiredRotation * Quaternion.Inverse(player.rotation);
             rotationDifference.ToAngleAxis(out float angle, out Vector3 axis);
-            player.AddTorque(Time.deltaTime * torque * angle * 0.5f * axis);
+            player.AddTorque(Time.deltaTime * torque * angle * 0.4f * axis);
         }
         if (!IsOwner) return;
 

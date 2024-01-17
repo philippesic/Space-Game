@@ -1345,7 +1345,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 8409355098047720544}
   torque: 300000
-  rotationSpeed: 50
+  rotationSpeed: 60
 --- !u!33 &3645281932225669002
 MeshFilter:
   m_ObjectHideFlags: 0

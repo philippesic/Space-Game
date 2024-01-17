@@ -25,7 +25,7 @@ public class ArmMovement : NetworkBehaviour
             movementSpeed * new Vector3(
                 Input.GetAxis("Mouse X") * 0.002f,
                 Input.GetAxis("Mouse Y") * 0.002f,
-                Input.GetAxis("Mouse ScrollWheel") * 0.1f + (Input.GetKey(KeyCode.UpArrow) ? 0.3f * Time.deltaTime : 0) + (Input.GetKey(KeyCode.DownArrow) ? -0.3f * Time.deltaTime : 0)
+                Input.GetAxis("Mouse ScrollWheel") * 0.1f + (Input.GetKey(KeyCode.UpArrow) ? 0.2f * Time.deltaTime : 0) + (Input.GetKey(KeyCode.DownArrow) ? -0.2f * Time.deltaTime : 0)
             )
         );
 
