@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class Panel : Interactable
 {
-    [SerializeField] private int health;
+    [SerializeField] private float health;
 
-    public override void GetLasered(int damage = 1)
+    public override void GetLasered(float damage = 1)
     {
         health-= damage;
         if (health <= 0)

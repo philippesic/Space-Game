@@ -13,7 +13,7 @@ public class Laser : Tool
         {
             print("hit");
             if (hit.collider.gameObject.TryGetComponent(out Interactable interactable))
-                interactable.GetLasered();
+                interactable.GetLasered(Time.deltaTime);
         }
         else
         {
