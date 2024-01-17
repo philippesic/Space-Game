@@ -1948,7 +1948,7 @@ MonoBehaviour:
   ConnectionData:
     Address: 127.0.0.1
     Port: 6666
-    ServerListenAddress: 127.0.0.1
+    ServerListenAddress: 0.0.0.0
   DebugSimulator:
     PacketDelayMS: 0
     PacketJitterMS: 0
@@ -4255,11 +4255,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1786985500}
   m_LocalEulerAnglesHint: {x: 23.281, y: -42.034, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 13, y: 4.69}
+  m_AnchoredPosition: {x: -600.5, y: -341.81}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1732227100
@@ -4348,7 +4348,7 @@ GameObject:
   - component: {fileID: 1786985500}
   - component: {fileID: 1786985501}
   m_Layer: 5
-  m_Name: GameObject
+  m_Name: Home screen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4370,6 +4370,7 @@ RectTransform:
   - {fileID: 262563416}
   - {fileID: 525835349}
   - {fileID: 15781517}
+  - {fileID: 1728573235}
   m_Father: {fileID: 1444926468}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
@@ -5208,4 +5209,3 @@ SceneRoots:
   - {fileID: 759578189}
   - {fileID: 1607557434}
   - {fileID: 1370528448}
-  - {fileID: 1728573235}
