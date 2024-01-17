@@ -1330,7 +1330,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftHand: {fileID: 9198256637202451754}
   rightHand: {fileID: 2520409822167150014}
-  movementSpeed: 10
+  movementSpeed: 20
+  scrollSpeed: 0.9
 --- !u!114 &1778394790058839435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1344,7 +1345,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 8409355098047720544}
-  torque: 300000
+  torque: 280000
   rotationSpeed: 60
 --- !u!33 &3645281932225669002
 MeshFilter:

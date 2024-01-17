@@ -6,6 +6,8 @@ public class ArmMovement : NetworkBehaviour
     [SerializeField] private HandController leftHand;
     [SerializeField] private HandController rightHand;
     [SerializeField] private float movementSpeed;
+    [SerializeField] private float scrollSpeed;
+
 
     void Update()
     {
@@ -22,10 +24,12 @@ public class ArmMovement : NetworkBehaviour
     {
         // move hand
         handController.ShiftPostionServerRpc(
-            movementSpeed * new Vector3(
-                Input.GetAxis("Mouse X") * 0.002f,
-                Input.GetAxis("Mouse Y") * 0.002f,
-                Input.GetAxis("Mouse ScrollWheel") * 0.1f + (Input.GetKey(KeyCode.UpArrow) ? 0.2f * Time.deltaTime : 0) + (Input.GetKey(KeyCode.DownArrow) ? -0.2f * Time.deltaTime : 0)
+            new Vector3(
+                Input.GetAxis("Mouse X") * 0.003f * movementSpeed,
+                Input.GetAxis("Mouse Y") * 0.003f * movementSpeed,
+                Input.GetAxis("Mouse ScrollWheel") * 0.1f * scrollSpeed +
+                (Input.GetKey(KeyCode.UpArrow) ? 0.2f * Time.deltaTime * movementSpeed : 0) +
+                (Input.GetKey(KeyCode.DownArrow) ? -0.2f * Time.deltaTime * movementSpeed : 0)
             )
         );
 
