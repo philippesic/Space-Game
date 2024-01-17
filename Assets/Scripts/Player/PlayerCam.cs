@@ -60,7 +60,7 @@ public class PlayerCam : MonoBehaviour
             }
             Quaternion rotationDifference = desiredRotation * Quaternion.Inverse(player.rotation);
             rotationDifference.ToAngleAxis(out float angle, out Vector3 axis);
-            player.AddTorque(axis * angle * torque / 2);
+            player.AddTorque(angle * Time.deltaTime * torque * axis);
         }
     }
 
