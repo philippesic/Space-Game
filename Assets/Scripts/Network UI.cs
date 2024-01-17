@@ -12,9 +12,11 @@ public class NetworkUI : MonoBehaviour
     private void Awake() {
         host.onClick.AddListener(() => {
             NetworkManager.Singleton.StartHost();
+            Destroy(gameObject);
         });
         client.onClick.AddListener(() => {
             NetworkManager.Singleton.StartClient();
+            Destroy(gameObject);
         });
     }
 }
