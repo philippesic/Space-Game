@@ -11,7 +11,6 @@ public abstract class Tool : MonoBehaviour
     {
         if (grabberGameObject == null)
             grabberGameObject = grabber;
-        print(grabberGameObject.name);
     }
 
     public void Dropped(GameObject grabber)

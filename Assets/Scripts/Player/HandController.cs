@@ -9,23 +9,47 @@ using Unity.Netcode;
 
 public class HandController : NetworkBehaviour
 {
-    [SerializeField] private GameObject player;
+    [Header("Arm Joints")]
     [SerializeField] private ConfigurableJoint upper;
     [SerializeField] private ConfigurableJoint lower;
     [SerializeField] private ConfigurableJoint hand;
-    [SerializeField] private Transform handTransform;
+    [Header("Other Objects")]
+    [SerializeField] private GameObject player;
     [SerializeField] GameObject body;
+    [SerializeField] private Transform handTransform;
+    [Header("settings")]
     [SerializeField] private float l1 = 0.8f;
     [SerializeField] private float l2 = 0.6f;
     private ConfigurableJoint fixedJoint;
-    private NetworkVariable<Vector3> desiredPos = new(new(0, -0.3f, 0));
-    private bool tryGrab = false;
+    private Vector3 desiredPos = new(0, -0.3f, 0);
+    private bool grab = false;
+
+    void Start()
+    {
+        // if (!IsHost)
+        // {
+        //     Destroy(upper);
+        //     Destroy(lower);
+        //     Destroy(hand);
+
+        // }
+    }
 
     void Update()
     {
         if (IsServer)
         {
-            if (tryGrab) TryGrab();
+            if (grab)
+            {
+                if (fixedJoint == null) TryGrab();
+            }
+            else if (fixedJoint != null)
+            {
+                if (fixedJoint.connectedBody.TryGetComponent(out Tool tool))
+                    tool.Dropped(player);
+                Destroy(fixedJoint);
+                fixedJoint = null;
+            }
             UpdateJoints();
         }
     }
@@ -35,9 +59,15 @@ public class HandController : NetworkBehaviour
         if (pos.z < 0.3f)
             pos.z = 0.3f;
         if (pos.magnitude > l1 + l2 - 0.01f)
-            desiredPos.Value = pos.normalized * (l1 + l2 - 0.01f);
+            desiredPos = pos.normalized * (l1 + l2 - 0.01f);
         else
-            desiredPos.Value = pos;
+            desiredPos = pos;
+    }
+
+    [ServerRpc]
+    public void ShiftPostionServerRpc(Vector3 shift)
+    {
+        SetPostion(GetDesiredPostion() + shift);
     }
 
     public Vector3 GetPostion()
@@ -47,7 +77,7 @@ public class HandController : NetworkBehaviour
 
     public Vector3 GetDesiredPostion()
     {
-        return desiredPos.Value;
+        return desiredPos;
     }
 
     private void UpdateJoints()
@@ -90,10 +120,10 @@ public class HandController : NetworkBehaviour
                 lower.gameObject == collider.gameObject ||
                 hand.gameObject == collider.gameObject
                 ) continue;
-    
+
             GameObject gameObject = collider.gameObject;
             if (collider.gameObject.GetComponent<Rigidbody>() == null)
-                if (collider.gameObject.transform.parent.TryGetComponent(out Rigidbody rigidbody)) 
+                if (collider.gameObject.transform.parent.TryGetComponent(out Rigidbody rigidbody))
                     gameObject = rigidbody.gameObject;
                 else
                     continue;
@@ -107,7 +137,6 @@ public class HandController : NetworkBehaviour
         }
         if (closestGameObject != null)
         {
-            tryGrab = false;
             fixedJoint = hand.AddComponent<ConfigurableJoint>();
             fixedJoint.anchor = handTransform.localPosition;
             fixedJoint.xMotion = ConfigurableJointMotion.Locked;
@@ -125,22 +154,13 @@ public class HandController : NetworkBehaviour
         }
         else
         {
-            tryGrab = false;
+            grab = false;
         }
     }
 
-    public void ToggleGrab()
+    [ServerRpc]
+    public void ToggleGrabServerRpc()
     {
-        if (fixedJoint == null || fixedJoint.IsDestroyed())
-        {
-            tryGrab = true;
-        }
-        else
-        {
-            tryGrab = false;
-            if (fixedJoint.connectedBody.TryGetComponent(out Tool tool))
-                tool.Dropped(player);
-            Destroy(fixedJoint);
-        }
+        grab = !grab;
     }
 }

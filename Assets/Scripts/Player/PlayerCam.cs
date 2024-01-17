@@ -1,72 +1,69 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using Unity.Mathematics;
 using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerCam : MonoBehaviour
+public class PlayerCam : NetworkBehaviour
 {
 
-    public Rigidbody player;
-    Quaternion desiredRotation;
-    Quaternion currentRotation;
+    [SerializeField] private Rigidbody player;
+    private Quaternion desiredRotation;
 
     [Header("Sensitivity")]
-    public float torque;
+    [SerializeField] private float torque;
+    [SerializeField] private float rotationSpeed;
 
+    public override void OnNetworkSpawn()
+    {
+        GetComponentInChildren<Camera>().gameObject.SetActive(IsOwner);
+        desiredRotation.x = transform.rotation.x;
+        desiredRotation.y = transform.rotation.y;
+        desiredRotation.z = transform.rotation.z;
+        desiredRotation.w = transform.rotation.w;
+    }
 
     public void Update()
     {
-        currentRotation = Quaternion.Euler(player.rotation.eulerAngles);
+        if (IsServer)
+        {
+            Quaternion rotationDifference = desiredRotation * Quaternion.Inverse(player.rotation);
+            rotationDifference.ToAngleAxis(out float angle, out Vector3 axis);
+            player.AddTorque(Time.deltaTime * torque * angle * 0.5f * axis);
+        }
+        if (!IsOwner) return;
+
         if (Input.GetKey(KeyCode.Q))
         {
-            ApplyTorque(Vector3.up);
+            AddToDesiredRotationServerRpc(Time.deltaTime * rotationSpeed * Vector3.up);
         }
         else if (Input.GetKey(KeyCode.E))
         {
-            ApplyTorque(Vector3.down);
+            AddToDesiredRotationServerRpc(Time.deltaTime * rotationSpeed * Vector3.down);
         }
         if (Input.GetKey(KeyCode.S))
         {
-            ApplyTorque(Vector3.right);
+            AddToDesiredRotationServerRpc(Time.deltaTime * rotationSpeed * Vector3.right);
         }
         else if (Input.GetKey(KeyCode.W))
         {
-            ApplyTorque(Vector3.left);
+            AddToDesiredRotationServerRpc(Time.deltaTime * rotationSpeed * Vector3.left);
         }
         if (Input.GetKey(KeyCode.A))
         {
-            ApplyTorque(Vector3.forward);
+            AddToDesiredRotationServerRpc(Time.deltaTime * rotationSpeed * Vector3.forward);
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            ApplyTorque(Vector3.back);
-        }
-        if (!(Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)))
-        {
-            if (
-                Input.GetKeyUp(KeyCode.Q) ||
-                Input.GetKeyUp(KeyCode.E) ||
-                Input.GetKeyUp(KeyCode.S) ||
-                Input.GetKeyUp(KeyCode.W) ||
-                Input.GetKeyUp(KeyCode.A) ||
-                Input.GetKeyUp(KeyCode.D)
-                )
-            {
-                desiredRotation.x = player.rotation.x;
-                desiredRotation.y = player.rotation.y;
-                desiredRotation.z = player.rotation.z;
-                desiredRotation.w = player.rotation.w;
-            }
-            Quaternion rotationDifference = desiredRotation * Quaternion.Inverse(player.rotation);
-            rotationDifference.ToAngleAxis(out float angle, out Vector3 axis);
-            player.AddTorque(angle * Time.deltaTime * torque * axis);
+            AddToDesiredRotationServerRpc(Time.deltaTime * rotationSpeed * Vector3.back);
         }
     }
 
-    void ApplyTorque(Vector3 axis)
+    [ServerRpc]
+    private void AddToDesiredRotationServerRpc(Vector3 rotation)
     {
-        player.AddRelativeTorque(axis * torque);
+        desiredRotation *= Quaternion.Euler(rotation);
     }
 }
 

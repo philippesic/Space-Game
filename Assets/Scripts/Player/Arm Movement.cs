@@ -1,38 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ArmMovement : NetworkBehaviour
 {
-    [SerializeField] private GameObject leftHand;
-    [SerializeField] private GameObject rightHand;
+    [SerializeField] private HandController leftHand;
+    [SerializeField] private HandController rightHand;
+    [SerializeField] private float movementSpeed;
 
     void Update()
     {
-        if (IsOwner)
-        {
-            // sellect hand
-            if (Input.GetKey(KeyCode.Mouse0))
-                DoArmMovement(leftHand.GetComponent<HandController>());
-            if (Input.GetKey(KeyCode.Mouse1))
-                DoArmMovement(rightHand.GetComponent<HandController>());
-        }
+        if (!IsOwner) return;
+
+        // sellect hand
+        if (Input.GetKey(KeyCode.Mouse0))
+            DoArmMovement(leftHand);
+        if (Input.GetKey(KeyCode.Mouse1))
+            DoArmMovement(rightHand);
     }
 
     private void DoArmMovement(HandController handController)
     {
         // move hand
-        var newHandPos = handController.GetDesiredPostion() + 10 * Time.deltaTime * new Vector3(
-            Input.GetAxis("Mouse X"),
-            Input.GetAxis("Mouse Y"),
-            Input.GetAxis("Mouse ScrollWheel") * 15 + (Input.GetKey(KeyCode.UpArrow) ? 0.4f : 0) + (Input.GetKey(KeyCode.DownArrow) ? -0.4f : 0)
-            );
-        handController.SetPostion(newHandPos);
+        handController.ShiftPostionServerRpc(
+            movementSpeed * new Vector3(
+                Input.GetAxis("Mouse X") * 0.002f,
+                Input.GetAxis("Mouse Y") * 0.002f,
+                Input.GetAxis("Mouse ScrollWheel") * 0.1f + (Input.GetKey(KeyCode.UpArrow) ? 0.3f * Time.deltaTime : 0) + (Input.GetKey(KeyCode.DownArrow) ? -0.3f * Time.deltaTime : 0)
+            )
+        );
 
         // grab with hand
         if (Input.GetKeyDown(KeyCode.Space))
-            handController.GetComponent<HandController>().ToggleGrab();
+            handController.ToggleGrabServerRpc();
     }
 }
