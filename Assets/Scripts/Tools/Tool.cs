@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -7,51 +8,66 @@ public abstract class Tool : NetworkBehaviour
 {
     [SerializeField] private bool isToggle;
     private GameObject grabberGameObject;
-    private readonly NetworkVariable<bool> isOn = new(false);
+    private bool isOn = false;
+
     public void Grabbed(GameObject grabber)
     {
         if (grabberGameObject == null)
             grabberGameObject = grabber;
+        if (grabberGameObject.TryGetComponent(out Player player))
+        {
+            GetComponent<NetworkObject>().ChangeOwnership(player.OwnerClientId);
+        }
     }
 
     public void Dropped(GameObject grabber)
     {
         if (grabberGameObject == grabber)
-            grabberGameObject = null;
+            if (grabberGameObject.TryGetComponent(out Player player))
+            {
+                GetComponent<NetworkObject>().ChangeOwnership(NetworkManager.ServerClientId);
+            }
+        grabberGameObject = null;
     }
 
     public void Update()
     {
-        if (IsOwner) {
-            if (grabberGameObject != null && grabberGameObject.TryGetComponent(out Player player) && player.IsOwner)
+        if (IsOwner && (grabberGameObject != null || !IsServer))
+        {
+            if (Input.GetKeyDown(KeyCode.F))
             {
-                if (isToggle)
-                {
-                    if (Input.GetKeyDown(KeyCode.F))
-                        isOn.Value = !isOn.Value;
-                }
-                else
-                {
-                    if (Input.GetKey(KeyCode.F))
-                        isOn.Value = true;
-                }
+                PressedServerRpc(true);
+            }
+            else if (Input.GetKey(KeyCode.F))
+            {
+                PressedServerRpc(false);
             }
         }
-        if (IsServer){
-            if (isOn.Value)
+        if (IsServer && isOn)
+        {
+            Use();
+            if (!isToggle)
             {
-                Use();
-                if (!isToggle)
-                {
-                    isOn.Value = false;
-                }
+                isOn = false;
             }
         }
     }
 
-    private void Destroy() {
-        
+    [ServerRpc]
+    private void PressedServerRpc(bool isKeyDown)
+    {
+        if (grabberGameObject != null && grabberGameObject.TryGetComponent(out Player player))
+        {
+            if (isToggle)
+            {
+                if (isKeyDown)
+                    isOn = !isOn;
+            }
+            else
+            {
+                isOn = true;
+            }
+        }
     }
-
     protected abstract void Use();
 }
