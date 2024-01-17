@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class Interactable : NetworkBehaviour
 {
-    public virtual void GetCut() {}
-    public virtual void GetLasered(float damage = 1) {}
-    public virtual void GetHammered(float damage = 1) {}
-    public virtual void GetScrewed() {}
+    public virtual void GetPliered() { }
+    public virtual void GetLasered(float damage = 1) { }
+    public virtual void GetHammered(float damage = 1) { }
+    public virtual void GetScrewed() { }
 }
