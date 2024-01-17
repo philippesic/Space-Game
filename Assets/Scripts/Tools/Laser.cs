@@ -4,24 +4,20 @@ using UnityEngine;
 
 public class Laser : Tool
 {
-    void Start()
+    protected override void Use()
     {
-        id = 0;
-        isToggle = false;
-    }
-    public override void Use()
-    {
+        print("used");
+        Ray ray = new(transform.position, transform.forward);
 
-        Ray ray = new Ray(transform.position, transform.forward);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            hit.collider.gameObject.GetComponent<Interactable>().GetLasered();
+            print("hit");
+            if (hit.collider.gameObject.TryGetComponent(out Interactable interactable))
+                interactable.GetLasered();
         }
         else
         {
-            Debug.Log("BAAAAAAAHAAAAHAHAAHAAAAAHAAAAAA STORMTROOPER ASS AIM 🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡🤡");
+            print("hit nothing");
         }
     }
 }

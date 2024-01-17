@@ -9,6 +9,7 @@ using Unity.Netcode;
 
 public class HandController : NetworkBehaviour
 {
+    [SerializeField] private GameObject player;
     [SerializeField] private ConfigurableJoint upper;
     [SerializeField] private ConfigurableJoint lower;
     [SerializeField] private ConfigurableJoint hand;
@@ -19,7 +20,6 @@ public class HandController : NetworkBehaviour
     private ConfigurableJoint fixedJoint;
     private NetworkVariable<Vector3> desiredPos = new(new(0, -0.3f, 0));
     private bool tryGrab = false;
-    public GameObject heldTool;
 
     void Update()
     {
@@ -80,7 +80,7 @@ public class HandController : NetworkBehaviour
     private void TryGrab()
     {
         Collider[] colliders = Physics.OverlapSphere(GetHandPos(), 0.2f);
-        Collider closestCollider = null;
+        GameObject closestGameObject = null;
         float closestColliderDistance = 100;
         foreach (Collider collider in colliders)
         {
@@ -90,15 +90,22 @@ public class HandController : NetworkBehaviour
                 lower.gameObject == collider.gameObject ||
                 hand.gameObject == collider.gameObject
                 ) continue;
-            if (collider.gameObject.GetComponent<Rigidbody>() == null) continue;
+    
+            GameObject gameObject = collider.gameObject;
+            if (collider.gameObject.GetComponent<Rigidbody>() == null)
+                if (collider.gameObject.transform.parent.TryGetComponent(out Rigidbody rigidbody)) 
+                    gameObject = rigidbody.gameObject;
+                else
+                    continue;
+
             float dis = (collider.ClosestPoint(GetHandPos()) - GetHandPos()).magnitude;
             if (dis < closestColliderDistance)
             {
-                closestCollider = collider;
+                closestGameObject = gameObject;
                 closestColliderDistance = dis;
             }
         }
-        if (closestCollider != null)
+        if (closestGameObject != null)
         {
             tryGrab = false;
             fixedJoint = hand.AddComponent<ConfigurableJoint>();
@@ -107,13 +114,13 @@ public class HandController : NetworkBehaviour
             fixedJoint.yMotion = ConfigurableJointMotion.Locked;
             fixedJoint.zMotion = ConfigurableJointMotion.Locked;
             fixedJoint.projectionMode = JointProjectionMode.PositionAndRotation;
-            fixedJoint.connectedBody = closestCollider.gameObject.GetComponent<Rigidbody>();
-            if (closestCollider.CompareTag("Tool"))
+            fixedJoint.connectedBody = closestGameObject.GetComponent<Rigidbody>();
+            if (closestGameObject.TryGetComponent(out Tool tool))
             {
                 fixedJoint.angularXMotion = ConfigurableJointMotion.Locked;
                 fixedJoint.angularYMotion = ConfigurableJointMotion.Locked;
                 fixedJoint.angularZMotion = ConfigurableJointMotion.Locked;
-                heldTool = closestCollider.gameObject;
+                tool.Grabbed(player);
             }
         }
         else
@@ -131,13 +138,9 @@ public class HandController : NetworkBehaviour
         else
         {
             tryGrab = false;
+            if (fixedJoint.connectedBody.TryGetComponent(out Tool tool))
+                tool.Dropped(player);
             Destroy(fixedJoint);
-            if (heldTool != null)
-            {
-                heldTool.GetComponent<Tool>().isHeld = false;
-                heldTool = null;
-            }
-
         }
     }
 }

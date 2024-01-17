@@ -4,29 +4,46 @@ using UnityEngine;
 
 public abstract class Tool : MonoBehaviour
 {
-    public GameObject tool;
-    public int id;
-    public bool isToggle;
-    public bool isHeld;
-    public bool inUse;
+    [SerializeField] private bool isToggle;
+    private GameObject grabberGameObject;
+    private bool isOn;
+    public void Grabbed(GameObject grabber)
+    {
+        if (grabberGameObject == null)
+            grabberGameObject = grabber;
+        print(grabberGameObject.name);
+    }
 
-    public abstract void Use();
+    public void Dropped(GameObject grabber)
+    {
+        if (grabberGameObject == grabber)
+            grabberGameObject = null;
+    }
 
     public void Update()
     {
-        if (isHeld)
+        if (grabberGameObject != null && grabberGameObject.TryGetComponent(out Player player) && player.IsOwner)
         {
             if (isToggle)
             {
                 if (Input.GetKeyDown(KeyCode.F))
-                    Use();
+                    isOn = !isOn;
             }
             else
             {
                 if (Input.GetKey(KeyCode.F))
-                    Use();
+                    isOn = true;
+            }
+        }
+        if (isOn)
+        {
+            Use();
+            if (!isToggle)
+            {
+                isOn = false;
             }
         }
     }
 
+    protected abstract void Use();
 }

@@ -288,6 +288,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2830236ac66044dea924a73c0c6606c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 2386255832087394861}
   upper: {fileID: 4641885342894522849}
   lower: {fileID: 6545190534462115508}
   hand: {fileID: 4507602367576016891}
@@ -1001,6 +1002,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1960545387113523458}
   - component: {fileID: 2902331854523905222}
+  - component: {fileID: 2756038793411385571}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1051,6 +1053,18 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &2756038793411385571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2386255832087394861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c639fbdcbf32b20478cc4d97a0435cec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2709350595406568886
 GameObject:
   m_ObjectHideFlags: 0
@@ -1197,7 +1211,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 8409355098047720544}
-  torque: 2000
+  torque: 300
 --- !u!64 &6701548963360049101
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1566,6 +1580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2830236ac66044dea924a73c0c6606c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 2386255832087394861}
   upper: {fileID: 8127119152527947083}
   lower: {fileID: 4519813663686804582}
   hand: {fileID: 12168510647692267}
