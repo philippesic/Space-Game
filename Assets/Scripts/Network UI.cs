@@ -16,11 +16,13 @@ public class NetworkUI : MonoBehaviour
     private void Awake() {
         ipText.text = IPManager.GetLocalIPAddress();
         host.onClick.AddListener(() => {
+            Destroy(GetComponentInChildren<Camera>().gameObject);
             NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.Address = IPManager.GetLocalIPAddress();
             NetworkManager.Singleton.StartHost();
             Destroy(gameObject);
         });
         client.onClick.AddListener(() => {
+            Destroy(GetComponentInChildren<Camera>().gameObject);
             NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.Address = ipInput.text;
             NetworkManager.Singleton.StartClient();
             Destroy(gameObject);
