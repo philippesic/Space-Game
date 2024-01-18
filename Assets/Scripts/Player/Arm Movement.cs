@@ -36,5 +36,8 @@ public class ArmMovement : NetworkBehaviour
         // grab with hand
         if (Input.GetKeyDown(KeyCode.Space))
             handController.ToggleGrabServerRpc();
+        
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+            handController.ToggleGripServerRpc();
     }
 }

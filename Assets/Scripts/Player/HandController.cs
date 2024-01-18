@@ -146,9 +146,6 @@ public class HandController : NetworkBehaviour
             fixedJoint.connectedBody = closestGameObject.GetComponent<Rigidbody>();
             if (closestGameObject.TryGetComponent(out Tool tool))
             {
-                fixedJoint.angularXMotion = ConfigurableJointMotion.Locked;
-                fixedJoint.angularYMotion = ConfigurableJointMotion.Locked;
-                fixedJoint.angularZMotion = ConfigurableJointMotion.Locked;
                 tool.Grabbed(player);
             }
         }
@@ -162,5 +159,33 @@ public class HandController : NetworkBehaviour
     public void ToggleGrabServerRpc()
     {
         grab = !grab;
+    }
+
+    [ServerRpc]
+    public void ToggleGripServerRpc()
+    {
+        if (fixedJoint == null) return;
+        if (fixedJoint.angularXMotion == ConfigurableJointMotion.Locked)
+        {
+            fixedJoint.angularXMotion = ConfigurableJointMotion.Free;
+            fixedJoint.angularYMotion = ConfigurableJointMotion.Free;
+            fixedJoint.angularZMotion = ConfigurableJointMotion.Free;
+        }
+        else
+        {
+            Rigidbody other = fixedJoint.connectedBody;
+            Destroy(fixedJoint);
+            fixedJoint = hand.AddComponent<ConfigurableJoint>();
+            fixedJoint.anchor = handTransform.localPosition;
+            fixedJoint.xMotion = ConfigurableJointMotion.Locked;
+            fixedJoint.yMotion = ConfigurableJointMotion.Locked;
+            fixedJoint.zMotion = ConfigurableJointMotion.Locked;
+            fixedJoint.angularXMotion = ConfigurableJointMotion.Locked;
+            fixedJoint.angularYMotion = ConfigurableJointMotion.Locked;
+            fixedJoint.angularZMotion = ConfigurableJointMotion.Locked;
+            fixedJoint.projectionMode = JointProjectionMode.PositionAndRotation;
+            fixedJoint.connectedBody = other;
+            
+        }
     }
 }

@@ -16,7 +16,8 @@ public abstract class Tool : NetworkBehaviour
             grabberGameObject = grabber;
         if (grabberGameObject.TryGetComponent(out Player player))
         {
-            GetComponent<NetworkObject>().ChangeOwnership(player.OwnerClientId);
+            if (player.OwnerClientId != OwnerClientId)
+                GetComponent<NetworkObject>().ChangeOwnership(player.OwnerClientId);
         }
     }
 
@@ -25,7 +26,8 @@ public abstract class Tool : NetworkBehaviour
         if (grabberGameObject == grabber)
             if (grabberGameObject.TryGetComponent(out Player player))
             {
-                GetComponent<NetworkObject>().ChangeOwnership(NetworkManager.ServerClientId);
+                if (NetworkManager.ServerClientId != OwnerClientId)
+                    GetComponent<NetworkObject>().ChangeOwnership(NetworkManager.ServerClientId);
             }
         grabberGameObject = null;
     }
@@ -69,5 +71,5 @@ public abstract class Tool : NetworkBehaviour
             }
         }
     }
-    protected abstract void Use();
+    protected virtual void Use() {}
 }
