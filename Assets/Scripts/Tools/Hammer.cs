@@ -8,9 +8,9 @@ public class Hammer : Tool
     {
         if (!IsServer) return;
         float force = other.impulse.magnitude;
-        if (force > 1.5 && other.collider.TryGetComponent(out Interactable interactable))
+        if (force > 1 && (other.collider.TryGetComponent(out Interactable interactable) || other.collider.transform.parent.TryGetComponent(out interactable)))
         {
-            interactable.GetHammered(force / 3);
+            interactable.GetHammered(force / 40);
         }
     }
 }

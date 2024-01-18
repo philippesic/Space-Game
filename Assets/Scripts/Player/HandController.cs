@@ -109,7 +109,7 @@ public class HandController : NetworkBehaviour
 
     private void TryGrab()
     {
-        Collider[] colliders = Physics.OverlapSphere(GetHandPos(), 0.2f);
+        Collider[] colliders = Physics.OverlapSphere(GetHandPos(), 0.125f);
         GameObject closestGameObject = null;
         float closestColliderDistance = 100;
         foreach (Collider collider in colliders)
