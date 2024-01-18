@@ -11,6 +11,6 @@ public class Panel : Interactable
     {
         health-= damage;
         if (health <= 0)
-            Destroy(gameObject);
+            Destroy();
     }
 }
