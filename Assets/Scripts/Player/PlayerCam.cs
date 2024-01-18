@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Data.Common;
-using Unity.Mathematics;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -23,6 +21,12 @@ public class PlayerCam : NetworkBehaviour
         desiredRotation.z = transform.rotation.z;
         desiredRotation.w = transform.rotation.w;
     }
+
+    void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
 
     public void Update()
     {
