@@ -67,7 +67,9 @@ public class HandController : NetworkBehaviour
     [ServerRpc]
     public void ShiftPostionServerRpc(Vector3 shift)
     {
-        SetPostion(GetDesiredPostion() + shift);
+        Vector3 currentDesiredPostion = GetDesiredPostion();
+        Vector3 direction = currentDesiredPostion / currentDesiredPostion.z;
+        SetPostion((direction + new Vector3(shift.x, shift.y, 0)).normalized * (currentDesiredPostion.magnitude + shift.z));
     }
 
     public Vector3 GetPostion()
