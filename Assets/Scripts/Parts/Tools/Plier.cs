@@ -9,7 +9,7 @@ public class Plier : Tool
     [SerializeField] private Transform pos;
     protected override void Use()
     {
-        Collider[] colliders = Physics.OverlapSphere(pos.position, 0.05f);
+        Collider[] colliders = Physics.OverlapSphere(pos.position, 0.02f);
         foreach (Collider collider in colliders)
         {
             if (collider.TryGetComponent(out Wire wire) || collider.transform.parent.TryGetComponent(out wire))

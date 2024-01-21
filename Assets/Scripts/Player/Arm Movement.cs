@@ -40,4 +40,14 @@ public class ArmMovement : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift))
             handController.ToggleGripServerRpc();
     }
+
+    public HandController GetLeft()
+    {
+        return leftHand;
+    }
+
+    public HandController GetRight()
+    {
+        return rightHand;
+    }
 }

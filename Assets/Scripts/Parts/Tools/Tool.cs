@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public abstract class Tool : NetworkBehaviour
+public abstract class Tool : Part
 {
     [SerializeField] private bool isToggle;
     private GameObject grabberGameObject;

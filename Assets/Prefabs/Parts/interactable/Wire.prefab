@@ -121,6 +121,7 @@ GameObject:
   - component: {fileID: -795775628094690335}
   - component: {fileID: 5219827692744191071}
   - component: {fileID: -4583426113096408685}
+  - component: {fileID: 7772883601727285403}
   m_Layer: 0
   m_Name: Wire
   m_TagString: Untagged
@@ -154,7 +155,7 @@ Rigidbody:
   serializedVersion: 4
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -245,5 +246,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4661c8ddd437b433ba2c32339ddfe05a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7772883601727285403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6829344309848375831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a9730f0667a52e4098b6d06f3a61a7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

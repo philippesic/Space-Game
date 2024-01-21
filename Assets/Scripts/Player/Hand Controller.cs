@@ -72,6 +72,11 @@ public class HandController : NetworkBehaviour
         SetPostion((direction + new Vector3(shift.x, shift.y, 0)).normalized * (currentDesiredPostion.magnitude + shift.z));
     }
 
+    public void RotationBy(Quaternion rotation)
+    {
+        SetPostion(rotation * GetDesiredPostion());
+    }
+
     public Vector3 GetPostion()
     {
         return transform.position;
@@ -189,5 +194,17 @@ public class HandController : NetworkBehaviour
             fixedJoint.connectedBody = other;
             
         }
+    }
+
+    public bool IsHolding()
+    {
+        return grab;
+    }
+
+    public bool IsFixed()
+    {
+        if (fixedJoint != null && fixedJoint.angularXMotion == ConfigurableJointMotion.Locked)
+            return true;
+        return false;
     }
 }

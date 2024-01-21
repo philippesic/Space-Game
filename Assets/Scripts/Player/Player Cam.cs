@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -68,6 +69,17 @@ public class PlayerCam : NetworkBehaviour
     private void AddToDesiredRotationServerRpc(Vector3 rotation)
     {
         desiredRotation *= Quaternion.Euler(rotation);
+        // if (TryGetComponent(out ArmMovement armMovement))
+        // {
+        //     if (armMovement.GetLeft().IsHolding() && !armMovement.GetLeft().IsFixed())
+        //     {
+        //         armMovement.GetLeft().RotationBy(Quaternion.Inverse(Quaternion.Euler(rotation)));
+        //     }
+        //     if (armMovement.GetRight().IsHolding() && !armMovement.GetRight().IsFixed())
+        //     {
+        //         armMovement.GetRight().RotationBy(Quaternion.Inverse(Quaternion.Euler(rotation)));
+        //     }
+        // }
     }
 }
 
