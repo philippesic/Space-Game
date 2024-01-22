@@ -20,6 +20,8 @@ public class HandController : NetworkBehaviour
     [Header("settings")]
     [SerializeField] private float l1 = 0.8f;
     [SerializeField] private float l2 = 0.6f;
+    [SerializeField] private Material notGrabbingMaterial;
+    [SerializeField] private Material grabbingMaterial;
     private ConfigurableJoint fixedJoint;
     private Vector3 desiredPos = new(0, -0.3f, 0);
     private bool grab = false;
@@ -45,6 +47,7 @@ public class HandController : NetworkBehaviour
             }
             else if (fixedJoint != null)
             {
+                hand.GetComponentInChildren<MeshRenderer>().material = notGrabbingMaterial;
                 if (fixedJoint.connectedBody.TryGetComponent(out Tool tool))
                     tool.Dropped(player);
                 Destroy(fixedJoint);
@@ -69,7 +72,11 @@ public class HandController : NetworkBehaviour
     {
         Vector3 currentDesiredPostion = GetDesiredPostion();
         Vector3 direction = currentDesiredPostion / currentDesiredPostion.z;
-        SetPostion((direction + new Vector3(shift.x, shift.y, 0)).normalized * (currentDesiredPostion.magnitude + shift.z));
+        Vector3 pos = (direction + new Vector3(shift.x, shift.y, 0)).normalized;
+        if (pos.z < 0.55f)
+            pos.z = 0.55f;
+            pos.Normalize();
+        SetPostion(pos * (currentDesiredPostion.magnitude + shift.z));
     }
 
     public void RotationBy(Quaternion rotation)
@@ -144,6 +151,7 @@ public class HandController : NetworkBehaviour
         }
         if (closestGameObject != null)
         {
+            hand.GetComponentInChildren<MeshRenderer>().material = grabbingMaterial;
             fixedJoint = hand.AddComponent<ConfigurableJoint>();
             fixedJoint.anchor = handTransform.localPosition;
             fixedJoint.xMotion = ConfigurableJointMotion.Locked;

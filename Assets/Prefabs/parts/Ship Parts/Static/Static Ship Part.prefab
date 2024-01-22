@@ -213,4 +213,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4db904267b81fb47818511b04708b90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doDrag: 0

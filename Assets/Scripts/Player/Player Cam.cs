@@ -31,6 +31,17 @@ public class PlayerCam : NetworkBehaviour
 
     public void Update()
     {
+        if (IsClient)
+        {
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                if (Cursor.lockState == CursorLockMode.None)
+                    Cursor.lockState = CursorLockMode.Locked;
+                else
+                    Cursor.lockState = CursorLockMode.None;
+            }
+        }
+
         if (IsServer)
         {
             Quaternion rotationDifference = desiredRotation * Quaternion.Inverse(player.rotation);
