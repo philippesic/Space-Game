@@ -33,4 +33,11 @@ public class WaveFunction : ScriptableObject
             array3d[(int) pos.x, (int) pos.y, (int) pos.z] = ShipPartMannager.Singleton.shipParts.ToList();
         }
     }
+
+    private bool UpdatePos(Vector3 pos)
+    {
+        
+
+        return false;
+    }
 }
