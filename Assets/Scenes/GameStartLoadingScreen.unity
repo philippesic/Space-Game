@@ -689,6 +689,60 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1075602046}
   m_CullTransparentMesh: 1
+--- !u!1 &1091584524
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1091584526}
+  - component: {fileID: 1091584525}
+  m_Layer: 0
+  m_Name: Ship Mannager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1091584525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1091584524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d699024f4d4a6ef4489cec1b907cd42b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shipParts:
+  - {fileID: -3896168484956746187, guid: 6c260b4af48d04290a67e4b175893094, type: 3}
+  - {fileID: 95248015125021390, guid: 223cea5d55b604e9bab7c7da3d43c48d, type: 3}
+  - {fileID: -7594122872359094809, guid: 8c21496e1bfe74c85b194c4a24eee280, type: 3}
+  - {fileID: 95248015125021390, guid: 0f6967a69023f97478bda30349c3f303, type: 3}
+  - {fileID: 4838613832075293640, guid: 1b00c4d8f2704407fb9711076f6e85c6, type: 3}
+  - {fileID: -5162521845813553125, guid: 06f2125dfc13745b9a79bab0b5c37200, type: 3}
+  - {fileID: -9120565637034703040, guid: cb0c5439b85964a1898b1e5d447338f6, type: 3}
+  - {fileID: 4388999265614580580, guid: 0e48226a49344440c94972e673b37b4d, type: 3}
+  - {fileID: -4869111867669218301, guid: 4040ebc04b6a24ad9a35b1bbf9c41d2a, type: 3}
+--- !u!4 &1091584526
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1091584524}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -10.156153, y: 4.7032504, z: 16.289927}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1410265981
 GameObject:
   m_ObjectHideFlags: 0
@@ -840,3 +894,4 @@ SceneRoots:
   - {fileID: 1410265983}
   - {fileID: 479546111}
   - {fileID: 328145537}
+  - {fileID: 1091584526}

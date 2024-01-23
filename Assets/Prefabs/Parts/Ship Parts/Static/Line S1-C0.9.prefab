@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 6339824367420703803}
   - component: {fileID: 2003239768026874259}
   - component: {fileID: 2231596763468119382}
-  - component: {fileID: 3216234102960846590}
+  - component: {fileID: 4388999265614580580}
   m_Layer: 0
-  m_Name: Square Connector
+  m_Name: Line S1-C0.9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3216234102960846590
+--- !u!114 &4388999265614580580
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -138,9 +138,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 263580051617710068}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4db904267b81fb47818511b04708b90, type: 3}
+  m_Script: {fileID: 11500000, guid: 50a8a7862acd44fc5bee25d3b50d49cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  connectors:
+  - size: 1
+    type: 1
+    direction: {x: 1, y: 0, z: 0}
+  - size: 0.9
+    type: 2
+    direction: {x: -1, y: 0, z: 0}
 --- !u!1 &947008487510653356
 GameObject:
   m_ObjectHideFlags: 0

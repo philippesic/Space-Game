@@ -116,12 +116,12 @@ GameObject:
   m_Component:
   - component: {fileID: 8716320185391917353}
   - component: {fileID: -2765688806487257079}
+  - component: {fileID: 7842394391680607459}
   - component: {fileID: 7280009766522734312}
   - component: {fileID: 758696779941184320}
-  - component: {fileID: 7842394391680607459}
-  - component: {fileID: 7595828765330573974}
+  - component: {fileID: 4838613832075293640}
   m_Layer: 0
-  m_Name: Tank Body
+  m_Name: Line C2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -170,6 +170,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &7842394391680607459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6897442586398729795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 265664933
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!114 &7280009766522734312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,7 +234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7842394391680607459
+--- !u!114 &4838613832075293640
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -222,27 +243,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6897442586398729795}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Script: {fileID: 11500000, guid: 50a8a7862acd44fc5bee25d3b50d49cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3355895801
-  InScenePlacedSourceGlobalObjectIdHash: 0
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
---- !u!114 &7595828765330573974
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6897442586398729795}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4db904267b81fb47818511b04708b90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  connectors:
+  - size: 2
+    type: 2
+    direction: {x: 0, y: 1, z: 0}
+  - size: 2
+    type: 2
+    direction: {x: 0, y: -1, z: 0}
