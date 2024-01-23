@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 4541082077757352636}
   m_Layer: 0
   m_Name: Pos (3)
-  m_TagString: Large
+  m_TagString: Small
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -139,7 +139,7 @@ GameObject:
   - component: {fileID: 2320135010453046159}
   m_Layer: 0
   m_Name: Pos (4)
-  m_TagString: Large
+  m_TagString: Small
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
