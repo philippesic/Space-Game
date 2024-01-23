@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1354659421}
-  m_IndirectSpecularColor: {r: 0.1904257, g: 0.14258197, b: 0.15262991, a: 1}
+  m_IndirectSpecularColor: {r: 0.18990731, g: 0.1426116, b: 0.15199837, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -869,6 +869,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50a8a7862acd44fc5bee25d3b50d49cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  connectors: []
 --- !u!4 &159209712 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4521960353665844, guid: 5f51a2d72c55f9f4788ea118ddccce4a, type: 3}
@@ -5044,6 +5045,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50a8a7862acd44fc5bee25d3b50d49cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  connectors: []
 --- !u!1001 &384939078
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5682,6 +5684,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50a8a7862acd44fc5bee25d3b50d49cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  connectors: []
 --- !u!1 &711904959 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 927822029424108571, guid: 0daf96c15d4c97b4e9e526f6acfce2f0, type: 3}
@@ -5985,6 +5988,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50a8a7862acd44fc5bee25d3b50d49cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  connectors: []
 --- !u!1 &734659322
 GameObject:
   m_ObjectHideFlags: 0
@@ -6610,6 +6614,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50a8a7862acd44fc5bee25d3b50d49cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  connectors: []
 --- !u!1 &800805768
 GameObject:
   m_ObjectHideFlags: 0
@@ -8032,6 +8037,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50a8a7862acd44fc5bee25d3b50d49cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  connectors: []
 --- !u!1001 &941965252
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8295,6 +8301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50a8a7862acd44fc5bee25d3b50d49cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  connectors: []
 --- !u!1 &961466687
 GameObject:
   m_ObjectHideFlags: 0
@@ -8658,6 +8665,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50a8a7862acd44fc5bee25d3b50d49cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  connectors: []
 --- !u!1 &993016806 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4349426340394866435, guid: 0daf96c15d4c97b4e9e526f6acfce2f0, type: 3}
@@ -9995,6 +10003,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50a8a7862acd44fc5bee25d3b50d49cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  connectors: []
 --- !u!1001 &1086963769
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10592,6 +10601,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50a8a7862acd44fc5bee25d3b50d49cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  connectors: []
 --- !u!1 &1221665000
 GameObject:
   m_ObjectHideFlags: 0
@@ -11201,6 +11211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50a8a7862acd44fc5bee25d3b50d49cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  connectors: []
 --- !u!1 &1370528446
 GameObject:
   m_ObjectHideFlags: 0
@@ -11505,6 +11516,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50a8a7862acd44fc5bee25d3b50d49cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  connectors: []
 --- !u!1 &1534000888
 GameObject:
   m_ObjectHideFlags: 0
@@ -11707,6 +11719,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50a8a7862acd44fc5bee25d3b50d49cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  connectors: []
 --- !u!1 &1646250731
 GameObject:
   m_ObjectHideFlags: 0
@@ -11841,6 +11854,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50a8a7862acd44fc5bee25d3b50d49cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  connectors: []
 --- !u!4 &1690912726 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4521960353665844, guid: 5f51a2d72c55f9f4788ea118ddccce4a, type: 3}
@@ -12369,6 +12383,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50a8a7862acd44fc5bee25d3b50d49cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  connectors: []
 --- !u!1 &1718434982 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6229118750290770610, guid: 0daf96c15d4c97b4e9e526f6acfce2f0, type: 3}
@@ -13134,6 +13149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50a8a7862acd44fc5bee25d3b50d49cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  connectors: []
 --- !u!1 &1732227100
 GameObject:
   m_ObjectHideFlags: 0
