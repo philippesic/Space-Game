@@ -9,7 +9,7 @@ public class TaskMannager : MonoBehaviour
 
     private List<Task> tasks = new();
 
-    void Start()
+    private void Awake()
     {
         Singleton = this;
     }

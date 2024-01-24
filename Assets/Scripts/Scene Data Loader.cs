@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class SceneDataLoader : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
         NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.Address = GameLoadingData.ip;
