@@ -20,7 +20,10 @@ public static class WaveFunction
         }
     }
 
-    private static readonly int areaSize = 2;
+    private static int areaXSize;
+    private static int areaYSize;
+    private static int areaZSize;
+
 
     private static List<PieceData> pieceDatas;
     private static List<PieceData>[,,] array3d;
@@ -92,11 +95,11 @@ public static class WaveFunction
 
     private static void SendToContainer(ShipPartContainer container)
     {
-        for (int x = 0; x < areaSize; x++)
+        for (int x = 0; x < areaXSize; x++)
         {
-            for (int y = 0; y < areaSize; y++)
+            for (int y = 0; y < areaYSize; y++)
             {
-                for (int z = 0; z < areaSize; z++)
+                for (int z = 0; z < areaZSize; z++)
                 {
                     List<PieceData> posData = GetPos(x, y, z);
                     if (posData.Count > 0)
@@ -108,15 +111,18 @@ public static class WaveFunction
         }
     }
 
-    public static void DoWaveFunction(ShipPartContainer container)
+    public static void Setup(Vector3 size)
     {
-        array3d = new List<PieceData>[areaSize, areaSize, areaSize];
+        areaXSize = (int)size.x;
+        areaYSize = (int)size.y;
+        areaZSize = (int)size.z;
+        array3d = new List<PieceData>[areaXSize, areaYSize, areaZSize];
 
-        for (int x = 0; x < areaSize; x++)
+        for (int x = 0; x < areaXSize; x++)
         {
-            for (int y = 0; y < areaSize; y++)
+            for (int y = 0; y < areaYSize; y++)
             {
-                for (int z = 0; z < areaSize; z++)
+                for (int z = 0; z < areaZSize; z++)
                 {
                     SetPos(x, y, z, new());
                 }
@@ -131,8 +137,10 @@ public static class WaveFunction
                 pieceDatas.Add(new PieceData(rotation, shipPart));
             }
         }
+    }
 
-        PlaceLine(new(0, 0, 0), new(0, 0, 1));
+    public static void DoWaveFunction(ShipPartContainer container)
+    {
         bool keepGoing = true;
         while (keepGoing)
         {
@@ -147,26 +155,35 @@ public static class WaveFunction
                 }
                 toUpdate.RemoveAt(0);
             }
-            keepGoing = false;
-            for (int x = 0; x < areaSize; x++)
-            {
-                for (int y = 0; y < areaSize; y++)
-                {
-                    for (int z = 0; z < areaSize; z++)
-                    {
-                        var datas = GetPos(x, y, z);
-                        if (datas.Count > 1)
-                        {
-                            SetPos(new(x, y, z), new List<PieceData>() { datas[Random.Range(0, datas.Count - 1)] });
 
-                            toUpdate.Add(new(x, y, z));
-                            keepGoing = true;
+            keepGoing = CheckIfDone();
+        }
+        SendToContainer(container);
+    }
+
+    private static bool CheckIfDone()
+    {
+        for (int x = 0; x < areaXSize; x++)
+        {
+            for (int y = 0; y < areaYSize; y++)
+            {
+                for (int z = 0; z < areaZSize; z++)
+                {
+                    var datas = GetPos(x, y, z);
+                    if (datas.Count > 1)
+                    {
+                        SetPos(new(x, y, z), new List<PieceData>() { datas[Random.Range(0, datas.Count - 1)] });
+                        foreach (Vector3 direction in directions)
+                        {
+                            toUpdate.Add(new Vector3(x, y, z) + direction);
                         }
+                        toUpdate.Add(new(x, y, z));
+                        return true;
                     }
                 }
             }
         }
-        SendToContainer(container);
+        return false;
     }
 
     public static void PlaceLine(Vector3 pos1, Vector3 pos2)
@@ -174,8 +191,11 @@ public static class WaveFunction
         Vector3 normal = (pos2 - pos1).normalized;
         for (int i = 0; i <= (int)(pos1 - pos2).magnitude; i++)
         {
-            SetPos(pos1 + normal * i, pieceDatas.ToList());
-            toUpdate.Add(pos1 + normal * i);
+            if (GetPos(pos1 + normal * i).Count == 0)
+            {
+                SetPos(pos1 + normal * i, pieceDatas.ToList());
+                toUpdate.Add(pos1 + normal * i);
+            }
         }
     }
 
@@ -184,7 +204,6 @@ public static class WaveFunction
         bool doOtherUpdates = false;
         List<PieceData> dataAtPos = GetPos(pos);
         int i = 0;
-        Debug.Log(dataAtPos.Count);
         while (i < dataAtPos.Count)
         {
             PieceData pieceData = dataAtPos[i];
@@ -193,11 +212,11 @@ public static class WaveFunction
                 doOtherUpdates = true;
                 dataAtPos.Remove(pieceData);
             }
-            else{
+            else
+            {
                 i++;
             }
         }
-        Debug.Log(dataAtPos.Count);
         return doOtherUpdates;
     }
 
@@ -225,17 +244,16 @@ public static class WaveFunction
         List<PieceData> pieceDatas = GetPos(pos + direction);
         if (partConnection == null)
         {
-            // foreach (PieceData data in pieceDatas)
-            // {
-            //     foreach (ShipPart.ShipPartConnection connection in data.shipPart.connectors)
-            //     {
-            //         if (CheckIfSameDirection(data.rotation * connection.direction, -direction))
-            //         {
-            //             Debug.Log(1);
-            //             return false;
-            //         }
-            //     }
-            // }
+            foreach (PieceData data in pieceDatas)
+            {
+                foreach (ShipPart.ShipPartConnection connection in data.shipPart.connectors)
+                {
+                    if (CheckIfSameDirection(data.rotation * connection.direction, -direction))
+                    {
+                        return false;
+                    }
+                }
+            }
             return true;
         }
         foreach (PieceData data in pieceDatas)

@@ -728,6 +728,12 @@ MonoBehaviour:
   - {fileID: -9120565637034703040, guid: cb0c5439b85964a1898b1e5d447338f6, type: 3}
   - {fileID: 4388999265614580580, guid: 0e48226a49344440c94972e673b37b4d, type: 3}
   - {fileID: -4869111867669218301, guid: 4040ebc04b6a24ad9a35b1bbf9c41d2a, type: 3}
+  - {fileID: -7594122872359094809, guid: 3acbbba66d560b94da74085f92a0aaaf, type: 3}
+  - {fileID: -7594122872359094809, guid: 54d54a64f58c256458075b4581468bd3, type: 3}
+  smallParts:
+  - {fileID: 3114323426848731896, guid: 96e9642585df8a1489d62f4b9258ddbd, type: 3}
+  largeParts:
+  - {fileID: 2436875600942729899, guid: 21a5fb3b9952a4eb7b1567fdf0fd2a8a, type: 3}
 --- !u!4 &1091584526
 Transform:
   m_ObjectHideFlags: 0

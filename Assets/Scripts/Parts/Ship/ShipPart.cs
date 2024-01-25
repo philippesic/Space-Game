@@ -14,7 +14,7 @@ public class ShipPart : Part
             square = 1,
             circle = 2
         }
-    
+
         public ShipPartConnection(float size, ConnectionType type, Vector3 direction)
         {
             this.size = size;
@@ -32,5 +32,37 @@ public class ShipPart : Part
         }
     }
 
-    public List<ShipPartConnection> connectors = new() ;
+    public List<ShipPartConnection> connectors = new();
+
+    public List<Transform> GetSmallPartConnections()
+    {
+        Transform partPositions = transform.Find("PartPositions");
+        if (partPositions == null) return new();
+        List<Transform> transforms = new();
+        for (int i = 0; i < partPositions.childCount; i++)
+        {
+            Transform pos = partPositions.GetChild(i);
+            if (pos.CompareTag("Small"))
+            {
+                transforms.Add(pos);
+            }
+        }
+        return transforms;
+    }
+
+    public List<Transform> GetLargePartConnections()
+    {
+        Transform partPositions = transform.Find("PartPositions");
+        if (partPositions == null) return new();
+        List<Transform> transforms = new();
+        for (int i = 0; i < partPositions.childCount; i++)
+        {
+            Transform pos = partPositions.GetChild(i);
+            if (pos.CompareTag("Large"))
+            {
+                transforms.Add(pos);
+            }
+        }
+        return transforms;
+    }
 }
