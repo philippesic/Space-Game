@@ -1260,7 +1260,7 @@ MonoBehaviour:
   leftHand: {fileID: 9198256637202451754}
   rightHand: {fileID: 2520409822167150014}
   movementSpeed: 8
-  scrollSpeed: 5
+  scrollSpeed: 1
 --- !u!114 &1778394790058839435
 MonoBehaviour:
   m_ObjectHideFlags: 0
