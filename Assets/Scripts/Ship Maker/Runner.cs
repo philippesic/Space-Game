@@ -6,12 +6,11 @@ public class Runner : MonoBehaviour
 {
     [SerializeField] private ShipPartContainer container = null;
 
-    void Start()
+    private void Start()
     {
         if (container != null)
         {
             MakeSpaceStation.MakeStation(container, new Vector3(7, 4, 20));
         }
     }
-
 }
