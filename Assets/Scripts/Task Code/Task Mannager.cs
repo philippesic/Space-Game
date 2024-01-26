@@ -7,7 +7,8 @@ public class TaskMannager : MonoBehaviour
 {
     public static TaskMannager Singleton { get; private set; }
 
-    private List<Task> tasks = new();
+    private readonly List<Task> pTasks = new();
+    private readonly List<Task> tasks = new();
 
     private void Awake()
     {
@@ -17,6 +18,11 @@ public class TaskMannager : MonoBehaviour
     public void AddTask(Task task)
     {
         tasks.Add(task);
+    }
+
+    public void AddPTask(Task pTask)
+    {
+        pTasks.Add(pTask);
     }
 
     void Update()
@@ -30,5 +36,10 @@ public class TaskMannager : MonoBehaviour
                 break;
             }
         }
+    }
+
+    public void MakeTasks(float lenght, float difficulty)
+    {
+        // do later
     }
 }
