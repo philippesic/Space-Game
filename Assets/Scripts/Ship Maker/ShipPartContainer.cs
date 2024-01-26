@@ -16,7 +16,7 @@ public class ShipPartContainer : MonoBehaviour
     {
         GameObject partGameObject = Instantiate(prefab, position, rotation, transform);
         print(partGameObject.name);
-        if (partGameObject.TryGetComponent(out NetworkObject networkObject)) networkObject.Spawn(true);
+        if (partGameObject.TryGetComponent(out NetworkObject networkObject)) networkObject.Spawn();
         if (partGameObject.TryGetComponent(out ShipPart shipPart))
         {
             partGameObject.transform.position = position * shipPartScale + transform.position;
