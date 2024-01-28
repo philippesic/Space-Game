@@ -4,9 +4,13 @@ using UnityEngine;
 
 public abstract class Task : MonoBehaviour
 {
+    public abstract float difficulty {get; set;}
+    public abstract float lenght {get; set;}
+
     void Start()
     {
-        TaskMannager.Singleton.AddTask(this);
+
+        TaskMannager.Singleton.AddPTask(this);
     }
 
     public abstract bool CheckIfDone();

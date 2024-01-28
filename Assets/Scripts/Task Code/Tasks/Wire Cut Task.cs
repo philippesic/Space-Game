@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class WireCutTask : Task
 {
+    public override float difficulty { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    public override float lenght { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+
     public override bool CheckIfDone()
     {
         if (!gameObject.activeSelf)
