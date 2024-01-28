@@ -104,7 +104,7 @@ public static class WaveFunction
                     List<PieceData> posData = GetPos(x, y, z);
                     if (posData.Count > 0)
                     {
-                        container.AddPart(posData[0].shipPart.gameObject, new Vector3(x, y, z), posData[0].rotation);
+                        container.AddPart(posData[0].shipPart.gameObject, new Vector3(x, y, z), posData[0].rotation, true);
                     }
                 }
             }

@@ -6,6 +6,7 @@ using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using Unity.Netcode;
+using UnityEngine.AI;
 
 public class HandController : NetworkBehaviour
 {
@@ -21,31 +22,31 @@ public class HandController : NetworkBehaviour
     [SerializeField] private float l1 = 0.8f;
     [SerializeField] private float l2 = 0.6f;
     [SerializeField] private Material notGrabbingMaterial;
+    [SerializeField] private Material canGrabMaterial;
+
     [SerializeField] private Material grabbingMaterial;
     private ConfigurableJoint fixedJoint;
     private Vector3 desiredPos = new(0, -0.3f, 0);
     private bool grab = false;
 
-    void Start()
-    {
-        // if (!IsHost)
-        // {
-        //     Destroy(upper);
-        //     Destroy(lower);
-        //     Destroy(hand);
-
-        // }
-    }
-
     void Update()
     {
         if (IsServer)
         {
-            if (grab)
+
+            if (fixedJoint == null)
             {
-                if (fixedJoint == null) TryGrab();
+                if (grab) TryGrab();
+                else if (TryGrapCheck(out _))
+                {
+                    hand.GetComponentInChildren<MeshRenderer>().material = canGrabMaterial;
+                }
+                else
+                {
+                    hand.GetComponentInChildren<MeshRenderer>().material = notGrabbingMaterial;
+                }
             }
-            else if (fixedJoint != null)
+            else if (!grab)
             {
                 hand.GetComponentInChildren<MeshRenderer>().material = notGrabbingMaterial;
                 if (fixedJoint.connectedBody.TryGetComponent(out Tool tool))
@@ -54,6 +55,10 @@ public class HandController : NetworkBehaviour
                 fixedJoint = null;
             }
             UpdateJoints();
+        }
+        if (IsOwner)
+        {
+
         }
     }
 
@@ -75,7 +80,7 @@ public class HandController : NetworkBehaviour
         Vector3 pos = (direction + new Vector3(shift.x, shift.y, 0)).normalized;
         if (pos.z < 0.55f)
             pos.z = 0.55f;
-            pos.Normalize();
+        pos.Normalize();
         SetPostion(pos * (currentDesiredPostion.magnitude + shift.z));
     }
 
@@ -121,10 +126,10 @@ public class HandController : NetworkBehaviour
         return handTransform.position;
     }
 
-    private void TryGrab()
+    private bool TryGrapCheck(out GameObject closestGameObject)
     {
         Collider[] colliders = Physics.OverlapSphere(GetHandPos(), 0.125f);
-        GameObject closestGameObject = null;
+        closestGameObject = null;
         float closestColliderDistance = 100;
         foreach (Collider collider in colliders)
         {
@@ -149,7 +154,12 @@ public class HandController : NetworkBehaviour
                 closestColliderDistance = dis;
             }
         }
-        if (closestGameObject != null)
+        return closestGameObject != null;
+    }
+
+    private void TryGrab()
+    {
+        if (TryGrapCheck(out GameObject closestGameObject))
         {
             hand.GetComponentInChildren<MeshRenderer>().material = grabbingMaterial;
             fixedJoint = hand.AddComponent<ConfigurableJoint>();
@@ -200,7 +210,7 @@ public class HandController : NetworkBehaviour
             fixedJoint.angularZMotion = ConfigurableJointMotion.Locked;
             fixedJoint.projectionMode = JointProjectionMode.PositionAndRotation;
             fixedJoint.connectedBody = other;
-            
+
         }
     }
 

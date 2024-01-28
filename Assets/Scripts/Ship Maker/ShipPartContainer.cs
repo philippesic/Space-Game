@@ -11,20 +11,32 @@ public class ShipPartContainer : MonoBehaviour
     [SerializeField] private float shipPartScale = 2;
     [SerializeField] private float otherScale = 1;
 
-    
-    public void AddPart(GameObject prefab, Vector3 position, Quaternion rotation)
+
+    public void AddPart(GameObject prefab, Vector3 position, Quaternion rotation, bool usingGridPos = false)
     {
-        GameObject partGameObject = Instantiate(prefab, position, rotation, transform);
-        print(partGameObject.name);
-        if (partGameObject.TryGetComponent(out NetworkObject networkObject)) networkObject.Spawn();
+        GameObject partGameObject = Instantiate(prefab, position, rotation);
+        if (partGameObject.TryGetComponent(out NetworkObject networkObject))
+        {
+            AllPartContainer.Singleton.AddCreatedPart(networkObject);
+        }
+        else
+        {
+            foreach (NetworkObject networkObj in partGameObject.GetComponentsInChildren<NetworkObject>())
+            {
+                AllPartContainer.Singleton.AddCreatedPart(networkObj);
+            }
+            Destroy(partGameObject);
+        }
         if (partGameObject.TryGetComponent(out ShipPart shipPart))
         {
-            partGameObject.transform.position = position * shipPartScale + transform.position;
-            partGameObject.transform.localScale = new(shipPartScale, shipPartScale, shipPartScale); 
+            if (usingGridPos) partGameObject.transform.position = position * shipPartScale + transform.position;
+            partGameObject.transform.localScale = new(shipPartScale, shipPartScale, shipPartScale);
             shipParts.Add(shipPart);
-        } else
+        }
+        else
         {
-            partGameObject.transform.localScale = new(otherScale, otherScale, otherScale); 
+            if (usingGridPos) partGameObject.transform.position = position * shipPartScale + transform.position;
+            partGameObject.transform.localScale = new(otherScale, otherScale, otherScale);
             otherObjects.Add(partGameObject);
         }
     }

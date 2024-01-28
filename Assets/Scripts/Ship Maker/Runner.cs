@@ -7,12 +7,17 @@ public class Runner : MonoBehaviour
 {
     [SerializeField] private ShipPartContainer container = null;
 
-    void Start()
+    void Update()
     {
-        print("-run-");
-        if (container != null)
+        if (NetworkManager.Singleton.IsServer)
         {
-            MakeSpaceStation.MakeStation(container, new Vector3(7, 4, 20));
+            print("-run-");
+            if (container != null)
+            {
+                MakeSpaceStation.MakeStation(container, new Vector3(7, 4, 20));
+            }
+            Destroy(gameObject);
         }
+        else Destroy(gameObject);
     }
 }

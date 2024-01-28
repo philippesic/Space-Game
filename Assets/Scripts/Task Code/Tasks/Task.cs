@@ -9,7 +9,6 @@ public abstract class Task : MonoBehaviour
 
     void Start()
     {
-
         TaskMannager.Singleton.AddPTask(this);
     }
 

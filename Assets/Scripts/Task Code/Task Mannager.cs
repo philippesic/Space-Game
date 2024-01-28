@@ -41,6 +41,6 @@ public class TaskMannager : MonoBehaviour
 
     public void MakeTasks(float lenght, float difficulty)
     {
-        
+
     }
 }
