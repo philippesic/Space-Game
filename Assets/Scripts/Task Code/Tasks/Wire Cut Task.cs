@@ -5,8 +5,11 @@ using UnityEngine;
 
 public class WireCutTask : Task
 {
-    public override float difficulty { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-    public override float lenght { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    protected override void Awake() {
+        base.Awake();
+        difficulty = 1;
+        lenght = 4;
+    }
 
     public override bool CheckIfDone()
     {

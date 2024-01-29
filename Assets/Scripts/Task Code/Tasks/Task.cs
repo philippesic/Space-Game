@@ -4,10 +4,10 @@ using UnityEngine;
 
 public abstract class Task : MonoBehaviour
 {
-    public abstract float difficulty {get; set;}
-    public abstract float lenght {get; set;}
+    public float difficulty;
+    public float lenght;
 
-    void Start()
+    protected virtual void Awake()
     {
         TaskMannager.Singleton.AddPTask(this);
     }

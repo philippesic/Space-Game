@@ -32,8 +32,8 @@ Transform:
   m_GameObject: {fileID: 288749641547860220}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.75, z: -0}
+  m_LocalScale: {x: 1, y: 1.113, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1960545387113523458}
@@ -313,7 +313,7 @@ Transform:
   m_GameObject: {fileID: 362538361706137005}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 4, z: 0}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -569,9 +569,9 @@ Transform:
   m_GameObject: {fileID: 1042458629521401535}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
+  m_LocalPosition: {x: 0, y: -0.57, z: 0}
+  m_LocalScale: {x: 1, y: 1.22, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1960545387113523458}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -664,7 +664,7 @@ ConfigurableJoint:
   m_Anchor: {x: -4.75, y: 2.5, z: -6}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -4.75, y: 2.500001, z: -6.0000014}
+  m_ConnectedAnchor: {x: -4.75, y: 2.550001, z: -6.0000014}
   serializedVersion: 3
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
@@ -851,9 +851,9 @@ Transform:
   m_GameObject: {fileID: 2081964538766299057}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
+  m_LocalPosition: {x: 0, y: 0.75, z: 0}
+  m_LocalScale: {x: 1, y: 1.113, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1960545387113523458}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -946,7 +946,7 @@ ConfigurableJoint:
   m_Anchor: {x: 5, y: 10.8, z: -6}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 5, y: 12.800005, z: -6.0000014}
+  m_ConnectedAnchor: {x: 5, y: 11.14167, z: -6.0000014}
   serializedVersion: 3
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
@@ -1190,7 +1190,7 @@ MonoBehaviour:
   leftHand: {fileID: 9198256637202451754}
   rightHand: {fileID: 2520409822167150014}
   movementSpeed: 8
-  scrollSpeed: 5
+  scrollSpeed: 2
 --- !u!1 &2709350595406568886
 GameObject:
   m_ObjectHideFlags: 0
@@ -1257,7 +1257,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1965638797717698537}
   m_Father: {fileID: 1960545387113523458}
@@ -1438,8 +1438,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 6.39979, y: 6.854514, z: 7.3117604}
-  m_Center: {x: 0, y: 1.7137467, z: -5.261749}
+  m_Size: {x: 6.39979, y: 6.854514, z: 5.776356}
+  m_Center: {x: 0, y: 1.7137467, z: -6.0294456}
 --- !u!1 &4473907353791425368
 GameObject:
   m_ObjectHideFlags: 0
@@ -1586,9 +1586,9 @@ Transform:
   m_GameObject: {fileID: 4896220594883994708}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
+  m_LocalPosition: {x: 0, y: -0.57, z: 0}
+  m_LocalScale: {x: 1, y: 1.2, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1960545387113523458}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

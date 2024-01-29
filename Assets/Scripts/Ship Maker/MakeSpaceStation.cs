@@ -63,5 +63,8 @@ public static class MakeSpaceStation
 
 
         SmallerPartAdder.AddSmallerParts(container);
+
+
+        TaskMannager.Singleton.MakeTasks();
     }
 }
