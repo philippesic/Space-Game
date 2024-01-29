@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class Task : MonoBehaviour
 {
     public float difficulty;
-    public float lenght;
+    public float length;
 
     protected virtual void Awake()
     {

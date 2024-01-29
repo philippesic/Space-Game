@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class WireCutTask : Task
 {
-    protected override void Awake() {
+    protected override void Awake()
+    {
         base.Awake();
         difficulty = 1;
-        lenght = 4;
+        length = 1;
     }
 
     public override bool CheckIfDone()
