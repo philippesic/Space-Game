@@ -1,6 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+<<<<<<< Updated upstream
+=======
+using System.Linq;
+using Unity.Netcode;
+using Unity.VisualScripting;
+>>>>>>> Stashed changes
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -38,6 +44,18 @@ public class TaskMannager : MonoBehaviour
 
     void Update()
     {
+        if (tasks.Count > 0)
+        {
+            if (tasks.First().GetComponent<FindTask>() == null)
+            {
+                tasks.First().gameObject.AddComponent<FindTask>();
+            }
+        }
+        else
+        {
+            AddTask(pTasks.First());
+        }
+
         foreach (Task task in tasks)
         {
             if (task.CheckIfDone())
