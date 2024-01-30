@@ -8,7 +8,6 @@ public class DisplayTasks : MonoBehaviour
 {
     private readonly Dictionary<Task, GameObject> texts = new();
     [SerializeField] private GameObject uiTextPerfab;
-    private int i = 0;
     private Transform playerTransform;
 
     void Update()
