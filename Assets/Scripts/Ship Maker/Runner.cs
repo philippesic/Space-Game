@@ -11,7 +11,6 @@ public class Runner : MonoBehaviour
     {
         if (NetworkManager.Singleton.IsServer)
         {
-            print("-run-");
             if (container != null)
             {
                 MakeSpaceStation.MakeStation(container, new Vector3(7, 4, 20));
