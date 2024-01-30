@@ -9,6 +9,7 @@ public class DisplayTasks : MonoBehaviour
     private readonly Dictionary<Task, GameObject> texts = new();
     [SerializeField] private GameObject uiTextPerfab;
     private Transform playerTransform;
+    [SerializeField] private TextMeshProUGUI taskList;
 
     void Update()
     {
@@ -21,8 +22,10 @@ public class DisplayTasks : MonoBehaviour
         }
         else
         {
+            string taskListText = "";
             foreach (var task in TaskMannager.Singleton.tasks)
             {
+                taskListText += "task" + "\n";
                 GameObject textUI;
                 if (Vector3.Angle(task.transform.position - playerTransform.Find("Body").transform.position, playerTransform.Find("Body").transform.up) > 90)
                 {
@@ -49,6 +52,10 @@ public class DisplayTasks : MonoBehaviour
                 }
                 textUI.transform.position = playerTransform.GetComponentInChildren<Camera>().WorldToScreenPoint(task.transform.position);
 
+            }
+            if (taskList.text != taskListText)
+            {
+                taskList.text = taskListText;
             }
         }
     }
