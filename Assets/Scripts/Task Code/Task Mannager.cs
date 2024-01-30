@@ -77,7 +77,7 @@ public class TaskMannager : MonoBehaviour
             int i = Random.Range(0, pTasks.Count);
             print(i);
             Task task = pTasks[i];
-            if (task.length < length && task.difficulty < difficulty)
+            if (task.length <= length && task.difficulty <= difficulty)
             {
                 //difficulty -= task.difficulty;
                 length -= task.length;
