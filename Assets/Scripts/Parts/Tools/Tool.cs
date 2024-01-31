@@ -71,5 +71,5 @@ public abstract class Tool : Part
             }
         }
     }
-    protected virtual void Use() {}
+    protected virtual void Use() { }
 }
