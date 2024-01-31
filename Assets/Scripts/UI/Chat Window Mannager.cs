@@ -35,6 +35,7 @@ public class ChatWindowMannager : MonoBehaviour
     void Start()
     {
         Application.logMessageReceived += HandleLog;
+        scrollRect.gameObject.SetActive(false);
     }
 
     void HandleLog(string logString, string stackTrace, LogType type)

@@ -19,9 +19,9 @@ public class ArmMovement : NetworkBehaviour
         if (!IsOwner) return;
 
         if (Input.GetKey(KeyCode.Mouse0))
-            leftHoldTime += Time.deltaTime;
+            leftHoldTime += Time.deltaTime + GetMouseData().magnitude * 4;
         if (Input.GetKey(KeyCode.Mouse1))
-            rightHoldTime += Time.deltaTime;
+            rightHoldTime += Time.deltaTime + GetMouseData().magnitude * 4;
 
         bool isHolding = false;
         if (Input.GetKey(KeyCode.Mouse0) && leftHoldTime > neededHoldTime)
@@ -53,18 +53,21 @@ public class ArmMovement : NetworkBehaviour
             rightHoldTime = 0;
     }
 
+    private Vector3 GetMouseData()
+    {
+        return new(
+            Input.GetAxis("Mouse X") * 0.003f * movementSpeed,
+            Input.GetAxis("Mouse Y") * 0.003f * movementSpeed,
+            Input.GetAxis("Mouse ScrollWheel") * 0.1f * scrollSpeed +
+            (Input.GetKey(KeyCode.UpArrow) ? 0.2f * Time.deltaTime * movementSpeed : 0) +
+            (Input.GetKey(KeyCode.DownArrow) ? -0.2f * Time.deltaTime * movementSpeed : 0)
+        );
+    }
+
     private void DoArmMovementHold(HandController handController)
     {
         // move hand
-        handController.ShiftPostionServerRpc(
-            new Vector3(
-                Input.GetAxis("Mouse X") * 0.003f * movementSpeed,
-                Input.GetAxis("Mouse Y") * 0.003f * movementSpeed,
-                Input.GetAxis("Mouse ScrollWheel") * 0.1f * scrollSpeed +
-                (Input.GetKey(KeyCode.UpArrow) ? 0.2f * Time.deltaTime * movementSpeed : 0) +
-                (Input.GetKey(KeyCode.DownArrow) ? -0.2f * Time.deltaTime * movementSpeed : 0)
-            )
-        );
+        handController.ShiftPostionServerRpc(GetMouseData());
 
         // grab with hand
         if (Input.GetKeyDown(KeyCode.Space))
@@ -80,10 +83,10 @@ public class ArmMovement : NetworkBehaviour
         Vector3 newPos;
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            newPos = Quaternion.Inverse(transform.rotation) * (hit.point - transform.position);
+            newPos = handController.GlobalToLocal(hit.point);
         }
-        newPos = Quaternion.Inverse(transform.rotation) * (ray.GetPoint(4) - transform.position);
-        handController.SetPostionServerRpc(new Vector3(newPos.x, -newPos.z, newPos.y));
+        else newPos = handController.GlobalToLocal(ray.GetPoint(4));
+        handController.SetPostionServerRpc(newPos);
         handController.ToggleGrabServerRpc();
     }
 
