@@ -1112,7 +1112,6 @@ GameObject:
   - component: {fileID: 1960545387113523458}
   - component: {fileID: 4275386648480312702}
   - component: {fileID: 2756038793411385571}
-  - component: {fileID: 427791126768711107}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1175,22 +1174,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c639fbdcbf32b20478cc4d97a0435cec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &427791126768711107
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2386255832087394861}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c9a520b387bcea428f2678dd016940e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  leftHand: {fileID: 9198256637202451754}
-  rightHand: {fileID: 2520409822167150014}
-  movementSpeed: 8
-  scrollSpeed: 2
 --- !u!1 &2709350595406568886
 GameObject:
   m_ObjectHideFlags: 0
@@ -1232,6 +1215,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4789874248002783744}
   - component: {fileID: 1778394790058839435}
+  - component: {fileID: 2590089180784455501}
   - component: {fileID: 3645281932225669002}
   - component: {fileID: 8106976732098852270}
   - component: {fileID: 6701548963360049101}
@@ -1277,6 +1261,26 @@ MonoBehaviour:
   player: {fileID: 8409355098047720544}
   torque: 280000
   rotationSpeed: 60
+  CursorLocked: 0
+--- !u!114 &2590089180784455501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3743935538507680866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c9a520b387bcea428f2678dd016940e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHand: {fileID: 9198256637202451754}
+  rightHand: {fileID: 2520409822167150014}
+  movementSpeed: 10
+  scrollSpeed: 2
+  cam: {fileID: 5432442171478179867}
+  playerCamScript: {fileID: 1778394790058839435}
+  neededHoldTime: 0.2
 --- !u!33 &3645281932225669002
 MeshFilter:
   m_ObjectHideFlags: 0

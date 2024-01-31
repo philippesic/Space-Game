@@ -1,4 +1,6 @@
+using Unity.Mathematics;
 using Unity.Netcode;
+using UnityEditor;
 using UnityEngine;
 
 public class ArmMovement : NetworkBehaviour
@@ -7,20 +9,51 @@ public class ArmMovement : NetworkBehaviour
     [SerializeField] private HandController rightHand;
     [SerializeField] private float movementSpeed;
     [SerializeField] private float scrollSpeed;
-
-
+    [SerializeField] private Camera cam;
+    [SerializeReference] private PlayerCam playerCamScript;
+    private float leftHoldTime = 0;
+    private float rightHoldTime = 0;
+    [SerializeField] private float neededHoldTime = 0.2f;
     void Update()
     {
         if (!IsOwner) return;
 
-        // sellect hand
         if (Input.GetKey(KeyCode.Mouse0))
-            DoArmMovement(leftHand);
+            leftHoldTime += Time.deltaTime;
         if (Input.GetKey(KeyCode.Mouse1))
-            DoArmMovement(rightHand);
+            rightHoldTime += Time.deltaTime;
+
+        bool isHolding = false;
+        if (Input.GetKey(KeyCode.Mouse0) && leftHoldTime > neededHoldTime)
+        {
+            DoArmMovementHold(leftHand);
+            isHolding = true;
+        }
+        if (Input.GetKey(KeyCode.Mouse1) && rightHoldTime > neededHoldTime)
+        {
+            DoArmMovementHold(rightHand);
+            isHolding = true;
+        }
+        if (!isHolding)
+        {
+            if (leftHoldTime <= neededHoldTime && Input.GetKeyUp(KeyCode.Mouse0))
+                DoArmMovementClick(leftHand);
+            if (rightHoldTime <= neededHoldTime && Input.GetKeyUp(KeyCode.Mouse1))
+                DoArmMovementClick(rightHand);
+            playerCamScript.CursorLocked = false;
+        }
+        else
+        {
+            playerCamScript.CursorLocked = true;
+        }
+
+        if (Input.GetKeyUp(KeyCode.Mouse0))
+            leftHoldTime = 0;
+        if (Input.GetKeyUp(KeyCode.Mouse1))
+            rightHoldTime = 0;
     }
 
-    private void DoArmMovement(HandController handController)
+    private void DoArmMovementHold(HandController handController)
     {
         // move hand
         handController.ShiftPostionServerRpc(
@@ -36,9 +69,22 @@ public class ArmMovement : NetworkBehaviour
         // grab with hand
         if (Input.GetKeyDown(KeyCode.Space))
             handController.ToggleGrabServerRpc();
-        
+
         if (Input.GetKeyDown(KeyCode.LeftShift))
             handController.ToggleGripServerRpc();
+    }
+
+    private void DoArmMovementClick(HandController handController)
+    {
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+        Vector3 newPos;
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            newPos = Quaternion.Inverse(transform.rotation) * (hit.point - transform.position);
+        }
+        newPos = Quaternion.Inverse(transform.rotation) * (ray.GetPoint(4) - transform.position);
+        handController.SetPostionServerRpc(new Vector3(newPos.x, -newPos.z, newPos.y));
+        handController.ToggleGrabServerRpc();
     }
 
     public HandController GetLeft()

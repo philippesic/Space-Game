@@ -71,6 +71,17 @@ public class HandController : NetworkBehaviour
         else
             desiredPos = pos;
     }
+    
+    [ServerRpc]
+    public void SetPostionServerRpc(Vector3 pos)
+    {
+        if (pos.z < 0.3f)
+            pos.z = 0.3f;
+        if (pos.magnitude > l1 + l2 - 0.01f)
+            desiredPos = pos.normalized * (l1 + l2 - 0.01f);
+        else
+            desiredPos = pos;
+    }
 
     [ServerRpc]
     public void ShiftPostionServerRpc(Vector3 shift)
@@ -176,7 +187,8 @@ public class HandController : NetworkBehaviour
         }
         else
         {
-            grab = false;
+            if (Vector3.Distance(GetHandPos(), GetDesiredPostion()) < 0.1)
+                grab = false;
         }
     }
 
