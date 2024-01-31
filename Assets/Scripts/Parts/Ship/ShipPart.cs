@@ -12,7 +12,8 @@ public class ShipPart : Part
         public enum ConnectionType
         {
             square = 1,
-            circle = 2
+            circle = 2,
+            frame = 3
         }
 
         public ShipPartConnection(float size, ConnectionType type, Vector3 direction)
