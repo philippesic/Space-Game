@@ -298,7 +298,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 155.4029, y: -183.5044}
+  m_AnchoredPosition: {x: 178, y: -193}
   m_SizeDelta: {x: 296.8058, y: 335.0089}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &247419612
@@ -766,7 +766,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiTextPerfab: {fileID: 4818447307523416018, guid: ed8c04e1708dd46eca4e05f8caacab96, type: 3}
-  taskList: {fileID: 0}
+  taskList: {fileID: 247419612}
 --- !u!1 &734659322
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,10 +13,8 @@ public class ChatWindowMannager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Cursor.lockState == CursorLockMode.None)
-            scrollRect.gameObject.SetActive(true);
-        else
-            scrollRect.gameObject.SetActive(false);
+        if (Input.GetKeyDown(KeyCode.C))
+            scrollRect.gameObject.SetActive(!scrollRect.gameObject.activeSelf);
     }
 
     public void Add(string text)

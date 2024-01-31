@@ -25,19 +25,23 @@ public class PlayerCam : NetworkBehaviour
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.None;
     }
 
+    public bool CursorLocked = false;
 
     public void Update()
     {
         if (IsClient)
         {
-            if (Input.GetKeyDown(KeyCode.C))
+            if (CursorLocked)
             {
                 if (Cursor.lockState == CursorLockMode.None)
                     Cursor.lockState = CursorLockMode.Locked;
-                else
+            }
+            else
+            {
+                if (Cursor.lockState == CursorLockMode.Locked)
                     Cursor.lockState = CursorLockMode.None;
             }
         }
