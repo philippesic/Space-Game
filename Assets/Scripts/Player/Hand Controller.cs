@@ -15,6 +15,7 @@ public class HandController : NetworkBehaviour
     [SerializeField] private ConfigurableJoint lower;
     [SerializeField] private ConfigurableJoint hand;
     [Header("Other Objects")]
+    [SerializeField] private Transform armBase;
     [SerializeField] private GameObject player;
     [SerializeField] GameObject body;
     [SerializeField] private Transform handTransform;
@@ -23,11 +24,12 @@ public class HandController : NetworkBehaviour
     [SerializeField] private float l2 = 0.6f;
     [SerializeField] private Material notGrabbingMaterial;
     [SerializeField] private Material canGrabMaterial;
-
     [SerializeField] private Material grabbingMaterial;
     private ConfigurableJoint fixedJoint;
     private Vector3 desiredPos = new(0, -0.3f, 0);
+    private Vector3 trackingPos = new();
     private bool grab = false;
+    [SerializeField] private float trackSpeed = 1;
 
     void Update()
     {
@@ -54,6 +56,7 @@ public class HandController : NetworkBehaviour
                 Destroy(fixedJoint);
                 fixedJoint = null;
             }
+            trackingPos += (GetDesiredPostion() - trackingPos).normalized * math.min(0.25f, Time.deltaTime * trackSpeed * (GetDesiredPostion() - trackingPos).magnitude);
             UpdateJoints();
         }
         if (IsOwner)
@@ -71,20 +74,14 @@ public class HandController : NetworkBehaviour
         else
             desiredPos = pos;
     }
-    
+
     [ServerRpc]
     public void SetPostionServerRpc(Vector3 pos)
     {
-        if (pos.z < 0.3f)
-            pos.z = 0.3f;
-        if (pos.magnitude > l1 + l2 - 0.01f)
-            desiredPos = pos.normalized * (l1 + l2 - 0.01f);
-        else
-            desiredPos = pos;
+        SetPostion(pos);
     }
 
-    [ServerRpc]
-    public void ShiftPostionServerRpc(Vector3 shift)
+    public void ShiftPostion(Vector3 shift)
     {
         Vector3 currentDesiredPostion = GetDesiredPostion();
         Vector3 direction = currentDesiredPostion / currentDesiredPostion.z;
@@ -94,6 +91,24 @@ public class HandController : NetworkBehaviour
         pos.Normalize();
         SetPostion(pos * (currentDesiredPostion.magnitude + shift.z));
     }
+
+    [ServerRpc]
+    public void ShiftPostionServerRpc(Vector3 shift)
+    {
+        ShiftPostion(shift);
+    }
+
+    public Vector3 LocalToGlobal(Vector3 localPos)
+    {
+        return body.transform.rotation * new Vector3(localPos.x, localPos.z, -localPos.y) + armBase.position;
+    }
+
+    public Vector3 GlobalToLocal(Vector3 globalPos)
+    {
+        Vector3 pos = Quaternion.Inverse(body.transform.rotation) * (globalPos - armBase.position);
+        return new(pos.x, -pos.z, pos.y);
+    }
+
 
     public void RotationBy(Quaternion rotation)
     {
@@ -112,7 +127,7 @@ public class HandController : NetworkBehaviour
 
     private void UpdateJoints()
     {
-        Vector3 rotations = DoIK(GetDesiredPostion(), l1, l2);
+        Vector3 rotations = DoIK(trackingPos, l1, l2);
         upper.targetRotation = quaternion.EulerZYX(-rotations.y, 0, rotations.x);
         lower.targetRotation = quaternion.EulerXYZ(rotations.z, 0, 0);
     }
@@ -180,6 +195,7 @@ public class HandController : NetworkBehaviour
             fixedJoint.zMotion = ConfigurableJointMotion.Locked;
             fixedJoint.projectionMode = JointProjectionMode.PositionAndRotation;
             fixedJoint.connectedBody = closestGameObject.GetComponent<Rigidbody>();
+            SetPostion(GlobalToLocal(GetHandPos()));
             if (closestGameObject.TryGetComponent(out Tool tool))
             {
                 tool.Grabbed(player);
@@ -187,7 +203,7 @@ public class HandController : NetworkBehaviour
         }
         else
         {
-            if (Vector3.Distance(GetHandPos(), GetDesiredPostion()) < 0.1)
+            if (Vector3.Distance(GlobalToLocal(GetHandPos()), GetDesiredPostion()) < 0.1)
                 grab = false;
         }
     }
