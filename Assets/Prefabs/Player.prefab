@@ -345,7 +345,7 @@ MonoBehaviour:
   notGrabbingMaterial: {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
   canGrabMaterial: {fileID: 2100000, guid: eb323c3f714fdb240a98bc8cf23c1c36, type: 2}
   grabbingMaterial: {fileID: 2100000, guid: 3454a9f3b8010644fac7b3e5cc4e1f9b, type: 2}
-  trackSpeed: 1
+  trackSpeed: 40
 --- !u!54 &8693155654551746876
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1155,7 +1155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2540811061
+  GlobalObjectIdHash: 2129093369
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -1969,7 +1969,7 @@ MonoBehaviour:
   notGrabbingMaterial: {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
   canGrabMaterial: {fileID: 2100000, guid: eb323c3f714fdb240a98bc8cf23c1c36, type: 2}
   grabbingMaterial: {fileID: 2100000, guid: 3454a9f3b8010644fac7b3e5cc4e1f9b, type: 2}
-  trackSpeed: 1
+  trackSpeed: 40
 --- !u!54 &1049212940043580616
 Rigidbody:
   m_ObjectHideFlags: 0

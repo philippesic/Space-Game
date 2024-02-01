@@ -30,7 +30,6 @@ public class HandController : NetworkBehaviour
     private Vector3 trackingPos = new();
     private bool grab = false;
     [SerializeField] private float trackSpeed = 1;
-
     void Update()
     {
         if (IsServer)
@@ -56,12 +55,9 @@ public class HandController : NetworkBehaviour
                 Destroy(fixedJoint);
                 fixedJoint = null;
             }
-            trackingPos += (GetDesiredPostion() - trackingPos).normalized * math.min(0.25f, Time.deltaTime * trackSpeed * (GetDesiredPostion() - trackingPos).magnitude);
+            float g = (GetDesiredPostion() - trackingPos).magnitude;
+            trackingPos += (GetDesiredPostion() - trackingPos).normalized * math.min(0.2f, Time.deltaTime * trackSpeed * g);
             UpdateJoints();
-        }
-        if (IsOwner)
-        {
-
         }
     }
 
@@ -203,7 +199,7 @@ public class HandController : NetworkBehaviour
         }
         else
         {
-            if (Vector3.Distance(GlobalToLocal(GetHandPos()), GetDesiredPostion()) < 0.1)
+            if (Vector3.Distance(GlobalToLocal(GetHandPos()), GetDesiredPostion()) < 0.02)
                 grab = false;
         }
     }

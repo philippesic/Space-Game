@@ -13,15 +13,15 @@ public class ArmMovement : NetworkBehaviour
     [SerializeReference] private PlayerCam playerCamScript;
     private float leftHoldTime = 0;
     private float rightHoldTime = 0;
-    [SerializeField] private float neededHoldTime = 0.2f;
+    [SerializeField] private float neededHoldTime = 0.3f;
     void Update()
     {
         if (!IsOwner) return;
 
         if (Input.GetKey(KeyCode.Mouse0))
-            leftHoldTime += Time.deltaTime + GetMouseData().magnitude * 4;
+            leftHoldTime += Time.deltaTime + GetMouseData().magnitude * 100;
         if (Input.GetKey(KeyCode.Mouse1))
-            rightHoldTime += Time.deltaTime + GetMouseData().magnitude * 4;
+            rightHoldTime += Time.deltaTime + GetMouseData().magnitude * 100;
 
         bool isHolding = false;
         if (Input.GetKey(KeyCode.Mouse0) && leftHoldTime > neededHoldTime)
