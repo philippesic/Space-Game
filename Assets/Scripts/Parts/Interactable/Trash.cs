@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class Trash : Interactable
 {
-    [SerializeField] private float health = 1;
-
     public override void GetHammered(float damage = 1)
     {
         health -= damage;
