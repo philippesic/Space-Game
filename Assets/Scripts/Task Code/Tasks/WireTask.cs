@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class WireCutTask : Task
+public class WireTask : Task
 {
     protected override void Awake()
     {
