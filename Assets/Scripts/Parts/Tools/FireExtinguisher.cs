@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class FireExtinguisher : Tool
 {
-    Rigidbody rb;
+    [SerializeField] Transform output;
+    [SerializeField] float sprayForce = 10;
+    private Rigidbody rb;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
     }
     protected override void Use()
     {
-        rb.AddForce(-transform.forward * 10f);
+        rb.AddForceAtPosition(-output.right * sprayForce, output.position, ForceMode.Force);
     }
 }

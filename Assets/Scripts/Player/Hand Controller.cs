@@ -25,19 +25,23 @@ public class HandController : NetworkBehaviour
     [SerializeField] private Material notGrabbingMaterial;
     [SerializeField] private Material canGrabMaterial;
     [SerializeField] private Material grabbingMaterial;
+    [SerializeField] private float trackSpeed = 1;
     private ConfigurableJoint fixedJoint;
     private Vector3 desiredPos = new(0, -0.3f, 0);
     private Vector3 trackingPos = new();
-    private bool grab = false;
-    [SerializeField] private float trackSpeed = 1;
+    private readonly NetworkVariable<bool> grab = new(false);
+    private int iii = 0;
+
     void Update()
     {
         if (IsServer)
         {
-
             if (fixedJoint == null)
             {
-                if (grab) TryGrab();
+                iii++;
+                if (iii % 40 == 0)
+                    print(grab.Value);
+                if (grab.Value) TryGrab();
                 else if (TryGrapCheck(out _))
                 {
                     hand.GetComponentInChildren<MeshRenderer>().material = canGrabMaterial;
@@ -47,7 +51,7 @@ public class HandController : NetworkBehaviour
                     hand.GetComponentInChildren<MeshRenderer>().material = notGrabbingMaterial;
                 }
             }
-            else if (!grab)
+            else if (!grab.Value)
             {
                 hand.GetComponentInChildren<MeshRenderer>().material = notGrabbingMaterial;
                 if (fixedJoint.connectedBody.TryGetComponent(out Tool tool))
@@ -58,6 +62,15 @@ public class HandController : NetworkBehaviour
             float g = (GetDesiredPostion() - trackingPos).magnitude;
             trackingPos += (GetDesiredPostion() - trackingPos).normalized * math.min(0.2f, Time.deltaTime * trackSpeed * g);
             UpdateJoints();
+        }
+        else
+        {
+            if (grab.Value)
+                hand.GetComponentInChildren<MeshRenderer>().material = grabbingMaterial;
+            else if (TryGrapCheck(out _))
+                hand.GetComponentInChildren<MeshRenderer>().material = canGrabMaterial;
+            else
+                hand.GetComponentInChildren<MeshRenderer>().material = notGrabbingMaterial;
         }
     }
 
@@ -183,9 +196,7 @@ public class HandController : NetworkBehaviour
     {
         if (TryGrapCheck(out GameObject closestGameObject))
         {
-            print("can grab");
-            print(Vector3.Distance(GlobalToLocal(GetHandPos()), GetDesiredPostion()));
-            if (Vector3.Distance(GlobalToLocal(GetHandPos()), GetDesiredPostion()) < 0.5)
+            if (Vector3.Distance(GlobalToLocal(GetHandPos()), GetDesiredPostion()) < 0.3)
             {
                 hand.GetComponentInChildren<MeshRenderer>().material = grabbingMaterial;
                 fixedJoint = hand.AddComponent<ConfigurableJoint>();
@@ -204,16 +215,18 @@ public class HandController : NetworkBehaviour
         }
         else
         {
-            if (Vector3.Distance(GlobalToLocal(GetHandPos()), GetDesiredPostion()) < 0.02)
+            if (Vector3.Distance(GlobalToLocal(GetHandPos()), GetDesiredPostion()) < 0.05)
+            {
                 print("failed");
-                grab = false;
+                grab.Value = false;
+            }
         }
     }
 
     [ServerRpc]
     public void ToggleGrabServerRpc()
     {
-        grab = !grab;
+        grab.Value = !grab.Value;
     }
 
     [ServerRpc]
@@ -246,7 +259,7 @@ public class HandController : NetworkBehaviour
 
     public bool IsHolding()
     {
-        return grab;
+        return grab.Value;
     }
 
     public bool IsFixed()

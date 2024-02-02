@@ -14,6 +14,7 @@ public class ArmMovement : NetworkBehaviour
     private float leftHoldTime = 0;
     private float rightHoldTime = 0;
     [SerializeField] private float neededHoldTime = 0.3f;
+
     void Update()
     {
         if (!IsOwner) return;
@@ -79,15 +80,18 @@ public class ArmMovement : NetworkBehaviour
 
     private void DoArmMovementClick(HandController handController)
     {
-        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-        Vector3 newPos;
-        if (Physics.Raycast(ray, out RaycastHit hit))
+        if (!handController.IsHolding())
         {
-            newPos = handController.GlobalToLocal(hit.point);
+            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+            Vector3 newPos;
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                newPos = handController.GlobalToLocal(hit.point);
+            }
+            else newPos = handController.GlobalToLocal(ray.GetPoint(4));
+            handController.ToggleGrabServerRpc();
+            handController.SetPostionServerRpc(newPos);
         }
-        else newPos = handController.GlobalToLocal(ray.GetPoint(4));
-        handController.SetPostionServerRpc(newPos);
-        handController.ToggleGrabServerRpc();
     }
 
     public HandController GetLeft()
