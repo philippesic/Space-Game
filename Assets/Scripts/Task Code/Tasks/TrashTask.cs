@@ -10,6 +10,7 @@ public class TrashTask : Task
         base.Awake();
         difficulty = 1;
         length = 1;
+        type = "Trash";
     }
 
     public override bool CheckIfDone()

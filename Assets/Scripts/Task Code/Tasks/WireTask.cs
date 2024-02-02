@@ -10,6 +10,7 @@ public class WireTask : Task
         base.Awake();
         difficulty = 1;
         length = 1;
+        type = "Wire";
     }
 
     public override bool CheckIfDone()

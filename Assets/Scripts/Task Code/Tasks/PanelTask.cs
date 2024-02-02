@@ -10,6 +10,7 @@ public class PanelTask : Task
         base.Awake();
         difficulty = 1;
         length = 1;
+        type = "Panel";
     }
 
     public override bool CheckIfDone()

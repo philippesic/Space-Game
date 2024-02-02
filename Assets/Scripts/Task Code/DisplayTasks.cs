@@ -25,7 +25,7 @@ public class DisplayTasks : MonoBehaviour
             string taskListText = "";
             foreach (var task in TaskMannager.Singleton.tasks)
             {
-                taskListText += "task" + "\n";
+                taskListText += task.type + "\n";
                 GameObject textUI;
                 if (Vector3.Angle(task.transform.position - playerTransform.Find("Body").transform.position, playerTransform.Find("Body").transform.up) > 90)
                 {
@@ -44,7 +44,7 @@ public class DisplayTasks : MonoBehaviour
                 }
                 if (textUI.TryGetComponent(out TextMeshProUGUI textMeshPro))
                 {
-                    string text = "Task: " + ((int)distance).ToString() + "m";
+                    string text = task.type + " " + ((int)distance).ToString() + "m";
                     if (textMeshPro.text != text)
                     {
                         textMeshPro.text = text;

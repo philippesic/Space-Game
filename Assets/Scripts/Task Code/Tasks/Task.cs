@@ -6,6 +6,7 @@ public abstract class Task : MonoBehaviour
 {
     public float difficulty;
     public float length;
+    public string type;
 
     protected virtual void Awake()
     {
