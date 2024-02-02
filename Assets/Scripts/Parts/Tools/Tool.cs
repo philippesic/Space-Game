@@ -57,6 +57,10 @@ public abstract class Tool : Part
                 isOn = false;
             }
         }
+        else
+        {
+            StopUse();
+        }
     }
 
     [ServerRpc]
@@ -76,4 +80,5 @@ public abstract class Tool : Part
         }
     }
     protected virtual void Use() { }
+    protected virtual void StopUse() { }
 }
