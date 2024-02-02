@@ -13,23 +13,27 @@ public abstract class Tool : Part
     public void Grabbed(GameObject grabber)
     {
         if (grabberGameObject == null)
-            grabberGameObject = grabber;
-        if (grabberGameObject.TryGetComponent(out Player player))
         {
-            if (player.OwnerClientId != OwnerClientId)
-                GetComponent<NetworkObject>().ChangeOwnership(player.OwnerClientId);
+            grabberGameObject = grabber;
+            if (grabberGameObject.TryGetComponent(out Player player))
+            {
+                if (player.OwnerClientId != OwnerClientId)
+                    GetComponent<NetworkObject>().ChangeOwnership(player.OwnerClientId);
+            }
         }
     }
 
     public void Dropped(GameObject grabber)
     {
         if (grabberGameObject == grabber)
+        {
             if (grabberGameObject.TryGetComponent(out Player player))
             {
                 if (NetworkManager.ServerClientId != OwnerClientId)
                     GetComponent<NetworkObject>().ChangeOwnership(NetworkManager.ServerClientId);
             }
-        grabberGameObject = null;
+            grabberGameObject = null;
+        }
     }
 
     public void Update()
