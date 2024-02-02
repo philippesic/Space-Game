@@ -183,23 +183,29 @@ public class HandController : NetworkBehaviour
     {
         if (TryGrapCheck(out GameObject closestGameObject))
         {
-            hand.GetComponentInChildren<MeshRenderer>().material = grabbingMaterial;
-            fixedJoint = hand.AddComponent<ConfigurableJoint>();
-            fixedJoint.anchor = handTransform.localPosition;
-            fixedJoint.xMotion = ConfigurableJointMotion.Locked;
-            fixedJoint.yMotion = ConfigurableJointMotion.Locked;
-            fixedJoint.zMotion = ConfigurableJointMotion.Locked;
-            fixedJoint.projectionMode = JointProjectionMode.PositionAndRotation;
-            fixedJoint.connectedBody = closestGameObject.GetComponent<Rigidbody>();
-            SetPostion(GlobalToLocal(GetHandPos()));
-            if (closestGameObject.TryGetComponent(out Tool tool))
+            print("can grab");
+            print(Vector3.Distance(GlobalToLocal(GetHandPos()), GetDesiredPostion()));
+            if (Vector3.Distance(GlobalToLocal(GetHandPos()), GetDesiredPostion()) < 0.5)
             {
-                tool.Grabbed(player);
+                hand.GetComponentInChildren<MeshRenderer>().material = grabbingMaterial;
+                fixedJoint = hand.AddComponent<ConfigurableJoint>();
+                fixedJoint.anchor = handTransform.localPosition;
+                fixedJoint.xMotion = ConfigurableJointMotion.Locked;
+                fixedJoint.yMotion = ConfigurableJointMotion.Locked;
+                fixedJoint.zMotion = ConfigurableJointMotion.Locked;
+                fixedJoint.projectionMode = JointProjectionMode.PositionAndRotation;
+                fixedJoint.connectedBody = closestGameObject.GetComponent<Rigidbody>();
+                SetPostion(GlobalToLocal(GetHandPos()));
+                if (closestGameObject.TryGetComponent(out Tool tool))
+                {
+                    tool.Grabbed(player);
+                }
             }
         }
         else
         {
             if (Vector3.Distance(GlobalToLocal(GetHandPos()), GetDesiredPostion()) < 0.02)
+                print("failed");
                 grab = false;
         }
     }
