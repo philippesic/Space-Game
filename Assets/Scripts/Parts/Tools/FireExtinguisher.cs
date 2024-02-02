@@ -16,10 +16,16 @@ public class FireExtinguisher : Tool
     protected override void Use()
     {
         rb.AddForceAtPosition(-output.right * sprayForce, output.position, ForceMode.Force);
-        ps.Play();
+        // if (!ps.isPlaying)
+        // {
+        //     ps.Play();
+        // }
     }
     protected override void StopUse()
     {
-        ps.Stop();
+        // if (!ps.isStopped)
+        // {
+        //     ps.Stop();
+        // }
     }
 }

@@ -848,6 +848,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isToggle: 0
+  output: {fileID: 2129470909}
+  sprayForce: 10
 --- !u!1001 &550822647
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2464,6 +2466,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -180.019, y: 90, z: -90}
+--- !u!4 &2129470909 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7350448180343512063, guid: 58737df6d40bb7442ae753b50a911075, type: 3}
+  m_PrefabInstance: {fileID: 485904442}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2136558985
 GameObject:
   m_ObjectHideFlags: 0

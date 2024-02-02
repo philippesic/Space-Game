@@ -51,16 +51,14 @@ public abstract class Tool : Part
         }
         if (IsServer && isOn)
         {
-            Use();
             if (!isToggle)
             {
                 isOn = false;
             }
+            Use();
         }
-        else
-        {
-            StopUse();
-        }
+
+
     }
 
     [ServerRpc]
