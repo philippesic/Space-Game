@@ -1280,8 +1280,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftHand: {fileID: 9198256637202451754}
   rightHand: {fileID: 2520409822167150014}
-  movementSpeed: 7
-  scrollSpeed: 8
+  movementSpeed: 10
+  scrollSpeed: 2
   cam: {fileID: 5432442171478179867}
   playerCamScript: {fileID: 1778394790058839435}
   neededHoldTime: 0.4
