@@ -49,13 +49,18 @@ public abstract class Tool : Part
                 PressedServerRpc(false);
             }
         }
-        if (IsServer && isOn)
+        if (IsServer)
         {
-            if (!isToggle)
+            if (isOn)
             {
-                isOn = false;
+                Use();
+                if (!isToggle)
+                {
+                    isOn = false;
+                }
             }
-            Use();
+            else
+                StopUse();
         }
 
 
@@ -70,6 +75,10 @@ public abstract class Tool : Part
             {
                 if (isKeyDown)
                     isOn = !isOn;
+                if (!isOn)
+                {
+                    StopUse();
+                }
             }
             else
             {
