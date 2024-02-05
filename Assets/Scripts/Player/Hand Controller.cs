@@ -213,7 +213,6 @@ public class HandController : NetworkBehaviour
         {
             if (Vector3.Distance(GlobalToLocal(GetHandPos()), GetDesiredPostion()) < 0.05)
             {
-                print("failed");
                 grab.Value = false;
             }
         }
