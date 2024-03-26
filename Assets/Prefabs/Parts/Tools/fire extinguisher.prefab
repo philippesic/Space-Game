@@ -347,7 +347,9 @@ MonoBehaviour:
   isToggle: 0
   output: {fileID: 7350448180343512063}
   sprayForce: 10
-  particles: {fileID: 9039005153723670452}
+  particles:
+  - {fileID: 9039005153723670452}
+  - {fileID: 1961493025489520221}
 --- !u!1 &1961493025489520221
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,20 +7,20 @@ public class FireExtinguisher : Tool
     [SerializeField] Transform output;
     [SerializeField] float sprayForce = 10;
     private Rigidbody rb;
-    [SerializeField] private GameObject particles;
+    [SerializeField] private GameObject[] particles = new GameObject[2];
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        particles.SetActive(false);
+        foreach (GameObject p in particles) { p.SetActive(false); }
     }
 
     protected override void Use()
     {
         rb.AddForceAtPosition(-output.right * sprayForce, output.position, ForceMode.Force);
-        particles.SetActive(true);
+        foreach (GameObject p in particles) { p.SetActive(true); }
     }
     protected override void StopUse()
     {
-        particles.SetActive(false);
+        foreach (GameObject p in particles) { p.SetActive(false); }
     }
 }
