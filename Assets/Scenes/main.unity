@@ -2911,6 +2911,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menu: {fileID: 1862811271}
   controls: {fileID: 1211103781}
+  player: {fileID: 0}
 --- !u!1 &1534000888
 GameObject:
   m_ObjectHideFlags: 0
@@ -3799,9 +3800,21 @@ PrefabInstance:
       propertyPath: GlobalObjectIdHash
       value: 1052223139
       objectReference: {fileID: 0}
+    - target: {fileID: 1665829374699975786, guid: 15d355c124f134ac9b9291d39e737512, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2963015026865159424, guid: 15d355c124f134ac9b9291d39e737512, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 3154730910559343454, guid: 15d355c124f134ac9b9291d39e737512, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 4146273505
+      objectReference: {fileID: 0}
+    - target: {fileID: 3743877998388720770, guid: 15d355c124f134ac9b9291d39e737512, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 3865726674353561247, guid: 15d355c124f134ac9b9291d39e737512, type: 3}
       propertyPath: GlobalObjectIdHash
@@ -3851,6 +3864,10 @@ PrefabInstance:
       propertyPath: GlobalObjectIdHash
       value: 2432524118
       objectReference: {fileID: 0}
+    - target: {fileID: 6095449101978484403, guid: 15d355c124f134ac9b9291d39e737512, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 6585226917777142348, guid: 15d355c124f134ac9b9291d39e737512, type: 3}
       propertyPath: m_Name
       value: spawn
@@ -3870,6 +3887,10 @@ PrefabInstance:
     - target: {fileID: 8099756810947011105, guid: 15d355c124f134ac9b9291d39e737512, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 1757467210
+      objectReference: {fileID: 0}
+    - target: {fileID: 8800795899761086481, guid: 15d355c124f134ac9b9291d39e737512, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
