@@ -66,5 +66,8 @@ public class PauseMenu : MonoBehaviour
         menu.SetActive(!menu.activeSelf);
     }
 
-    public void Abort() { }
+    public void Abort()
+    {
+        SceneManager.LoadScene("GameStartLoadingScreen");
+    }
 }
