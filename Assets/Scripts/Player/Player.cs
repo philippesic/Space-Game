@@ -6,4 +6,9 @@ using UnityEngine;
 public class Player : NetworkBehaviour
 {
     public bool inSpawn = false;
+
+    void Update()
+    {
+        
+    }
 }

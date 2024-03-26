@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -68,6 +66,6 @@ public class PauseMenu : MonoBehaviour
 
     public void Abort()
     {
-        SceneManager.LoadScene("GameStartLoadingScreen");
+        SceneDataController.Singleton.Leave();
     }
 }
