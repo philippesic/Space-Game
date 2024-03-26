@@ -25,7 +25,10 @@ public abstract class Tool : Part
 
     public void Dropped(GameObject grabber)
     {
-        if (grabberGameObject == grabber)
+        print(grabberGameObject.transform.position);
+        print(grabber.transform.position);
+        print(":::" + ReferenceEquals(grabberGameObject, grabber));
+        if (ReferenceEquals(grabberGameObject, grabber))
         {
             if (grabberGameObject.TryGetComponent(out Player player))
             {

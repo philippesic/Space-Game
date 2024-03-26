@@ -30,6 +30,7 @@ public class HandController : NetworkBehaviour
     private Vector3 desiredPos = new(0, -0.3f, 0);
     private Vector3 trackingPos = new();
     private readonly NetworkVariable<bool> grab = new(false);
+    private int iii = 0;
 
     void Update()
     {
@@ -37,6 +38,9 @@ public class HandController : NetworkBehaviour
         {
             if (fixedJoint == null)
             {
+                iii++;
+                if (iii % 40 == 0)
+                    print(grab.Value);
                 if (grab.Value) TryGrab();
                 else if (TryGrapCheck(out _))
                 {
