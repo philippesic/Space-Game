@@ -9,6 +9,9 @@ public class Player : NetworkBehaviour
 
     void Update()
     {
-        
+        if (inSpawn && TaskMannager.Singleton.tasks.Count == 0)
+        {
+            SceneDataController.Singleton.Leave();
+        }
     }
 }
