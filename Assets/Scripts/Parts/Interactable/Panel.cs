@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Panel : Interactable
 {
+    public float health = 5;
 
     public override void GetLasered(float damage = 1)
     {

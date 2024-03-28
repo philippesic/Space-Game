@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Trash : Interactable
 {
+    public float health = 5;
+
     public override void GetHammered(float damage = 1)
     {
         health -= damage;

@@ -11,7 +11,13 @@ public class Laser : Tool
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
             if (hit.collider.gameObject.TryGetComponent(out Interactable interactable))
+            {
                 interactable.GetLasered(Time.deltaTime);
+            }
+            else if (hit.collider.gameObject.transform.parent.TryGetComponent(out interactable))
+            {
+                interactable.GetLasered(Time.deltaTime);
+            }
         }
     }
 }

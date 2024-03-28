@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7807527391299463576}
   - component: {fileID: 5998543923197688935}
   m_Layer: 0
-  m_Name: Panel
+  m_Name: panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2303685655
+  GlobalObjectIdHash: 2000758346
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -141,6 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 668d4b30f1ce44cdcb7c7c2b722c8ed4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 5
 --- !u!114 &5998543923197688935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,6 +156,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   difficulty: 1
   length: 1
+  type: 
+  otherText: 
+  panel: {fileID: 7807527391299463576}
 --- !u!1 &8123984639719515461
 GameObject:
   m_ObjectHideFlags: 0
