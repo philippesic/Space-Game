@@ -38,9 +38,6 @@ public class HandController : NetworkBehaviour
         {
             if (fixedJoint == null)
             {
-                iii++;
-                if (iii % 40 == 0)
-                    print(grab.Value);
                 if (grab.Value) TryGrab();
                 else if (TryGrapCheck(out _))
                 {
