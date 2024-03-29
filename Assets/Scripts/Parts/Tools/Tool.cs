@@ -9,7 +9,11 @@ public abstract class Tool : Part
     [SerializeField] private bool isToggle;
     private GameObject grabberGameObject;
     private bool isOn = false;
-    private bool isHeld = false;
+
+    public bool IsGrabbed()
+    {
+        return grabberGameObject != null;
+    }
 
     public void Grabbed(GameObject grabber)
     {
@@ -22,7 +26,6 @@ public abstract class Tool : Part
                     GetComponent<NetworkObject>().ChangeOwnership(player.OwnerClientId);
             }
         }
-        isHeld = true;
     }
 
     public void Dropped(GameObject grabber)
@@ -39,7 +42,6 @@ public abstract class Tool : Part
             }
             grabberGameObject = null;
         }
-        isHeld = false;
     }
 
     public void Update()
@@ -92,10 +94,7 @@ public abstract class Tool : Part
             }
         }
     }
-    public bool IsHeld()
-    {
-        return isHeld;
-    }
+
     protected virtual void Use() { }
     protected virtual void StopUse() { }
 }

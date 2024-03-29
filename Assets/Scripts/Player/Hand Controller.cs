@@ -264,4 +264,13 @@ public class HandController : NetworkBehaviour
             return true;
         return false;
     }
+
+    public GameObject GetHeldObject()
+    {
+        if (fixedJoint == null)
+        {
+            return fixedJoint.connectedBody.gameObject;
+        }
+        return null;
+    }
 }

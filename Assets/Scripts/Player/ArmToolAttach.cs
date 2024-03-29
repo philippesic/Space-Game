@@ -4,50 +4,48 @@ using UnityEngine;
 public class ArmToolAttach : MonoBehaviour
 {
 
-    private GameObject arm;
-    private GameObject heldTool;
-    private ConfigurableJoint fixedJoint;
-    private Transform pos;
+    private FixedJoint fixedJoint;
+    private GameObject attachedObject;
 
     void Start()
     {
-        arm = this.gameObject;
-        pos = arm.GetComponentInChildren<Transform>();
     }
 
     void Update()
     {
-        if (heldTool == null)
+        if (fixedJoint == null || ReferenceEquals(fixedJoint, null)) return;
+        if (attachedObject == null)
         {
-            Debug.Log("held tool null");
             if (GetTool(out GameObject closestGameObject))
             {
                 Debug.Log("tool check return tool");
-                heldTool = closestGameObject;
-                fixedJoint = arm.AddComponent<ConfigurableJoint>();
-                fixedJoint.anchor = pos.position;
-                fixedJoint.xMotion = ConfigurableJointMotion.Locked;
-                fixedJoint.yMotion = ConfigurableJointMotion.Locked;
-                fixedJoint.zMotion = ConfigurableJointMotion.Locked;
-                fixedJoint.projectionMode = JointProjectionMode.PositionAndRotation;
-                fixedJoint.angularXMotion = ConfigurableJointMotion.Locked;
-                fixedJoint.angularYMotion = ConfigurableJointMotion.Locked;
-                fixedJoint.angularZMotion = ConfigurableJointMotion.Locked;
+                attachedObject = closestGameObject;
                 fixedJoint.connectedBody = closestGameObject.GetComponent<Rigidbody>();
             }
         }
-
+        else
+        {
+            GameObject heldObject = null;
+            if (heldObject != null)
+            {
+                if (ReferenceEquals(heldObject, attachedObject))
+                {
+                    fixedJoint.connectedBody = GetComponent<Rigidbody>();
+                    attachedObject = null;
+                }
+            }
+        }
     }
 
     public bool GetTool(out GameObject closestGameObject)
     {
-        Collider[] colliders = Physics.OverlapSphere(pos.position, 0.125f);
+        Collider[] colliders = Physics.OverlapSphere(Quaternion.Inverse(transform.rotation) * fixedJoint.anchor + transform.position, 0.2f);
         closestGameObject = null;
         foreach (Collider collider in colliders)
         {
             if (collider.gameObject.TryGetComponent(out Tool tool))
             {
-                if (!tool.IsHeld())
+                if (!tool.IsGrabbed())
                 {
                     closestGameObject = collider.gameObject;
                     break;
