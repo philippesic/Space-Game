@@ -8,6 +8,23 @@ using UnityEngine;
 [RequireComponent(typeof(NetworkObject))]
 public class Part : NetworkBehaviour
 {
+    protected List<GameObject> grabberGameObjects = new();
+    
+    public bool IsGrabbed()
+    {
+        return grabberGameObjects.Count > 0;
+    }
+
+    public virtual void Grabbed(GameObject grabber)
+    {
+        grabberGameObjects.Add(grabber);
+    }
+
+    public virtual void Dropped(GameObject grabber)
+    {
+        grabberGameObjects.Remove(grabber);
+    }
+
     void Start()
     {
         SetupPart();

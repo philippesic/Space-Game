@@ -7,46 +7,37 @@ using UnityEngine;
 public abstract class Tool : Part
 {
     [SerializeField] private bool isToggle;
-    private GameObject grabberGameObject;
     private bool isOn = false;
 
-    public bool IsGrabbed()
+    public override void Grabbed(GameObject grabber)
     {
-        return grabberGameObject != null;
-    }
-
-    public void Grabbed(GameObject grabber)
-    {
-        if (grabberGameObject == null)
+        if (grabberGameObjects.Count == 0)
         {
-            grabberGameObject = grabber;
-            if (grabberGameObject.TryGetComponent(out Player player))
+            if (grabber.TryGetComponent(out Player player))
             {
                 if (player.OwnerClientId != OwnerClientId)
                     GetComponent<NetworkObject>().ChangeOwnership(player.OwnerClientId);
             }
         }
+        grabberGameObjects.Add(grabber);
     }
 
-    public void Dropped(GameObject grabber)
+    public override void Dropped(GameObject grabber)
     {
-        print(grabberGameObject.transform.position);
-        print(grabber.transform.position);
-        print(":::" + ReferenceEquals(grabberGameObject, grabber));
-        if (ReferenceEquals(grabberGameObject, grabber))
+        if (grabberGameObjects.Contains(grabber))
         {
-            if (grabberGameObject.TryGetComponent(out Player player))
+            if (grabber.TryGetComponent(out Player player))
             {
                 if (NetworkManager.ServerClientId != OwnerClientId)
                     GetComponent<NetworkObject>().ChangeOwnership(NetworkManager.ServerClientId);
             }
-            grabberGameObject = null;
+            grabberGameObjects.Remove(grabber);
         }
     }
 
     public void Update()
     {
-        if (IsOwner && (grabberGameObject != null || !IsServer))
+        if (IsOwner && (grabberGameObjects != null || !IsServer))
         {
             if (Input.GetKeyDown(KeyCode.F))
             {
@@ -70,27 +61,28 @@ public abstract class Tool : Part
             else
                 StopUse();
         }
-
-
     }
 
     [ServerRpc]
     private void PressedServerRpc(bool isKeyDown)
     {
-        if (grabberGameObject != null && grabberGameObject.TryGetComponent(out Player player))
+        foreach (GameObject gameObject in grabberGameObjects)
         {
-            if (isToggle)
+            if (gameObject != null && gameObject.TryGetComponent(out Player player))
             {
-                if (isKeyDown)
-                    isOn = !isOn;
-                if (!isOn)
+                if (isToggle)
                 {
-                    StopUse();
+                    if (isKeyDown)
+                        isOn = !isOn;
+                    if (!isOn)
+                    {
+                        StopUse();
+                    }
                 }
-            }
-            else
-            {
-                isOn = true;
+                else
+                {
+                    isOn = true;
+                }
             }
         }
     }

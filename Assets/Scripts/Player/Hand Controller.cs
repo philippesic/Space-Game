@@ -51,8 +51,8 @@ public class HandController : NetworkBehaviour
             else if (!grab.Value)
             {
                 hand.GetComponentInChildren<MeshRenderer>().material = notGrabbingMaterial;
-                if (fixedJoint.connectedBody.TryGetComponent(out Tool tool))
-                    tool.Dropped(player);
+                if (fixedJoint.connectedBody.TryGetComponent(out Part part))
+                    part.Dropped(player);
                 Destroy(fixedJoint);
                 fixedJoint = null;
             }
@@ -204,10 +204,8 @@ public class HandController : NetworkBehaviour
                 fixedJoint.projectionMode = JointProjectionMode.PositionAndRotation;
                 fixedJoint.connectedBody = closestGameObject.GetComponent<Rigidbody>();
                 SetPostion(GlobalToLocal(GetHandPos()));
-                if (closestGameObject.TryGetComponent(out Tool tool))
-                {
-                    tool.Grabbed(player);
-                }
+                if (closestGameObject.TryGetComponent(out Part part))
+                    part.Grabbed(player);
             }
         }
         else
