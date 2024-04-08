@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 5542902565980986423}
   m_Layer: 0
   m_Name: LowerArmL
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -299,7 +299,7 @@ GameObject:
   - component: {fileID: 5012843814956818503}
   m_Layer: 0
   m_Name: HandR
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -555,11 +555,9 @@ GameObject:
   - component: {fileID: 8453220366576345155}
   - component: {fileID: 3165993113290869279}
   - component: {fileID: 8131186108670033119}
-  - component: {fileID: 8497248412414110063}
-  - component: {fileID: 3658067253524712667}
   m_Layer: 0
   m_Name: UpperArmL
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -823,34 +821,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8497248412414110063
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1042458629521401535}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6727e02f678c44e5be0a860bf986df4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fixedJoint: {fileID: 3658067253524712667}
---- !u!138 &3658067253524712667
-FixedJoint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1042458629521401535}
-  m_ConnectedBody: {fileID: 0}
-  m_ConnectedArticulationBody: {fileID: 0}
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_EnableCollision: 0
-  m_EnablePreprocessing: 1
-  m_MassScale: 1
-  m_ConnectedMassScale: 1
 --- !u!1 &2081964538766299057
 GameObject:
   m_ObjectHideFlags: 0
@@ -869,7 +839,7 @@ GameObject:
   - component: {fileID: 6474722153748425585}
   m_Layer: 0
   m_Name: LowerArmR
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1490,7 +1460,7 @@ GameObject:
   - component: {fileID: 4203327977809134779}
   m_Layer: 0
   m_Name: RightArmBase
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1552,7 +1522,7 @@ GameObject:
   - component: {fileID: 5424622177251855021}
   m_Layer: 0
   m_Name: LeftArmBase
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1671,11 +1641,9 @@ GameObject:
   - component: {fileID: 1166853565662599464}
   - component: {fileID: 9158353194378933189}
   - component: {fileID: 8648771323000644834}
-  - component: {fileID: 5337027137502029012}
-  - component: {fileID: 6315135538507175504}
   m_Layer: 0
   m_Name: UpperArmR
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1939,34 +1907,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5337027137502029012
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4896220594883994708}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6727e02f678c44e5be0a860bf986df4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fixedJoint: {fileID: 6315135538507175504}
---- !u!138 &6315135538507175504
-FixedJoint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4896220594883994708}
-  m_ConnectedBody: {fileID: 0}
-  m_ConnectedArticulationBody: {fileID: 0}
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_EnableCollision: 0
-  m_EnablePreprocessing: 1
-  m_MassScale: 1
-  m_ConnectedMassScale: 1
 --- !u!1 &5797724701713612716
 GameObject:
   m_ObjectHideFlags: 0
@@ -1984,7 +1924,7 @@ GameObject:
   - component: {fileID: 5335655789719769485}
   m_Layer: 0
   m_Name: HandL
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2237,7 +2177,7 @@ GameObject:
   - component: {fileID: 4970093249030224179}
   m_Layer: 0
   m_Name: Main Camera
-  m_TagString: MainCamera
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
