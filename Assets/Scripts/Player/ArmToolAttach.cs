@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ArmToolAttach : MonoBehaviour
 {
-
+    [SerializeField] private Transform grabPoint;
     private FixedJoint fixedJoint;
     private GameObject attachedObject;
 
@@ -13,24 +13,23 @@ public class ArmToolAttach : MonoBehaviour
 
     void Update()
     {
-        if (fixedJoint == null || ReferenceEquals(fixedJoint, null)) return;
         if (attachedObject == null)
         {
             if (GetTool(out GameObject closestGameObject))
             {
                 Debug.Log("tool check return tool");
                 attachedObject = closestGameObject;
+                fixedJoint = gameObject.AddComponent<FixedJoint>();
                 fixedJoint.connectedBody = closestGameObject.GetComponent<Rigidbody>();
             }
         }
         else
         {
-            GameObject heldObject = null;
-            if (heldObject != null)
+            if (attachedObject.TryGetComponent(out Part part))
             {
-                if (ReferenceEquals(heldObject, attachedObject))
+                if (part.IsGrabbed())
                 {
-                    fixedJoint.connectedBody = GetComponent<Rigidbody>();
+                    Destroy(fixedJoint);
                     attachedObject = null;
                 }
             }
@@ -39,19 +38,21 @@ public class ArmToolAttach : MonoBehaviour
 
     public bool GetTool(out GameObject closestGameObject)
     {
-        Collider[] colliders = Physics.OverlapSphere(Quaternion.Inverse(transform.rotation) * fixedJoint.anchor + transform.position, 0.2f);
+        Collider[] colliders = Physics.OverlapSphere(grabPoint.position, 0.2f);
         closestGameObject = null;
         foreach (Collider collider in colliders)
         {
             if (collider.gameObject.TryGetComponent(out Tool tool))
             {
+                print(tool.IsGrabbed());
                 if (!tool.IsGrabbed())
                 {
                     closestGameObject = collider.gameObject;
-                    break;
+                    return true;
                 }
             }
         }
-        return closestGameObject != null;
+        closestGameObject = null;
+        return false;
     }
 }
