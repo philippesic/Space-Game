@@ -19,6 +19,7 @@ GameObject:
   m_Layer: 0
   m_Name: LowerArmL
   m_TagString: Untagged
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -300,6 +301,7 @@ GameObject:
   m_Layer: 0
   m_Name: HandR
   m_TagString: Untagged
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -558,6 +560,7 @@ GameObject:
   - component: {fileID: 8497248412414110063}
   m_Layer: 0
   m_Name: UpperArmL
+  m_TagString: Untagged
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -854,6 +857,7 @@ GameObject:
   - component: {fileID: 6474722153748425585}
   m_Layer: 0
   m_Name: LowerArmR
+  m_TagString: Untagged
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1507,6 +1511,7 @@ GameObject:
   m_Layer: 0
   m_Name: RightArmBase
   m_TagString: Untagged
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1568,6 +1573,7 @@ GameObject:
   - component: {fileID: 5424622177251855021}
   m_Layer: 0
   m_Name: LeftArmBase
+  m_TagString: Untagged
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1690,6 +1696,7 @@ GameObject:
   - component: {fileID: 5337027137502029012}
   m_Layer: 0
   m_Name: UpperArmR
+  m_TagString: Untagged
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1986,6 +1993,7 @@ GameObject:
   m_Layer: 0
   m_Name: HandL
   m_TagString: Untagged
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2269,6 +2277,7 @@ GameObject:
   - component: {fileID: 4970093249030224179}
   m_Layer: 0
   m_Name: Main Camera
+  m_TagString: MainCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
