@@ -8,6 +8,7 @@ public class PauseMenu : MonoBehaviour
 
     public GameObject menu;
     public GameObject controls;
+    public GameObject abortConfirm;
     [SerializeField] private GameObject player;
     private List<GameObject> submenus = new List<GameObject>();
     void Start()
@@ -16,8 +17,10 @@ public class PauseMenu : MonoBehaviour
         menu = GameObject.Find("Pause");
         menu.SetActive(false);
         controls.SetActive(false);
+        abortConfirm.SetActive(false);
 
         submenus.Add(controls);
+        submenus.Add(abortConfirm);
     }
     void Update()
     {
@@ -64,13 +67,23 @@ public class PauseMenu : MonoBehaviour
         menu.SetActive(!menu.activeSelf);
     }
 
+    public void ToggleAbort()
+    {
+        menu.SetActive(!menu.activeSelf);
+        abortConfirm.SetActive(!abortConfirm.activeSelf);
+    }
     public void Abort()
     {
-        GlobalData.Singleton.money -= GlobalData.Singleton.startMoney;
-        if (GlobalData.Singleton.money < 0)
+
+        if (TaskMannager.Singleton.tasks.Count > 0)
         {
-            GlobalData.Singleton.money = 0;
+            GlobalData.Singleton.money -= GlobalData.Singleton.startMoney;
+            if (GlobalData.Singleton.money < 0)
+            {
+                GlobalData.Singleton.money = 0;
+            }
         }
+
         SceneDataController.Singleton.Leave();
     }
 }
