@@ -34,6 +34,7 @@ public class Part : NetworkBehaviour
     {
         if (TryGetComponent(out Rigidbody rigidbody))
         {
+            rigidbody.isKinematic = false;
             rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
             rigidbody.useGravity = false;
             if (rigidbody.drag == 0f && rigidbody.angularDrag == 0.05f) {

@@ -1,3 +1,4 @@
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -17,7 +18,6 @@ public class ArmToolAttach : MonoBehaviour
         {
             if (GetTool(out GameObject closestGameObject))
             {
-                Debug.Log("tool check return tool");
                 attachedObject = closestGameObject;
                 fixedJoint = gameObject.AddComponent<FixedJoint>();
                 fixedJoint.connectedBody = closestGameObject.GetComponent<Rigidbody>();
@@ -42,12 +42,11 @@ public class ArmToolAttach : MonoBehaviour
         closestGameObject = null;
         foreach (Collider collider in colliders)
         {
-            if (collider.gameObject.TryGetComponent(out Tool tool))
+            if (collider.gameObject.TryGetComponent(out Tool tool) || collider.transform.parent.TryGetComponent(out tool))
             {
-                print(tool.IsGrabbed());
                 if (!tool.IsGrabbed())
                 {
-                    closestGameObject = collider.gameObject;
+                    closestGameObject = tool.gameObject;
                     return true;
                 }
             }
