@@ -57,4 +57,16 @@ public class TaskMannager : MonoBehaviour
             pTasks.RemoveAt(i);
         }
     }
+
+    void Update()
+    {
+        foreach (Task task in tasks)
+        {
+            if (task.CheckIfDone())
+            {
+                tasks.Remove(task);
+                GlobalData.Singleton.money += task.money;
+            }
+        } 
+    }
 }

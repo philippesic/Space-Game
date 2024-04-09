@@ -18,8 +18,6 @@ public class WireTask : Task
     {
         if (!gameObject.activeSelf)
         {
-            AddMoney(money);
-
             return true;
         }
         return false;

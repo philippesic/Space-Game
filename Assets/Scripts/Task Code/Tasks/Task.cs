@@ -8,7 +8,7 @@ public abstract class Task : MonoBehaviour
     public float length;
     public string type;
     public string otherText = "";
-    [SerializeField] protected int money;
+    [SerializeField] public int money;
 
     protected virtual void Awake()
     {
@@ -28,9 +28,5 @@ public abstract class Task : MonoBehaviour
             return type;
         }
         return type + "(" + otherText + ")";
-    }
-    public void AddMoney(int reward)
-    {
-        GlobalData.Singleton.money += reward;
     }
 }

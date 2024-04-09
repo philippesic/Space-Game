@@ -20,7 +20,8 @@ public class ArmToolAttach : MonoBehaviour
             {
                 attachedObject = closestGameObject;
                 fixedJoint = gameObject.AddComponent<FixedJoint>();
-                fixedJoint.connectedBody = closestGameObject.GetComponent<Rigidbody>();
+                fixedJoint.connectedBody = attachedObject.GetComponent<Rigidbody>();
+                attachedObject.GetComponent<Part>().SetCollion(false);
             }
         }
         else
@@ -30,6 +31,7 @@ public class ArmToolAttach : MonoBehaviour
                 if (part.IsGrabbed())
                 {
                     Destroy(fixedJoint);
+                    attachedObject.GetComponent<Part>().SetCollion(true);
                     attachedObject = null;
                 }
             }

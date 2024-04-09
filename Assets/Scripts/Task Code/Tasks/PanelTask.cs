@@ -28,7 +28,6 @@ public class PanelTask : Task
         UpdateData();
         if (!gameObject.activeSelf)
         {
-            AddMoney(money);
             return true;
         }
         return false;

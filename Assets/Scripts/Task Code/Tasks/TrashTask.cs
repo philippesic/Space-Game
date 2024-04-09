@@ -18,8 +18,6 @@ public class TrashTask : Task
     {
         if (!gameObject.activeSelf)
         {
-            AddMoney(money);
-
             return true;
         }
         return false;

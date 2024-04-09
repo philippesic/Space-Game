@@ -9,7 +9,7 @@ using UnityEngine;
 public class Part : NetworkBehaviour
 {
     protected List<GameObject> grabberGameObjects = new();
-    
+
     public bool IsGrabbed()
     {
         return grabberGameObjects.Count > 0;
@@ -37,7 +37,8 @@ public class Part : NetworkBehaviour
             rigidbody.isKinematic = false;
             rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
             rigidbody.useGravity = false;
-            if (rigidbody.drag == 0f && rigidbody.angularDrag == 0.05f) {
+            if (rigidbody.drag == 0f && rigidbody.angularDrag == 0.05f)
+            {
                 rigidbody.angularDrag = 0;
             }
         }
@@ -47,5 +48,18 @@ public class Part : NetworkBehaviour
     {
         GetComponent<NetworkObject>().Despawn(false);
         gameObject.SetActive(false);
+    }
+
+    public void SetCollion(bool isOn)
+    {
+        if (TryGetComponent(out Rigidbody rigidbody))
+            if (isOn)
+            {
+                rigidbody.excludeLayers = 0;
+            }
+            else
+            {
+                rigidbody.excludeLayers = -1;
+            }
     }
 }
