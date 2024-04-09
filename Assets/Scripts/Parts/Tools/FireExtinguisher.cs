@@ -8,7 +8,7 @@ public class FireExtinguisher : Tool
     [SerializeField] float sprayForce = 10;
     private Rigidbody rb;
     [SerializeField] private GameObject[] particles = new GameObject[2];
-    void Start()
+    protected override void SetUpOtherStuff()
     {
         rb = GetComponent<Rigidbody>();
         foreach (GameObject p in particles) { p.SetActive(false); }

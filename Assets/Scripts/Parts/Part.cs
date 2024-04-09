@@ -28,7 +28,10 @@ public class Part : NetworkBehaviour
     void Start()
     {
         SetupPart();
+        SetUpOtherStuff();
     }
+
+    protected virtual void SetUpOtherStuff() { }
 
     private void SetupPart()
     {
