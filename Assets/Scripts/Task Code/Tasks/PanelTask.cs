@@ -15,6 +15,7 @@ public class PanelTask : Task
         type = "Panel";
         otherText = "";
         UpdateData();
+        money = 5;
     }
 
     // protected override void UpdateData()
@@ -26,7 +27,10 @@ public class PanelTask : Task
     {
         UpdateData();
         if (!gameObject.activeSelf)
+        {
+            AddMoney(money);
             return true;
+        }
         return false;
     }
 }

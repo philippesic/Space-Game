@@ -15,14 +15,17 @@ public class NetworkUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI ipText;
     [SerializeField] private TMP_InputField ipInput;
 
-    private void Awake() {
+    private void Awake()
+    {
         ipText.text = IPManager.GetLocalIPAddress();
-        host.onClick.AddListener(() => {
+        host.onClick.AddListener(() =>
+        {
             GameLoadingData.ip = IPManager.GetLocalIPAddress();
             GameLoadingData.hosting = true;
             LoadGame();
         });
-        client.onClick.AddListener(() => {
+        client.onClick.AddListener(() =>
+        {
             GameLoadingData.ip = ipInput.text;
             GameLoadingData.hosting = false;
             LoadGame();
@@ -31,6 +34,7 @@ public class NetworkUI : MonoBehaviour
 
     private void LoadGame()
     {
+        GlobalData.Singleton.money += GlobalData.Singleton.startMoney;
         SceneManager.LoadScene(sceneToLoad, LoadSceneMode.Single);
     }
 }

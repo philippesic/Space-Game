@@ -11,12 +11,17 @@ public class TrashTask : Task
         difficulty = 1;
         length = 1;
         type = "Trash";
+        money = 5;
     }
 
     public override bool CheckIfDone()
     {
         if (!gameObject.activeSelf)
+        {
+            AddMoney(money);
+
             return true;
+        }
         return false;
     }
 }

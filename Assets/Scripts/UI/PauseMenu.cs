@@ -66,6 +66,11 @@ public class PauseMenu : MonoBehaviour
 
     public void Abort()
     {
+        GlobalData.Singleton.money -= GlobalData.Singleton.startMoney;
+        if (GlobalData.Singleton.money < 0)
+        {
+            GlobalData.Singleton.money = 0;
+        }
         SceneDataController.Singleton.Leave();
     }
 }

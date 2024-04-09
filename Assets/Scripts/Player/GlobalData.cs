@@ -6,6 +6,7 @@ public class GlobalData : MonoBehaviour
 
     [HideInInspector]
     public int money = 0;
+    public int startMoney = 10;
 
     private void Awake()
     {

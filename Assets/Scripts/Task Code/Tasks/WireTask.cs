@@ -11,12 +11,17 @@ public class WireTask : Task
         difficulty = 1;
         length = 1;
         type = "Wire";
+        money = 5;
     }
 
     public override bool CheckIfDone()
     {
         if (!gameObject.activeSelf)
+        {
+            AddMoney(money);
+
             return true;
+        }
         return false;
     }
 }
