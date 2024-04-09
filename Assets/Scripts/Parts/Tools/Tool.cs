@@ -7,10 +7,14 @@ using UnityEngine;
 public abstract class Tool : Part
 {
     [SerializeField] private bool isToggle;
+    [SerializeField] protected int cost;
     private bool isOn = false;
+    private bool isHeld = false;
+
 
     public override void Grabbed(GameObject grabber)
     {
+        isHeld = true;
         if (grabberGameObjects.Count == 0)
         {
             if (grabber.TryGetComponent(out Player player))
@@ -24,6 +28,7 @@ public abstract class Tool : Part
 
     public override void Dropped(GameObject grabber)
     {
+        isHeld = false;
         if (grabberGameObjects.Contains(grabber))
         {
             if (grabber.TryGetComponent(out Player player))
@@ -32,6 +37,7 @@ public abstract class Tool : Part
                     GetComponent<NetworkObject>().ChangeOwnership(NetworkManager.ServerClientId);
             }
             grabberGameObjects.Remove(grabber);
+
         }
     }
 
@@ -85,6 +91,14 @@ public abstract class Tool : Part
                 }
             }
         }
+    }
+    public bool IsHeld()
+    {
+        return isHeld;
+    }
+    public int GetCost()
+    {
+        return cost;
     }
 
     protected virtual void Use() { }

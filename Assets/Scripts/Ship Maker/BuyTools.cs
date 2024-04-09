@@ -5,12 +5,13 @@ using UnityEngine;
 public class BuyTools : MonoBehaviour
 {
     [SerializeField] private GameObject tool;
-    [SerializeField] private int cost;
     [SerializeField] private Collider trigger;
     [SerializeField] private TMPro.TextMeshPro costText;
+    private int cost;
 
     void Start()
     {
+        cost = tool.GetComponent<Tool>().GetCost();
         costText.text = cost.ToString();
     }
     private void OnTriggerEnter(Collider other)
