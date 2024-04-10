@@ -260,9 +260,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tool: {fileID: 0}
-  cost: 0
   trigger: {fileID: 4161697491348003909}
   costText: {fileID: 5676778051532252548}
+  unpressed: {fileID: 2100000, guid: 3454a9f3b8010644fac7b3e5cc4e1f9b, type: 2}
+  pressed: {fileID: 2100000, guid: eb323c3f714fdb240a98bc8cf23c1c36, type: 2}
 --- !u!1 &8173071285401820684
 GameObject:
   m_ObjectHideFlags: 0
