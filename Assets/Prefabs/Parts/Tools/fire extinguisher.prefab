@@ -345,6 +345,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isToggle: 0
+  cost: 15
   output: {fileID: 7350448180343512063}
   sprayForce: 10
   particles:
