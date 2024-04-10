@@ -41,7 +41,6 @@ public class TaskMannager : MonoBehaviour
     {
         if (pTasks.Count == 0)
         {
-            print("made no tasks");
             return;
         };
         while (length > 0 && pTasks.Count > 0)
@@ -50,7 +49,6 @@ public class TaskMannager : MonoBehaviour
             Task task = pTasks[i];
             if (task.length <= length && task.difficulty <= difficulty)
             {
-                //difficulty -= task.difficulty;
                 length -= task.length;
                 AddTask(task);
             }
@@ -60,13 +58,16 @@ public class TaskMannager : MonoBehaviour
 
     void Update()
     {
+        List<Task> toRemove = new();
         foreach (Task task in tasks)
         {
             if (task.CheckIfDone())
-            {
-                tasks.Remove(task);
-                GlobalData.Singleton.money += task.money;
-            }
-        } 
+                toRemove.Add(task);
+        }
+        foreach (Task task in toRemove)
+        {
+            tasks.Remove(task);
+            GlobalData.Singleton.money += task.money;
+        }
     }
 }

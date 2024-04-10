@@ -39,6 +39,7 @@ public class Part : NetworkBehaviour
         {
             rigidbody.isKinematic = false;
             rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
+            rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
             rigidbody.useGravity = false;
             if (rigidbody.drag == 0f && rigidbody.angularDrag == 0.05f)
             {

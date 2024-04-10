@@ -37,7 +37,6 @@ public abstract class Tool : Part
                     GetComponent<NetworkObject>().ChangeOwnership(NetworkManager.ServerClientId);
             }
             grabberGameObjects.Remove(grabber);
-
         }
     }
 
@@ -56,12 +55,10 @@ public abstract class Tool : Part
 
     public void Update()
     {
-        print(HeldByLocalClient());
-        if (HeldByLocalClient() && !IsServer)
+        if (HeldByLocalClient())
         {
             if (Input.GetKeyDown(KeyCode.F))
             {
-                print("here");
                 PressedServerRpc(true);
             }
             else if (Input.GetKey(KeyCode.F))
@@ -87,7 +84,6 @@ public abstract class Tool : Part
     [Rpc(SendTo.Server)]
     public void PressedServerRpc(bool isKeyDown)
     {
-        print(isKeyDown);
         foreach (GameObject gameObject in grabberGameObjects)
         {
             if (gameObject != null && gameObject.TryGetComponent(out Player player))
