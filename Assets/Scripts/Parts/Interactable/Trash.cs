@@ -10,7 +10,6 @@ public class Trash : Interactable
     public override void GetHammered(Vector3 pos, float damage = 1)
     {
         health -= damage;
-        print(health);
         if (health <= 0)
         {
             if (TryGetComponent(out ConfigurableJoint configurableJoint))
