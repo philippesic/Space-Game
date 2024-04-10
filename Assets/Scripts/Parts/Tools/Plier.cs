@@ -14,7 +14,7 @@ public class Plier : Tool
         {
             if (collider.TryGetComponent(out Wire wire) || collider.transform.parent.TryGetComponent(out wire))
             {
-                wire.GetPliered();
+                wire.GetPliered(collider.ClosestPoint(pos.position));
             }
         }
     }

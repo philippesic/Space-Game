@@ -11,7 +11,8 @@ public class Hammer : Tool
         print(force);
         if (force > 1 && (other.collider.TryGetComponent(out Interactable interactable) || other.collider.transform.parent.TryGetComponent(out interactable)))
         {
-            interactable.GetHammered(force / 40);
+            ContactPoint contact = other.GetContact(0);
+            interactable.GetHammered(contact.point, force / 40);
         }
     }
 }

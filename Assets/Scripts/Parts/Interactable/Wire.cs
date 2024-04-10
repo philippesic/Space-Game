@@ -6,7 +6,7 @@ using UnityEngine;
 public class Wire : Interactable
 {
 
-    public override void GetPliered()
+    public override void GetPliered(Vector3 pos)
     {
         Destroy();
     }

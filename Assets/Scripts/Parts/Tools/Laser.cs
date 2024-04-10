@@ -12,11 +12,25 @@ public class Laser : Tool
         {
             if (hit.collider.gameObject.TryGetComponent(out Interactable interactable))
             {
-                interactable.GetLasered(Time.deltaTime);
+                if (hit.collider.gameObject.CompareTag("Crack"))
+                {
+                    interactable.GetLasered(hit.point, hit.collider, Time.deltaTime);
+                }
+                else
+                {
+                    interactable.GetLasered(hit.point, Time.deltaTime);
+                }
             }
             else if (hit.collider.gameObject.transform.parent.TryGetComponent(out interactable))
             {
-                interactable.GetLasered(Time.deltaTime);
+                if (hit.collider.gameObject.CompareTag("Crack"))
+                {
+                    interactable.GetLasered(hit.point, hit.collider, Time.deltaTime);
+                }
+                else
+                {
+                    interactable.GetLasered(hit.point, Time.deltaTime);
+                }
             }
         }
     }

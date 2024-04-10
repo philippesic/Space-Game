@@ -7,7 +7,7 @@ public class Trash : Interactable
 {
     public float health = 5;
 
-    public override void GetHammered(float damage = 1)
+    public override void GetHammered(Vector3 pos, float damage = 1)
     {
         health -= damage;
         print(health);
