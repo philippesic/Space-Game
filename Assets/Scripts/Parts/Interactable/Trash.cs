@@ -10,11 +10,12 @@ public class Trash : Interactable
     public override void GetHammered(float damage = 1)
     {
         health -= damage;
+        print(health);
         if (health <= 0)
         {
-            if (TryGetComponent(out ConfigurableJoint configurableJoint))
+            if (TryGetComponent(out Rigidbody rigidbody))
             {
-                Destroy(configurableJoint);
+            rigidbody.constraints = RigidbodyConstraints.None;
             }
         }
     }
