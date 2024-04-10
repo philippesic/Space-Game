@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 public class BuyTools : MonoBehaviour
@@ -20,7 +21,7 @@ public class BuyTools : MonoBehaviour
             if (GlobalData.Singleton.money >= cost)
             {
                 GlobalData.Singleton.money -= cost;
-                Instantiate(tool, transform.position + transform.up * -1, transform.rotation, AllPartContainer.Singleton.transform);
+                Instantiate(tool, transform.position + transform.up * -1, transform.rotation, AllPartContainer.Singleton.transform).GetComponent<NetworkObject>().Spawn();
             }
         }
     }

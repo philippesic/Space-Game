@@ -80,7 +80,7 @@ public class PlayerCam : NetworkBehaviour
         }
     }
 
-    [ServerRpc]
+    [Rpc(SendTo.Server)]
     private void AddToDesiredRotationServerRpc(Vector3 rotation)
     {
         desiredRotation *= Quaternion.Euler(rotation);

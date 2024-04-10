@@ -81,7 +81,7 @@ public class HandController : NetworkBehaviour
             desiredPos = pos;
     }
 
-    [ServerRpc]
+    [Rpc(SendTo.Server)]
     public void SetPostionServerRpc(Vector3 pos)
     {
         SetPostion(pos);
@@ -98,7 +98,7 @@ public class HandController : NetworkBehaviour
         SetPostion(pos * (currentDesiredPostion.magnitude + shift.z));
     }
 
-    [ServerRpc]
+    [Rpc(SendTo.Server)]
     public void ShiftPostionServerRpc(Vector3 shift)
     {
         ShiftPostion(shift);
@@ -217,13 +217,13 @@ public class HandController : NetworkBehaviour
         }
     }
 
-    [ServerRpc]
+    [Rpc(SendTo.Server)]
     public void ToggleGrabServerRpc()
     {
         grab.Value = !grab.Value;
     }
 
-    [ServerRpc]
+    [Rpc(SendTo.Server)]
     public void ToggleGripServerRpc()
     {
         if (fixedJoint == null) return;

@@ -35,12 +35,27 @@ public abstract class Tool : Part
         }
     }
 
+    public bool HeldByLocalClient()
+    {
+        foreach (GameObject grabber in grabberGameObjects)
+        {
+            if (grabber.TryGetComponent(out Player player))
+            {
+                if (player.OwnerClientId == NetworkManager.Singleton.LocalClientId)
+                    return true;
+            }
+        }
+        return false;
+    }
+
     public void Update()
     {
-        if (IsOwner && (grabberGameObjects != null || !IsServer))
+        print(HeldByLocalClient());
+        if (HeldByLocalClient() && !IsServer)
         {
             if (Input.GetKeyDown(KeyCode.F))
             {
+                print("here");
                 PressedServerRpc(true);
             }
             else if (Input.GetKey(KeyCode.F))
@@ -63,9 +78,10 @@ public abstract class Tool : Part
         }
     }
 
-    [ServerRpc]
-    private void PressedServerRpc(bool isKeyDown)
+    [Rpc(SendTo.Server)]
+    public void PressedServerRpc(bool isKeyDown)
     {
+        print(isKeyDown);
         foreach (GameObject gameObject in grabberGameObjects)
         {
             if (gameObject != null && gameObject.TryGetComponent(out Player player))
