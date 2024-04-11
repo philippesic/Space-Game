@@ -16,7 +16,7 @@ public class TrashTask : Task
 
     public override bool CheckIfDone()
     {
-        if (!gameObject.activeSelf)
+        if (gameObject.GetComponent<Rigidbody>().constraints == RigidbodyConstraints.None)
         {
             return true;
         }
