@@ -550,6 +550,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   money: 0
+  startMoney: 100
 --- !u!4 &584222552
 Transform:
   m_ObjectHideFlags: 0
@@ -780,6 +781,7 @@ MonoBehaviour:
   - {fileID: 3114323426848731896, guid: 96e9642585df8a1489d62f4b9258ddbd, type: 3}
   - {fileID: 3538145602855014515, guid: c758eae92ad724270b28837949e49e6c, type: 3}
   - {fileID: 7968588616766342025, guid: 1ba88e48a80804433858b804917e2f39, type: 3}
+  - {fileID: 799967098133882247, guid: 330924208990743158c03c4e82de922f, type: 3}
   largeParts:
   - {fileID: 2436875600942729899, guid: 21a5fb3b9952a4eb7b1567fdf0fd2a8a, type: 3}
 --- !u!4 &1091584526
