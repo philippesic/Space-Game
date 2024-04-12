@@ -380,7 +380,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tasks: []
-  length: 4
+  length: 1
   difficulty: 4
 --- !u!4 &202043843
 Transform:
