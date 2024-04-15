@@ -17,10 +17,7 @@ public class PlayerCam : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         GetComponentInChildren<Camera>().gameObject.SetActive(IsOwner);
-        desiredRotation.x = transform.rotation.x;
-        desiredRotation.y = transform.rotation.y;
-        desiredRotation.z = transform.rotation.z;
-        desiredRotation.w = transform.rotation.w;
+        desiredRotation = quaternion.identity * Quaternion.Euler(90, 0, 0);
     }
 
     void Start()
