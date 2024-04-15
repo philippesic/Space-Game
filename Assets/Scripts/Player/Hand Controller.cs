@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.AI;
+using UnityEngine.InputSystem;
 
 public class HandController : NetworkBehaviour
 {
@@ -26,16 +27,30 @@ public class HandController : NetworkBehaviour
     [SerializeField] private Material canGrabMaterial;
     [SerializeField] private Material grabbingMaterial;
     [SerializeField] private float trackSpeed = 1;
+    [SerializeField] private GameObject ControllerDirection;
     private ConfigurableJoint fixedJoint;
     private Vector3 desiredPos = new(0, -0.3f, 0);
     private Vector3 trackingPos = new();
+    private Quaternion desiredRotation = new();
     private readonly NetworkVariable<bool> grab = new(false);
-    private int iii = 0;
-
+    [SerializeField] InputActionReference useTool;
     void Update()
     {
         if (IsServer)
         {
+            if (TryGetComponent(out ConfigurableJoint joint))
+            {
+                // Vector3 armF = lower.transform.rotation * Vector3.forward;
+                // Vector3 armR = lower.transform.rotation * Vector3.right;
+                // Vector3 armU = lower.transform.rotation * Vector3.up;
+                // Vector3 handF = desiredRotation * Vector3.forward;
+                // Vector3 handR = desiredRotation * Vector3.right;
+                // Vector3 handU = desiredRotation * Vector3.up;
+                // Vector3.ProjectOnPlane(handF, armU);
+                // Quaternion quaternion = *Quaternion.Inverse(desiredRotation);
+                // joint.targetRotation = Quaternion.Euler(quaternion.eulerAngles.x, quaternion.eulerAngles.y, quaternion.eulerAngles.z);
+                // ControllerDirection.transform.rotation = quaternion;
+            }
             if (fixedJoint == null)
             {
                 if (grab.Value) TryGrab();
@@ -52,12 +67,19 @@ public class HandController : NetworkBehaviour
             {
                 hand.GetComponentInChildren<MeshRenderer>().material = notGrabbingMaterial;
                 if (fixedJoint.connectedBody.TryGetComponent(out Part part))
+                {
                     part.Dropped(player);
+                    if (part.TryGetComponent(out Tool tool))
+                    {
+                        tool.RemoveInput(useTool);
+                    }
+                }
                 Destroy(fixedJoint);
                 fixedJoint = null;
             }
             float g = (GetDesiredPostion() - trackingPos).magnitude;
             trackingPos += (GetDesiredPostion() - trackingPos).normalized * math.min(0.2f, Time.deltaTime * trackSpeed * g);
+            // trackingPos = GetDesiredPostion();
             UpdateJoints();
         }
         else
@@ -73,18 +95,29 @@ public class HandController : NetworkBehaviour
 
     public void SetPostion(Vector3 pos)
     {
-        if (pos.z < 0.3f)
-            pos.z = 0.3f;
+        if (pos.z < 0.01f)
+            pos.z = 0.01f;
         if (pos.magnitude > l1 + l2 - 0.01f)
             desiredPos = pos.normalized * (l1 + l2 - 0.01f);
         else
             desiredPos = pos;
     }
 
-    [Rpc(SendTo.Server)]
+    public void SetRotation(Quaternion rotation)
+    {
+        desiredRotation = rotation;
+    }
+
+    [ServerRpc]
     public void SetPostionServerRpc(Vector3 pos)
     {
         SetPostion(pos);
+    }
+
+    [ServerRpc]
+    public void SetRotationServerRpc(Quaternion rotation)
+    {
+        SetRotation(rotation);
     }
 
     public void ShiftPostion(Vector3 shift)
@@ -92,13 +125,13 @@ public class HandController : NetworkBehaviour
         Vector3 currentDesiredPostion = GetDesiredPostion();
         Vector3 direction = currentDesiredPostion / currentDesiredPostion.z;
         Vector3 pos = (direction + new Vector3(shift.x, shift.y, 0)).normalized;
-        if (pos.z < 0.55f)
-            pos.z = 0.55f;
+        if (pos.z < 0.01f)
+            pos.z = 0.01f;
         pos.Normalize();
         SetPostion(pos * (currentDesiredPostion.magnitude + shift.z));
     }
 
-    [Rpc(SendTo.Server)]
+    [ServerRpc]
     public void ShiftPostionServerRpc(Vector3 shift)
     {
         ShiftPostion(shift);
@@ -140,6 +173,10 @@ public class HandController : NetworkBehaviour
 
     private Vector3 DoIK(Vector3 position, float L1, float L2)
     {
+        if (position.magnitude > L1 + L2)
+            position *= (L1 + L2) / position.magnitude;
+        else if (position.magnitude < math.abs(L1 - L2))
+            position *= (math.abs(L1 - L2) + 0.01f) / position.magnitude;
         return new()
         {
             x = (float)Math.Atan2(position.x, position.z),
@@ -160,7 +197,7 @@ public class HandController : NetworkBehaviour
 
     private bool TryGrapCheck(out GameObject closestGameObject)
     {
-        Collider[] colliders = Physics.OverlapSphere(GetHandPos(), 0.125f);
+        Collider[] colliders = Physics.OverlapSphere(GetHandPos(), 0.2f);
         closestGameObject = null;
         float closestColliderDistance = 100;
         foreach (Collider collider in colliders)
@@ -193,7 +230,7 @@ public class HandController : NetworkBehaviour
     {
         if (TryGrapCheck(out GameObject closestGameObject))
         {
-            if (Vector3.Distance(GlobalToLocal(GetHandPos()), GetDesiredPostion()) < 0.3)
+            if (Vector3.Distance(GlobalToLocal(GetHandPos()), GetDesiredPostion()) < 0.5)
             {
                 hand.GetComponentInChildren<MeshRenderer>().material = grabbingMaterial;
                 fixedJoint = hand.AddComponent<ConfigurableJoint>();
@@ -205,7 +242,14 @@ public class HandController : NetworkBehaviour
                 fixedJoint.connectedBody = closestGameObject.GetComponent<Rigidbody>();
                 SetPostion(GlobalToLocal(GetHandPos()));
                 if (closestGameObject.TryGetComponent(out Part part))
+                {
                     part.Grabbed(player);
+                    if (closestGameObject.TryGetComponent(out Tool tool))
+                    {
+                        ToggleGripServerRpc();
+                        tool.GiveInput(useTool);
+                    }
+                }
             }
         }
         else
@@ -217,13 +261,13 @@ public class HandController : NetworkBehaviour
         }
     }
 
-    [Rpc(SendTo.Server)]
+    [ServerRpc]
     public void ToggleGrabServerRpc()
     {
         grab.Value = !grab.Value;
     }
 
-    [Rpc(SendTo.Server)]
+    [ServerRpc]
     public void ToggleGripServerRpc()
     {
         if (fixedJoint == null) return;

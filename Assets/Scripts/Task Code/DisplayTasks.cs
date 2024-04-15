@@ -4,6 +4,7 @@ using Unity.Netcode;
 using UnityEngine;
 using TMPro;
 using System.Linq;
+using Unity.XR.CoreUtils;
 
 public class DisplayTasks : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class DisplayTasks : MonoBehaviour
     [SerializeField] private GameObject uiTextPerfab;
     private Transform playerTransform;
     [SerializeField] private TextMeshProUGUI taskList;
+    // [SerializeField] private Camera mainCamera;
+    [SerializeField] private Transform taskTexts;
+    // [SerializeField] private bool isList = false;
 
     void Update()
     {
@@ -27,29 +31,33 @@ public class DisplayTasks : MonoBehaviour
                 foreach (var task in TaskMannager.Singleton.tasks)
                 {
                     taskListText += task.GetText() + "\n";
+                    // if (!isList)
+                    // {
                     GameObject textUI;
-                    if (Vector3.Angle(task.transform.position - playerTransform.Find("Body").transform.position, playerTransform.Find("Body").transform.up) > 90)
-                    {
-                        if (texts.TryGetValue(task, out textUI))
-                        {
-                            Destroy(textUI);
-                            texts.Remove(task);
-                        }
-                    }
-                    else
-                    {
+
+                    // if (Vector3.Angle(task.transform.position - playerTransform.Find("Body").transform.position, playerTransform.Find("Body").transform.up) > 90)
+                    // {
+                    //     if (texts.TryGetValue(task, out textUI))
+                    //     {
+                    //         Destroy(textUI);
+                    //         texts.Remove(task);
+                    //     }
+                    // }
+                    // else
+                    
+                    //{
 
                         var distance = Vector3.Distance(playerTransform.Find("Body").transform.position, task.transform.position);
                         if (!texts.TryGetValue(task, out textUI))
                         {
-                            textUI = Instantiate(uiTextPerfab, transform);
+                            textUI = Instantiate(uiTextPerfab, taskTexts);
                             texts.Add(task, textUI);
                         }
                         else
                         {
                             toDelTasks.Remove(task);
                         }
-                        if (textUI.TryGetComponent(out TextMeshProUGUI textMeshPro))
+                        if (textUI.GetNamedChild("Text").TryGetComponent(out TextMeshProUGUI textMeshPro))
                         {
                             string text = task.GetText() + " " + ((int)distance).ToString() + "m";
                             if (textMeshPro.text != text)
@@ -57,9 +65,10 @@ public class DisplayTasks : MonoBehaviour
                                 textMeshPro.text = text;
                             }
                         }
-                        textUI.transform.position = playerTransform.GetComponentInChildren<Camera>().WorldToScreenPoint(task.transform.position);
-                    }
+                        textUI.transform.position = task.transform.position; //mainCamera.WorldToScreenPoint(task.transform.position);
+                    //}
                 }
+                // }
                 foreach (Task task in toDelTasks)
                 {
                     if (texts.TryGetValue(task, out GameObject textUI))
@@ -68,7 +77,7 @@ public class DisplayTasks : MonoBehaviour
                         texts.Remove(task);
                     }
                 }
-                if (taskList.text != taskListText)
+                if (taskList.text != taskListText) //isList && 
                 {
                     taskList.text = taskListText;
                 }

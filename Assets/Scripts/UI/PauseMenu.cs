@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -9,25 +10,28 @@ public class PauseMenu : MonoBehaviour
     public GameObject menu;
     public GameObject controls;
     public GameObject abortConfirm;
-    [SerializeField] private GameObject player;
     private List<GameObject> submenus = new List<GameObject>();
+    [SerializeField] private InputActionReference menuButton;
+    [SerializeField] GameObject back;
+    private bool menuButtonState = false;
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
         menu = GameObject.Find("Pause");
         menu.SetActive(false);
         controls.SetActive(false);
         abortConfirm.SetActive(false);
+        back.SetActive(false);
 
         submenus.Add(controls);
         submenus.Add(abortConfirm);
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) || (menuButton.action.IsPressed() && !menuButtonState))
         {
             ToggleMenu();
         }
+        menuButtonState = menuButton.action.IsPressed();
     }
 
     public void ToggleMenu()
@@ -36,41 +40,23 @@ public class PauseMenu : MonoBehaviour
         {
             sub.SetActive(false);
         }
-
         menu.SetActive(!menu.activeSelf);
-        foreach (Transform child in player.GetComponentsInChildren<Transform>())
-        {
-            foreach (MonoBehaviour script in child.gameObject.GetComponents<MonoBehaviour>())
-            {
-                if ((script is ArmMovement) || (script is HandController) || (script is PlayerCam))
-                {
-                    script.enabled = (!menu.activeSelf && !controls.activeSelf);
-                }
-
-            }
-        }
-
-        if (menu.activeSelf)
-        {
-            Cursor.lockState = CursorLockMode.None;
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-        }
+        back.SetActive(menu.activeSelf);
     }
 
 
     public void ToggleControls()
     {
         controls.SetActive(!controls.activeSelf);
-        menu.SetActive(!menu.activeSelf);
+        menu.SetActive(!controls.activeSelf);
+        back.SetActive(true);
     }
 
     public void ToggleAbort()
     {
-        menu.SetActive(!menu.activeSelf);
         abortConfirm.SetActive(!abortConfirm.activeSelf);
+        menu.SetActive(!abortConfirm);
+        back.SetActive(true);
     }
     public void Abort()
     {

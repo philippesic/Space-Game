@@ -34,7 +34,10 @@ public class NetworkUI : MonoBehaviour
 
     private void LoadGame()
     {
-        GlobalData.Singleton.money += GlobalData.Singleton.startMoney;
+        if (GlobalData.Singleton != null)
+        {
+            GlobalData.Singleton.money += GlobalData.Singleton.startMoney;
+        }
         SceneManager.LoadScene(sceneToLoad, LoadSceneMode.Single);
     }
 }

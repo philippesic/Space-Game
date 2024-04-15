@@ -46,7 +46,7 @@ public class ArmToolAttach : MonoBehaviour
         {
             if (collider.gameObject.TryGetComponent(out Tool tool) || collider.transform.parent.TryGetComponent(out tool))
             {
-                if (!tool.IsGrabbed())
+                if (tool.TryGetComponent(out Rigidbody rigidbody) && rigidbody.excludeLayers == 0 && !tool.IsGrabbed())
                 {
                     closestGameObject = tool.gameObject;
                     return true;

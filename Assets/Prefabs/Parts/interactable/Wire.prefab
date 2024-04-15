@@ -262,3 +262,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   difficulty: 2
   length: 2
+  type: 
+  otherText: 
+  money: 10

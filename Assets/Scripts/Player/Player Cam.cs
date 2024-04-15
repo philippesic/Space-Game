@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerCam : NetworkBehaviour
 {
@@ -13,6 +14,13 @@ public class PlayerCam : NetworkBehaviour
     [Header("Sensitivity")]
     [SerializeField] private float torque;
     [SerializeField] private float rotationSpeed;
+    [SerializeField] private InputActionReference rot2dAxisLeft;
+    [SerializeField] private InputActionReference rot2dAxisRight;
+    [SerializeField] private InputActionReference rP;
+    [SerializeField] private InputActionReference rN;
+    [SerializeField] private Transform vrCam;
+    [SerializeField] private Transform vrRig;
+
 
     public override void OnNetworkSpawn()
     {
@@ -48,11 +56,13 @@ public class PlayerCam : NetworkBehaviour
 
         if (IsServer)
         {
-            Quaternion rotationDifference = desiredRotation * Quaternion.Inverse(player.rotation);
+            Quaternion rotationDifference = vrCam.rotation * quaternion.EulerXYZ(math.PI/2, 0, 0) * Quaternion.Inverse(player.rotation);
             rotationDifference.ToAngleAxis(out float angle, out Vector3 axis);
             player.AddTorque(Time.deltaTime * torque * angle * 0.4f * axis);
         }
         if (!IsOwner) return;
+
+        vrRig.localRotation = Quaternion.Inverse(player.rotation) * desiredRotation;
 
         if (Input.GetKey(KeyCode.Q))
         {
@@ -78,12 +88,15 @@ public class PlayerCam : NetworkBehaviour
         {
             AddToDesiredRotationServerRpc(Time.deltaTime * rotationSpeed * Vector3.back);
         }
+
+        AddToDesiredRotationServerRpc(Time.deltaTime * rotationSpeed * (rot2dAxisLeft.action.ReadValue<Vector2>().y + rot2dAxisRight.action.ReadValue<Vector2>().y) * Vector3.left);
+        AddToDesiredRotationServerRpc(Time.deltaTime * rotationSpeed * (rot2dAxisLeft.action.ReadValue<Vector2>().x + rot2dAxisRight.action.ReadValue<Vector2>().x) * Vector3.back);
     }
 
-    [Rpc(SendTo.Server)]
+    [ServerRpc]
     private void AddToDesiredRotationServerRpc(Vector3 rotation)
     {
-        desiredRotation *= Quaternion.Euler(rotation);
+        desiredRotation *= Quaternion.Euler(vrCam.transform.localRotation * rotation);
         // if (TryGetComponent(out ArmMovement armMovement))
         // {
         //     if (armMovement.GetLeft().IsHolding() && !armMovement.GetLeft().IsFixed())

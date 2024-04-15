@@ -32,12 +32,12 @@ public class Crack : Interactable
             Vector3 pos = positions[i];
             if (Vector3.Distance(transform.TransformPoint(pos), hitPos) < 0.2f)
             {
-                healths[positions.IndexOf(pos)] -= damage;
-                if (healths[positions.IndexOf(pos)] <= 0)
-                {
+                // healths[positions.IndexOf(pos)] -= damage;
+                // if (healths[positions.IndexOf(pos)] <= 0)
+                // {
                     healths.RemoveAt(positions.IndexOf(pos));
                     positions.Remove(pos);
-                }
+                // }
             }
             if (positions.Count <= 0)
                 Destroy();

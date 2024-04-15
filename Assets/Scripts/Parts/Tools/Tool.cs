@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public abstract class Tool : Part
 {
@@ -10,7 +12,8 @@ public abstract class Tool : Part
     [SerializeField] protected int cost;
     private bool isOn = false;
     private bool isHeld = false;
-
+    [SerializeField] private List<InputActionReference> use = new();
+    [SerializeField] private bool isPressed = false;
 
     public override void Grabbed(GameObject grabber)
     {
@@ -23,7 +26,18 @@ public abstract class Tool : Part
                     GetComponent<NetworkObject>().ChangeOwnership(player.OwnerClientId);
             }
         }
+        
         grabberGameObjects.Add(grabber);
+    }
+
+    public void GiveInput(InputActionReference inputAction)
+    {
+        use.Add(inputAction);
+    }
+
+    public void RemoveInput(InputActionReference inputAction)
+    {
+        use.Remove(inputAction);
     }
 
     public override void Dropped(GameObject grabber)
@@ -53,17 +67,33 @@ public abstract class Tool : Part
         return false;
     }
 
+    private bool ButtonPressed()
+    {
+        foreach (var action in use)
+        {
+            if (action.action.IsPressed())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void Update()
     {
         if (HeldByLocalClient())
         {
-            if (Input.GetKeyDown(KeyCode.F))
+            if (use != null)
             {
-                PressedServerRpc(true);
-            }
-            else if (Input.GetKey(KeyCode.F))
-            {
-                PressedServerRpc(false);
+                if (ButtonPressed() && !isPressed) 
+                {
+                    PressedServerRpc(true);
+                }
+                else if (isPressed)
+                {
+                    PressedServerRpc(false);
+                }
+                isPressed = ButtonPressed();
             }
         }
         if (IsServer)
@@ -81,7 +111,7 @@ public abstract class Tool : Part
         }
     }
 
-    [Rpc(SendTo.Server)]
+    [ServerRpc]
     public void PressedServerRpc(bool isKeyDown)
     {
         foreach (GameObject gameObject in grabberGameObjects)

@@ -10,16 +10,7 @@ public class GlobalData : MonoBehaviour
 
     private void Awake()
     {
-        CreateSingleton();
-    }
-
-    void CreateSingleton()
-    {
-        if (Singleton == null)
-            Singleton = this;
-        else
-            Destroy(gameObject);
-
+        Singleton = this;
         DontDestroyOnLoad(gameObject);
     }
 }

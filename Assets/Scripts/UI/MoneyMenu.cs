@@ -5,15 +5,17 @@ using UnityEngine;
 public class MoneyMenu : MonoBehaviour
 {
 
-    private GameObject text;
-
-    void Start()
-    {
-        text = GameObject.Find("MoneyText");
-    }
+    [SerializeField] private GameObject text;
 
     void Update()
     {
-        text.GetComponent<TMPro.TextMeshProUGUI>().text = GlobalData.Singleton.money.ToString();
+        if (GlobalData.Singleton == null)
+        {
+            text.GetComponent<TMPro.TextMeshProUGUI>().text = "GlobalData not saving?????";
+        }
+        else
+        {
+            text.GetComponent<TMPro.TextMeshProUGUI>().text = GlobalData.Singleton.money.ToString();
+        }
     }
 }
