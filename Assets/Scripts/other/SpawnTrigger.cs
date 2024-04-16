@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class SpawnTrigger : MonoBehaviour
 {
-    private void Start()
-    {
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.TryGetComponent(out Part otherPart))
@@ -23,8 +19,6 @@ public class SpawnTrigger : MonoBehaviour
         {
             if (other.gameObject.layer != LayerMask.NameToLayer("static station"))
             {
-                Rigidbody rg = other.gameObject.GetComponent<Rigidbody>();
-                rg.drag = 2;
                 Player player = other.gameObject.transform.parent.GetComponent<Player>();
                 player.inSpawn = true;
             }
@@ -46,8 +40,6 @@ public class SpawnTrigger : MonoBehaviour
         {
             if (other.gameObject.layer != LayerMask.NameToLayer("static station"))
             {
-                Rigidbody rg = other.gameObject.GetComponent<Rigidbody>();
-                rg.drag = 0;
                 Player player = other.gameObject.transform.parent.GetComponent<Player>();
                 player.inSpawn = false;
             }

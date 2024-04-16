@@ -8,9 +8,9 @@ public class HostOnlyObject : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (NetworkManager.Singleton.IsClient && !NetworkManager.Singleton.IsServer)
-        {
-            Destroy(gameObject);
-        }
+        // if (NetworkManager.Singleton.IsClient && !NetworkManager.Singleton.IsServer)
+        // {
+        //     Destroy(gameObject);
+        // }
     }
 }

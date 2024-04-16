@@ -14,74 +14,55 @@ public class DisplayTasks : MonoBehaviour
     [SerializeField] private TextMeshProUGUI taskList;
     // [SerializeField] private Camera mainCamera;
     [SerializeField] private Transform taskTexts;
+    [SerializeField] private GameObject body;
     // [SerializeField] private bool isList = false;
 
     void Update()
     {
-        if (NetworkManager.Singleton.IsClient)
+        // if (NetworkManager.Singleton.IsClient)
+        // {
+        List<Task> toDelTasks = texts.Keys.ToList();
+        string taskListText = "";
+        foreach (var task in TaskMannager.Singleton.tasks)
         {
-            if (playerTransform == null)
+            taskListText += task.GetText() + "\n";
+            // if (!isList)
+            // {
+            GameObject textUI;
+            var distance = Vector3.Distance(body.transform.position, task.transform.position);
+            if (!texts.TryGetValue(task, out textUI))
             {
-                playerTransform = NetworkManager.Singleton.LocalClient.PlayerObject.transform;
+                textUI = Instantiate(uiTextPerfab, taskTexts);
+                texts.Add(task, textUI);
             }
             else
             {
-                List<Task> toDelTasks = texts.Keys.ToList();
-                string taskListText = "";
-                foreach (var task in TaskMannager.Singleton.tasks)
+                toDelTasks.Remove(task);
+            }
+            if (textUI.GetNamedChild("Text").TryGetComponent(out TextMeshProUGUI textMeshPro))
+            {
+                string text = task.GetText() + " " + ((int)distance).ToString() + "m";
+                if (textMeshPro.text != text)
                 {
-                    taskListText += task.GetText() + "\n";
-                    // if (!isList)
-                    // {
-                    GameObject textUI;
-
-                    // if (Vector3.Angle(task.transform.position - playerTransform.Find("Body").transform.position, playerTransform.Find("Body").transform.up) > 90)
-                    // {
-                    //     if (texts.TryGetValue(task, out textUI))
-                    //     {
-                    //         Destroy(textUI);
-                    //         texts.Remove(task);
-                    //     }
-                    // }
-                    // else
-                    
-                    //{
-
-                        var distance = Vector3.Distance(playerTransform.Find("Body").transform.position, task.transform.position);
-                        if (!texts.TryGetValue(task, out textUI))
-                        {
-                            textUI = Instantiate(uiTextPerfab, taskTexts);
-                            texts.Add(task, textUI);
-                        }
-                        else
-                        {
-                            toDelTasks.Remove(task);
-                        }
-                        if (textUI.GetNamedChild("Text").TryGetComponent(out TextMeshProUGUI textMeshPro))
-                        {
-                            string text = task.GetText() + " " + ((int)distance).ToString() + "m";
-                            if (textMeshPro.text != text)
-                            {
-                                textMeshPro.text = text;
-                            }
-                        }
-                        textUI.transform.position = task.transform.position; //mainCamera.WorldToScreenPoint(task.transform.position);
-                    //}
-                }
-                // }
-                foreach (Task task in toDelTasks)
-                {
-                    if (texts.TryGetValue(task, out GameObject textUI))
-                    {
-                        Destroy(textUI);
-                        texts.Remove(task);
-                    }
-                }
-                if (taskList.text != taskListText) //isList && 
-                {
-                    taskList.text = taskListText;
+                    textMeshPro.text = text;
                 }
             }
+            textUI.transform.position = task.transform.position; //mainCamera.WorldToScreenPoint(task.transform.position);
+                                                                 //}
         }
+        // }
+        foreach (Task task in toDelTasks)
+        {
+            if (texts.TryGetValue(task, out GameObject textUI))
+            {
+                Destroy(textUI);
+                texts.Remove(task);
+            }
+        }
+        if (taskList.text != taskListText) //isList && 
+        {
+            taskList.text = taskListText;
+        }
+        // }
     }
 }

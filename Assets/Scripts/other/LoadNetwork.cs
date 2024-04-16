@@ -6,9 +6,11 @@ using UnityEngine.SceneManagement;
 
 public class LoadNetwork : MonoBehaviour
 {
+    int i = 0;
     void Update()
     {
-        if (NetworkManager.Singleton != null)
+        if (i > 10)
             SceneManager.LoadScene("Joining Game Scene");
+        i ++;
     }
 }

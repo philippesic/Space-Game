@@ -15,15 +15,15 @@ public class ShipPartContainer : MonoBehaviour
     public void AddPart(GameObject prefab, Vector3 position, Quaternion rotation, bool usingGridPos = false)
     {
         GameObject partGameObject = Instantiate(prefab, position, rotation);
-        if (partGameObject.TryGetComponent(out NetworkObject networkObject))
+        if (partGameObject.TryGetComponent(out Part networkObject))
         {
-            AllPartContainer.Singleton.AddCreatedPart(networkObject);
+            AllPartContainer.Singleton.AddCreatedPart(partGameObject);
         }
         else
         {
-            foreach (NetworkObject networkObj in partGameObject.GetComponentsInChildren<NetworkObject>())
+            foreach (Part networkObj in partGameObject.GetComponentsInChildren<Part>())
             {
-                AllPartContainer.Singleton.AddCreatedPart(networkObj);
+                AllPartContainer.Singleton.AddCreatedPart(networkObj.gameObject);
             }
             Destroy(partGameObject);
         }

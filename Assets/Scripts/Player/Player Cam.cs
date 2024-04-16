@@ -5,7 +5,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerCam : NetworkBehaviour
+public class PlayerCam : MonoBehaviour
 {
 
     [SerializeField] private Rigidbody player;
@@ -13,6 +13,7 @@ public class PlayerCam : NetworkBehaviour
 
     [Header("Sensitivity")]
     [SerializeField] private float torque;
+    [SerializeField] private float torqueS;
     [SerializeField] private float rotationSpeed;
     [SerializeField] private InputActionReference rot2dAxisLeft;
     [SerializeField] private InputActionReference rot2dAxisRight;
@@ -21,80 +22,70 @@ public class PlayerCam : NetworkBehaviour
     [SerializeField] private Transform vrCam;
     [SerializeField] private Transform vrRig;
 
-
-    public override void OnNetworkSpawn()
-    {
-        GetComponentInChildren<Camera>().gameObject.SetActive(IsOwner);
-        desiredRotation.x = transform.rotation.x;
-        desiredRotation.y = transform.rotation.y;
-        desiredRotation.z = transform.rotation.z;
-        desiredRotation.w = transform.rotation.w;
-    }
-
     void Start()
     {
         Cursor.lockState = CursorLockMode.None;
+        desiredRotation = quaternion.identity;
     }
 
     public bool CursorLocked = false;
 
     public void Update()
     {
-        if (IsClient)
+
+        if (CursorLocked)
         {
-            if (CursorLocked)
-            {
-                if (Cursor.lockState == CursorLockMode.None)
-                    Cursor.lockState = CursorLockMode.Locked;
-            }
-            else
-            {
-                if (Cursor.lockState == CursorLockMode.Locked)
-                    Cursor.lockState = CursorLockMode.None;
-            }
+            if (Cursor.lockState == CursorLockMode.None)
+                Cursor.lockState = CursorLockMode.Locked;
+        }
+        else
+        {
+            if (Cursor.lockState == CursorLockMode.Locked)
+                Cursor.lockState = CursorLockMode.None;
         }
 
-        if (IsServer)
-        {
-            Quaternion rotationDifference = vrCam.rotation * quaternion.EulerXYZ(math.PI/2, 0, 0) * Quaternion.Inverse(player.rotation);
-            rotationDifference.ToAngleAxis(out float angle, out Vector3 axis);
-            player.AddTorque(Time.deltaTime * torque * angle * 0.4f * axis);
-        }
-        if (!IsOwner) return;
+        Quaternion rotationDifference = vrCam.rotation * quaternion.EulerXYZ(math.PI / 2, 0, 0) * Quaternion.Inverse(player.rotation);
+        rotationDifference.ToAngleAxis(out float angle, out Vector3 axis);
 
+        // Quaternion rotationDifferenceS = quaternion.identity * Quaternion.Inverse(player.angularVelocity);
+        // rotationDifferenceS.ToAngleAxis(out float angleS, out Vector3 axisS);
+        if (angle > 5)
+            player.AddTorque(Time.deltaTime * (torque * 0.2f * angle * axis - torqueS * 0.3f * player.angularVelocity));
+        else
+            player.AddTorque(Time.deltaTime * (torque * 0.2f * angle * axis - torqueS * 0.3f * player.angularVelocity));
         vrRig.localRotation = Quaternion.Inverse(player.rotation) * desiredRotation;
 
         if (Input.GetKey(KeyCode.Q))
         {
-            AddToDesiredRotationServerRpc(Time.deltaTime * rotationSpeed * Vector3.up);
+            AddToDesiredRotationSRNOT(Time.deltaTime * rotationSpeed * Vector3.up);
         }
         else if (Input.GetKey(KeyCode.E))
         {
-            AddToDesiredRotationServerRpc(Time.deltaTime * rotationSpeed * Vector3.down);
+            AddToDesiredRotationSRNOT(Time.deltaTime * rotationSpeed * Vector3.down);
         }
         if (Input.GetKey(KeyCode.S))
         {
-            AddToDesiredRotationServerRpc(Time.deltaTime * rotationSpeed * Vector3.right);
+            AddToDesiredRotationSRNOT(Time.deltaTime * rotationSpeed * Vector3.right);
         }
         else if (Input.GetKey(KeyCode.W))
         {
-            AddToDesiredRotationServerRpc(Time.deltaTime * rotationSpeed * Vector3.left);
+            AddToDesiredRotationSRNOT(Time.deltaTime * rotationSpeed * Vector3.left);
         }
         if (Input.GetKey(KeyCode.A))
         {
-            AddToDesiredRotationServerRpc(Time.deltaTime * rotationSpeed * Vector3.forward);
+            AddToDesiredRotationSRNOT(Time.deltaTime * rotationSpeed * Vector3.forward);
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            AddToDesiredRotationServerRpc(Time.deltaTime * rotationSpeed * Vector3.back);
+            AddToDesiredRotationSRNOT(Time.deltaTime * rotationSpeed * Vector3.back);
         }
 
-        AddToDesiredRotationServerRpc(Time.deltaTime * rotationSpeed * (rot2dAxisLeft.action.ReadValue<Vector2>().y + rot2dAxisRight.action.ReadValue<Vector2>().y) * Vector3.left);
-        AddToDesiredRotationServerRpc(Time.deltaTime * rotationSpeed * (rot2dAxisLeft.action.ReadValue<Vector2>().x + rot2dAxisRight.action.ReadValue<Vector2>().x) * Vector3.back);
+        AddToDesiredRotationSRNOT(Time.deltaTime * rotationSpeed * (rot2dAxisLeft.action.ReadValue<Vector2>().y + rot2dAxisRight.action.ReadValue<Vector2>().y) * Vector3.left);
+        AddToDesiredRotationSRNOT(Time.deltaTime * rotationSpeed * (rot2dAxisLeft.action.ReadValue<Vector2>().x + rot2dAxisRight.action.ReadValue<Vector2>().x) * Vector3.back);
     }
 
-    [ServerRpc]
-    private void AddToDesiredRotationServerRpc(Vector3 rotation)
+
+    private void AddToDesiredRotationSRNOT(Vector3 rotation)
     {
         desiredRotation *= Quaternion.Euler(vrCam.transform.localRotation * rotation);
         // if (TryGetComponent(out ArmMovement armMovement))

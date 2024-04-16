@@ -693,6 +693,7 @@ MonoBehaviour:
   armBase: {fileID: 4203327977809134779}
   player: {fileID: 2386255832087394861}
   body: {fileID: 3743935538507680866}
+  playerScript: {fileID: 0}
   handTransform: {fileID: 5766875912754353402}
   l1: 1
   l2: 0.8
@@ -2921,6 +2922,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inSpawn: 0
+  isHoldingStaticCount: 0
+  isHoldingStatic: 0
+  bodyRB: {fileID: 0}
 --- !u!1 &2448338193091503298
 GameObject:
   m_ObjectHideFlags: 0
@@ -6047,6 +6051,7 @@ MonoBehaviour:
   armBase: {fileID: 5424622177251855021}
   player: {fileID: 2386255832087394861}
   body: {fileID: 3743935538507680866}
+  playerScript: {fileID: 0}
   handTransform: {fileID: 39402064554137851}
   l1: 1
   l2: 0.8
@@ -10330,6 +10335,7 @@ MonoBehaviour:
   uiTextPerfab: {fileID: 4818447307523416018, guid: ed8c04e1708dd46eca4e05f8caacab96, type: 3}
   taskList: {fileID: 2220572013400765563}
   taskTexts: {fileID: 4427032351310611737}
+  body: {fileID: 6095164761894031308}
 --- !u!1 &8718465554000508488
 GameObject:
   m_ObjectHideFlags: 0

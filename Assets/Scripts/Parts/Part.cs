@@ -4,9 +4,7 @@ using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
 
-[RequireComponent(typeof(NetworkRigidbody))]
-[RequireComponent(typeof(NetworkObject))]
-public class Part : NetworkBehaviour
+public class Part : MonoBehaviour
 {
     protected List<GameObject> grabberGameObjects = new();
 
@@ -50,7 +48,7 @@ public class Part : NetworkBehaviour
 
     public void Destroy()
     {
-        GetComponent<NetworkObject>().Despawn(false);
+        // GetComponent<NetworkObject>().Despawn(false);
         gameObject.SetActive(false);
     }
 

@@ -13,16 +13,16 @@ public class SceneDataController : MonoBehaviour
     void Start()
     {
         Singleton = this;
-        NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.Address = GameLoadingData.ip;
-        if (GameLoadingData.hosting)
-            NetworkManager.Singleton.StartHost();
-        else
-            NetworkManager.Singleton.StartClient();
+        // NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.Address = GameLoadingData.ip;
+        // if (GameLoadingData.hosting)
+        //     NetworkManager.Singleton.StartHost();
+        // else
+        //     NetworkManager.Singleton.StartClient();
     }
 
     public void Leave()
     {
-        NetworkManager.Singleton.Shutdown();
+        // NetworkManager.Singleton.Shutdown();
         SceneManager.LoadScene("Joining Game Scene");
     }
 }

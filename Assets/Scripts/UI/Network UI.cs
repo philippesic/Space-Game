@@ -14,21 +14,29 @@ public class NetworkUI : MonoBehaviour
     [SerializeField] private Button client;
     [SerializeField] private TextMeshProUGUI ipText;
     [SerializeField] private TMP_InputField ipInput;
-
+    private bool isLoading = false;
     private void Awake()
     {
         ipText.text = IPManager.GetLocalIPAddress();
         host.onClick.AddListener(() =>
         {
-            GameLoadingData.ip = IPManager.GetLocalIPAddress();
-            GameLoadingData.hosting = true;
-            LoadGame();
+            if (!isLoading)
+            {
+                isLoading = true;
+                GameLoadingData.ip = IPManager.GetLocalIPAddress();
+                GameLoadingData.hosting = true;
+                LoadGame();
+            }
         });
         client.onClick.AddListener(() =>
         {
-            GameLoadingData.ip = ipInput.text;
-            GameLoadingData.hosting = false;
-            LoadGame();
+            if (!isLoading)
+            {
+                isLoading = true;
+                GameLoadingData.ip = ipInput.text;
+                GameLoadingData.hosting = false;
+                LoadGame();
+            }
         });
     }
 

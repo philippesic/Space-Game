@@ -22,11 +22,11 @@ public abstract class Tool : Part
         {
             if (grabber.TryGetComponent(out Player player))
             {
-                if (player.OwnerClientId != OwnerClientId)
-                    GetComponent<NetworkObject>().ChangeOwnership(player.OwnerClientId);
+                // if (player.OwnerClientId != OwnerClientId)
+                //     GetComponent<NetworkObject>().ChangeOwnership(player.OwnerClientId);
             }
         }
-        
+
         grabberGameObjects.Add(grabber);
     }
 
@@ -45,11 +45,11 @@ public abstract class Tool : Part
         isHeld = false;
         if (grabberGameObjects.Contains(grabber))
         {
-            if (grabber.TryGetComponent(out Player player))
-            {
-                if (NetworkManager.ServerClientId != OwnerClientId)
-                    GetComponent<NetworkObject>().ChangeOwnership(NetworkManager.ServerClientId);
-            }
+            // if (grabber.TryGetComponent(out Player player))
+            // {
+            //     if (NetworkManager.ServerClientId != OwnerClientId)
+            //         GetComponent<NetworkObject>().ChangeOwnership(NetworkManager.ServerClientId);
+            // }
             grabberGameObjects.Remove(grabber);
         }
     }
@@ -60,8 +60,8 @@ public abstract class Tool : Part
         {
             if (grabber.TryGetComponent(out Player player))
             {
-                if (player.OwnerClientId == NetworkManager.Singleton.LocalClientId)
-                    return true;
+                // if (player.OwnerClientId == NetworkManager.Singleton.LocalClientId)
+                return true;
             }
         }
         return false;
@@ -85,34 +85,34 @@ public abstract class Tool : Part
         {
             if (use != null)
             {
-                if (ButtonPressed() && !isPressed) 
+                if (ButtonPressed() && !isPressed)
                 {
-                    PressedServerRpc(true);
+                    PressedSRNOT(true);
                 }
                 else if (isPressed)
                 {
-                    PressedServerRpc(false);
+                    PressedSRNOT(false);
                 }
                 isPressed = ButtonPressed();
             }
         }
-        if (IsServer)
+        // if (IsServer)
+        // {
+        if (isOn)
         {
-            if (isOn)
+            Use();
+            if (!isToggle)
             {
-                Use();
-                if (!isToggle)
-                {
-                    isOn = false;
-                }
+                isOn = false;
             }
-            else
-                StopUse();
         }
+        else
+            StopUse();
+        // }
     }
 
-    [ServerRpc]
-    public void PressedServerRpc(bool isKeyDown)
+
+    public void PressedSRNOT(bool isKeyDown)
     {
         foreach (GameObject gameObject in grabberGameObjects)
         {

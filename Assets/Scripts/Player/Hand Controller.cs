@@ -9,7 +9,7 @@ using Unity.Netcode;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
-public class HandController : NetworkBehaviour
+public class HandController : MonoBehaviour
 {
     [Header("Arm Joints")]
     [SerializeField] private ConfigurableJoint upper;
@@ -19,6 +19,7 @@ public class HandController : NetworkBehaviour
     [SerializeField] private Transform armBase;
     [SerializeField] private GameObject player;
     [SerializeField] GameObject body;
+    [SerializeField] Player playerScript;
     [SerializeField] private Transform handTransform;
     [Header("settings")]
     [SerializeField] private float l1 = 0.8f;
@@ -32,65 +33,88 @@ public class HandController : NetworkBehaviour
     private Vector3 desiredPos = new(0, -0.3f, 0);
     private Vector3 trackingPos = new();
     private Quaternion desiredRotation = new();
-    private readonly NetworkVariable<bool> grab = new(false);
+    private bool grab = false;
+    private bool isHoldingStatic = false;
     [SerializeField] InputActionReference useTool;
     void Update()
     {
-        if (IsServer)
+        if (TryGetComponent(out ConfigurableJoint joint))
         {
-            if (TryGetComponent(out ConfigurableJoint joint))
+            // Vector3 armF = lower.transform.rotation * Vector3.forward;
+            // Vector3 armR = lower.transform.rotation * Vector3.right;
+            // Vector3 armU = lower.transform.rotation * Vector3.up;
+            // Vector3 handF = desiredRotation * Vector3.forward;
+            // Vector3 handR = desiredRotation * Vector3.right;
+            // Vector3 handU = desiredRotation * Vector3.up;
+            // Vector3.ProjectOnPlane(handF, armU);
+            // Quaternion quaternion = *Quaternion.Inverse(desiredRotation);
+            // joint.targetRotation = Quaternion.Euler(quaternion.eulerAngles.x, quaternion.eulerAngles.y, quaternion.eulerAngles.z);
+            // ControllerDirection.transform.rotation = quaternion;
+        }
+        if (fixedJoint == null)
+        {
+            if (grab) TryGrab();
+            else if (TryGrapCheck(out _))
             {
-                // Vector3 armF = lower.transform.rotation * Vector3.forward;
-                // Vector3 armR = lower.transform.rotation * Vector3.right;
-                // Vector3 armU = lower.transform.rotation * Vector3.up;
-                // Vector3 handF = desiredRotation * Vector3.forward;
-                // Vector3 handR = desiredRotation * Vector3.right;
-                // Vector3 handU = desiredRotation * Vector3.up;
-                // Vector3.ProjectOnPlane(handF, armU);
-                // Quaternion quaternion = *Quaternion.Inverse(desiredRotation);
-                // joint.targetRotation = Quaternion.Euler(quaternion.eulerAngles.x, quaternion.eulerAngles.y, quaternion.eulerAngles.z);
-                // ControllerDirection.transform.rotation = quaternion;
+                hand.GetComponentInChildren<MeshRenderer>().material = canGrabMaterial;
             }
-            if (fixedJoint == null)
-            {
-                if (grab.Value) TryGrab();
-                else if (TryGrapCheck(out _))
-                {
-                    hand.GetComponentInChildren<MeshRenderer>().material = canGrabMaterial;
-                }
-                else
-                {
-                    hand.GetComponentInChildren<MeshRenderer>().material = notGrabbingMaterial;
-                }
-            }
-            else if (!grab.Value)
+            else
             {
                 hand.GetComponentInChildren<MeshRenderer>().material = notGrabbingMaterial;
-                if (fixedJoint.connectedBody.TryGetComponent(out Part part))
-                {
-                    part.Dropped(player);
-                    if (part.TryGetComponent(out Tool tool))
-                    {
-                        tool.RemoveInput(useTool);
-                    }
-                }
-                Destroy(fixedJoint);
-                fixedJoint = null;
             }
-            float g = (GetDesiredPostion() - trackingPos).magnitude;
-            trackingPos += (GetDesiredPostion() - trackingPos).normalized * math.min(0.2f, Time.deltaTime * trackSpeed * g);
-            // trackingPos = GetDesiredPostion();
-            UpdateJoints();
+        }
+        else if (!grab)
+        {
+            if (fixedJoint.connectedBody.constraints == RigidbodyConstraints.FreezeAll)
+            {
+                playerScript.isHoldingStaticCount--;
+                isHoldingStatic = false;
+            }
+            hand.GetComponentInChildren<MeshRenderer>().material = notGrabbingMaterial;
+            if (fixedJoint.connectedBody.TryGetComponent(out Part part))
+            {
+                part.Dropped(player);
+                if (part.TryGetComponent(out Tool tool))
+                {
+                    tool.RemoveInput(useTool);
+                }
+            }
+            Destroy(fixedJoint);
+            fixedJoint = null;
         }
         else
         {
-            if (grab.Value)
-                hand.GetComponentInChildren<MeshRenderer>().material = grabbingMaterial;
-            else if (TryGrapCheck(out _))
-                hand.GetComponentInChildren<MeshRenderer>().material = canGrabMaterial;
+            if (isHoldingStatic)
+            {
+                if (fixedJoint.connectedBody.constraints != RigidbodyConstraints.FreezeAll)
+                {
+                    playerScript.isHoldingStaticCount--;
+                    isHoldingStatic = false;
+                }
+            }
             else
-                hand.GetComponentInChildren<MeshRenderer>().material = notGrabbingMaterial;
+            {
+                if (fixedJoint.connectedBody.constraints == RigidbodyConstraints.FreezeAll)
+                {
+                    playerScript.isHoldingStaticCount++;
+                    isHoldingStatic = true;
+                }
+            }
         }
+        float g = (GetDesiredPostion() - trackingPos).magnitude;
+        trackingPos += (GetDesiredPostion() - trackingPos).normalized * math.min(0.2f, Time.deltaTime * trackSpeed * g);
+        // trackingPos = GetDesiredPostion();
+        UpdateJoints();
+        // }
+        // else
+        // {
+        //     if (grab)
+        //         hand.GetComponentInChildren<MeshRenderer>().material = grabbingMaterial;
+        //     else if (TryGrapCheck(out _))
+        //         hand.GetComponentInChildren<MeshRenderer>().material = canGrabMaterial;
+        //     else
+        //         hand.GetComponentInChildren<MeshRenderer>().material = notGrabbingMaterial;
+        // }
     }
 
     public void SetPostion(Vector3 pos)
@@ -108,14 +132,14 @@ public class HandController : NetworkBehaviour
         desiredRotation = rotation;
     }
 
-    [ServerRpc]
-    public void SetPostionServerRpc(Vector3 pos)
+
+    public void SetPostionSRNOT(Vector3 pos)
     {
         SetPostion(pos);
     }
 
-    [ServerRpc]
-    public void SetRotationServerRpc(Quaternion rotation)
+
+    public void SetRotationSRNOT(Quaternion rotation)
     {
         SetRotation(rotation);
     }
@@ -131,8 +155,8 @@ public class HandController : NetworkBehaviour
         SetPostion(pos * (currentDesiredPostion.magnitude + shift.z));
     }
 
-    [ServerRpc]
-    public void ShiftPostionServerRpc(Vector3 shift)
+
+    public void ShiftPostionSRNOT(Vector3 shift)
     {
         ShiftPostion(shift);
     }
@@ -239,14 +263,20 @@ public class HandController : NetworkBehaviour
                 fixedJoint.yMotion = ConfigurableJointMotion.Locked;
                 fixedJoint.zMotion = ConfigurableJointMotion.Locked;
                 fixedJoint.projectionMode = JointProjectionMode.PositionAndRotation;
-                fixedJoint.connectedBody = closestGameObject.GetComponent<Rigidbody>();
+                Rigidbody rb = closestGameObject.GetComponent<Rigidbody>();
+                fixedJoint.connectedBody = rb;
                 SetPostion(GlobalToLocal(GetHandPos()));
                 if (closestGameObject.TryGetComponent(out Part part))
                 {
+                    if (rb.constraints == RigidbodyConstraints.FreezeAll)
+                    {
+                        playerScript.isHoldingStaticCount++;
+                        isHoldingStatic = true;
+                    }
                     part.Grabbed(player);
                     if (closestGameObject.TryGetComponent(out Tool tool))
                     {
-                        ToggleGripServerRpc();
+                        ToggleGripSRNOT();
                         tool.GiveInput(useTool);
                     }
                 }
@@ -256,19 +286,19 @@ public class HandController : NetworkBehaviour
         {
             if (Vector3.Distance(GlobalToLocal(GetHandPos()), GetDesiredPostion()) < 0.05)
             {
-                grab.Value = false;
+                grab = false;
             }
         }
     }
 
-    [ServerRpc]
-    public void ToggleGrabServerRpc()
+
+    public void ToggleGrabSRNOT()
     {
-        grab.Value = !grab.Value;
+        grab = !grab;
     }
 
-    [ServerRpc]
-    public void ToggleGripServerRpc()
+
+    public void ToggleGripSRNOT()
     {
         if (fixedJoint == null) return;
         if (fixedJoint.angularXMotion == ConfigurableJointMotion.Locked)
@@ -297,7 +327,7 @@ public class HandController : NetworkBehaviour
 
     public bool IsHolding()
     {
-        return grab.Value;
+        return grab;
     }
 
     public bool IsFixed()

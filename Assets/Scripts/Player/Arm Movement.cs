@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ArmMovement : NetworkBehaviour
+public class ArmMovement : MonoBehaviour
 {
     [SerializeField] private HandController leftHand;
     [SerializeField] private HandController rightHand;
@@ -25,7 +25,6 @@ public class ArmMovement : NetworkBehaviour
 
     void Update()
     {
-        if (!IsOwner) return;
 
         // if (Input.GetKey(KeyCode.Mouse0))
         //     leftHoldTime += Time.deltaTime + GetMouseData().magnitude * 100;
@@ -82,16 +81,16 @@ public class ArmMovement : NetworkBehaviour
 
         // move hand
         Vector3 newPos = handController.GlobalToLocal(targetTransform.position);
-        handController.SetPostionServerRpc(newPos);
-        handController.SetRotationServerRpc(targetTransform.rotation);
-        // handController.ShiftPostionServerRpc(GetMouseData());
+        handController.SetPostionSRNOT(newPos);
+        handController.SetRotationSRNOT(targetTransform.rotation);
+        // handController.ShiftPostionSRNOT(GetMouseData());
 
         // grab with hand
         if (Input.GetKeyDown(KeyCode.Space) || tigger)
-            handController.ToggleGrabServerRpc();
+            handController.ToggleGrabSRNOT();
 
         // if (Input.GetKeyDown(KeyCode.LeftShift))
-        //     handController.ToggleGripServerRpc();
+        //     handController.ToggleGripSRNOT();
     }
 
     // private void DoArmMovementClick(HandController handController)
@@ -105,8 +104,8 @@ public class ArmMovement : NetworkBehaviour
     //             newPos = handController.GlobalToLocal(hit.point);
     //         }
     //         else newPos = handController.GlobalToLocal(ray.GetPoint(4));
-    //         handController.ToggleGrabServerRpc();
-    //         handController.SetPostionServerRpc(newPos);
+    //         handController.ToggleGrabSRNOT();
+    //         handController.SetPostionSRNOT(newPos);
     //     }
     // }
 

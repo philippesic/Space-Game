@@ -9,14 +9,14 @@ public class Runner : MonoBehaviour
 
     void Update()
     {
-        if (NetworkManager.Singleton.IsServer)
-        {
+        // if (NetworkManager.Singleton.IsServer)
+        // {
             if (container != null)
             {
                 MakeSpaceStation.MakeStation(container, new Vector3(7, 4, 20));
             }
             Destroy(gameObject);
-        }
-        else Destroy(gameObject);
+        // }
+        // else Destroy(gameObject);
     }
 }
