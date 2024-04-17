@@ -4330,6 +4330,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 8409355098047720544}
   torque: 100000
+  torqueS: 0
   rotationSpeed: 50
   rot2dAxisLeft: {fileID: 3609438878925587682, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   rot2dAxisRight: {fileID: -676334261269891981, guid: c348712bda248c246b8c49b3db54643f, type: 3}
